@@ -1,0 +1,73 @@
+/* src/components/Navbar.css */
+.navbar {
+  background-color: #FFD700;
+  padding: 1rem 2rem;
+  margin-bottom: 2px;
+  box-shadow: 0 2px 4px black;
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  /* font-weight: bold; */
+  font-size: 1.5rem;
+  color: #000000;
+  font-family: "Atma", system-ui;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.logo-image {
+  width: 60px;
+  height: 100%;
+  margin-right: 0.8rem;
+  filter: drop-shadow(1px 1px 5px black)
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+list-style-type: none;
+}
+
+.nav-links a {
+  color: #000000;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ffffff;
+  background-color: #000000;
+  padding: 2px 5px;
+  border-radius: 10px 0px;
+}
+
+.auth-links {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 3rem;
+}
+
+.auth-button {
+  background-color: #fff;
+  color: #000000;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  border: 1px solid #333;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: #000000;
+  color: #fff;
+}
