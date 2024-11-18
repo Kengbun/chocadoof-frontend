@@ -1,9 +1,8 @@
 import React from "react";
-import "./Card.css";
 import img from './cat.jpg'
 import img2 from './cat2.jpg'
 
-const ArticlePerciew = () => {
+const Article = () => {
     const articles = [
         {
             id: 1,
@@ -13,6 +12,36 @@ const ArticlePerciew = () => {
             author: "Dasteen",
             author_image: img2,
             date: "Jan 10, 2022",
+
+        },
+        {
+            id: 2,
+            title: "ทำไมสุนัขถึงชอบ...",
+            content: "มองหาคำตอบของนิสัยสุนัขที่น่าสนใจ",
+            image: img,
+            author: "Dasteen",
+            author_image: img2,
+            date: "Jan 15, 2022",
+
+        },
+        {
+            id: 2,
+            title: "ทำไมสุนัขถึงชอบ...",
+            content: "มองหาคำตอบของนิสัยสุนัขที่น่าสนใจ",
+            image: img,
+            author: "Dasteen",
+            author_image: img2,
+            date: "Jan 15, 2022",
+
+        },
+        {
+            id: 2,
+            title: "ทำไมสุนัขถึงชอบ...",
+            content: "มองหาคำตอบของนิสัยสุนัขที่น่าสนใจ",
+            image: img,
+            author: "Dasteen",
+            author_image: img2,
+            date: "Jan 15, 2022",
 
         },
         {
@@ -79,4 +108,4 @@ const ArticlePerciew = () => {
     );
 };
 
-export default ArticlePerciew;
+export default Article;

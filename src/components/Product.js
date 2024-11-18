@@ -1,7 +1,6 @@
 import React from "react";
-import './Card.css';
 import img from '../assets/imgProduct/img.jpg'
-const ProductPeview = () => {
+const Product = () => {
     const products = [
         { id: 1, name: "อาหารสุนัข พันธุ์ใหญ่ (MAXI PUPPY)", image: img, rating: 5 },
         { id: 2, name: "อาหารสุนัข พันธุ์กลาง (MEDIUM PUPPY)", image: img, rating: 4 },
@@ -9,7 +8,7 @@ const ProductPeview = () => {
         { id: 4, name: "อาหารสุนัข พันธุ์กลาง (MEDIUM PUPPY)", image: img, rating: 2 },
         { id: 4, name: "อาหารสุนัข พันธุ์กลาง (MEDIUM PUPPY)", image: img, rating: 1 },
         { id: 4, name: "อาหารสุนัข พันธุ์กลาง (MEDIUM PUPPY)", image: img, rating: 0 },
-        { id: 4, name: "อาหารสุนัข พันธุ์กลาง (MEDIUM PUPPY)", image: img, rating: 0 },
+        // { id: 4, name: "อาหารสุนัข พันธุ์กลาง (MEDIUM PUPPY)", image: img, rating: 0 },
         // เพิ่มข้อมูลสินค้าเพิ่มเติมตามต้องการ
     ];
 
@@ -37,4 +36,4 @@ const ProductPeview = () => {
     );
 };
 
-export default ProductPeview;
+export default Product;

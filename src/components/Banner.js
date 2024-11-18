@@ -3,11 +3,11 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './Banner.css';
-import PromoImage1 from './Banner/b5.jpg'; // ใส่เส้นทางไฟล์รูปของคุณ
-import PromoImage2 from './Banner/b6.jpg';
-import PromoImage3 from './Banner/b4.jpg';
+import PromoImage1 from '../assets/banner_img/b4.jpg'; 
+import PromoImage2 from '../assets/banner_img/b5.jpg';
+import PromoImage3 from '../assets/banner_img/b6.jpg';
 
-const BannerCarousel = () => {
+const Banner = () => {
     const settings = {
         dots: true,
         infinite: true,
@@ -36,4 +36,4 @@ const BannerCarousel = () => {
     );
 };
 
-export default BannerCarousel;
+export default Banner;
