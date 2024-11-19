@@ -3,15 +3,17 @@ import img from '../components/cat.jpg';
 import img2 from '../components/cat2.jpg';
 import img3 from '../assets/Articledetail.jpg';
 import Footer from '../components/Footer';
+import Article from '../components/Article'
 import './Articles.css'; 
+// import st from './Articles.modul.css'
 
 const Articles = () => {
     // สถานะสำหรับจัดการจำนวนบทความ
-    const [visible, setVisibleArticles] = useState(6);
+    const [visible, setVisibleArticles] = useState(5);
 
     // ฟังก์ชันสำหรับโหลดบทความเพิ่มเติม
     const loadMoreArticles = () => {
-        setVisibleArticles((prev) => prev + 6); // เพิ่ม 6 ชิ้นต่อการกดครั้งหนึ่ง
+        setVisibleArticles((prev) => prev + 5); // เพิ่ม 6 ชิ้นต่อการกดครั้งหนึ่ง
     };
 
     const articles = [
@@ -110,8 +112,8 @@ const Articles = () => {
                     <h3>ทำไมแมวชอบคาบอะไรแปลก ๆ มาฝากทาส</h3>
                 </div>
             </div>
-
-            {/* รายการบทความ */}
+            {/* <Article className='{st.list}'/> */}
+            รายการบทความ
             <div className="list-grid">
                 {articles.slice(0, visible).map((article) => (
                     <div className="article-card" key={article.id}>
