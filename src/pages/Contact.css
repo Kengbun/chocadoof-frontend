@@ -1,0 +1,128 @@
+.branch-list {
+    padding: 2rem;
+    background: #f5f5f5;
+}
+
+.contact-page-title {
+    text-align: center;
+    font-size: 24px;
+    color: #000000;
+    margin-bottom: 20px;
+}
+
+.branches {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.branch-card {
+    background: #fff;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    /* padding: 1rem; */
+    /* text-align: center; */
+    box-shadow: 0 2px 4px black;
+}
+
+.branch-card h2,
+.branch-card p {
+    border: none;
+    margin: 0;
+    padding: 0 10px;
+}
+
+.branch-card h2 {
+    font-size: 1.2rem;
+    /* ปรับขนาดตัวอักษร */
+    margin: 0.5rem 0;
+    white-space: nowrap;
+    /* ป้องกันข้อความขึ้นบรรทัดใหม่ */
+    overflow: hidden;
+    /* ซ่อนข้อความที่ล้น */
+    text-overflow: ellipsis;
+    /* แสดง ... แทนข้อความที่ล้น */
+}
+
+.branch-card p {
+    font-size: 1rem;
+    /* ปรับขนาดตัวอักษร */
+    margin: 0.5rem 0;
+    overflow: hidden;
+    /* ซ่อนข้อความที่ล้น */
+    text-overflow: ellipsis;
+    /* แสดง ... แทนข้อความที่ล้น */
+    display: -webkit-box;
+    /* ใช้ร่วมกับ line-clamp */
+    -webkit-line-clamp: 2;
+    /* แสดงข้อความไม่เกิน 2 บรรทัด */
+    -webkit-box-orient: vertical;
+    /* ใช้กับ line-clamp */
+}
+
+.branch-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.btn-map {
+    background: #FBBC05;
+    color: rgb(0, 0, 0);
+    padding: 5px 15px;
+    font-size: 12px;
+    border-radius: 20px;
+    border: 1px solid black;
+    cursor: pointer;
+
+    margin: 20px 0 10px 10px;
+    transition: background 0.3s;
+}
+
+.btn-map:hover {
+    background-color: #ff9900;
+}
+
+.branch-list .view-all {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.branch-list .view-all button {
+    background-color: #FFD700;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1.5rem;
+    color: #000000;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.branch-list .view-all button:hover {
+    background-color: #ff9900;
+}
+
+.icon {
+    display: flex;
+    gap: 20px;
+    margin: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+.icon-container {
+    width: 150px;
+    height: 150px;
+    border: 2px solid black;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-container i {
+    font-size: 50px;
+}

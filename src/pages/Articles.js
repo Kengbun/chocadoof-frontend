@@ -113,7 +113,7 @@ const Articles = () => {
                 </div>
             </div>
             {/* <Article className='{st.list}'/> */}
-            รายการบทความ
+            
             <div className="list-grid">
                 {articles.slice(0, visible).map((article) => (
                     <div className="article-card" key={article.id}>

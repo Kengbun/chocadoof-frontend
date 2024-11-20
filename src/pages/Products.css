@@ -7,7 +7,7 @@
 .page-title {
     text-align: center;
     font-size: 24px;
-    color: #333;
+    color: #000000;
     margin-bottom: 20px;
 }
 
@@ -89,7 +89,7 @@
 .load-more button {
     padding: 10px 20px;
     font-size: 16px;
-    color: #fff;
+    color: #000000;
     background-color: #ffcc00;
     border: none;
     border-radius: 5px;
