@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import baranch_img from "../assets/branches_img/branch.jpg";
 import "./Contact.css";
 import Footer from '../components/Footer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faInstagram, faTiktok } from '@fortawesome/free-brands-svg-icons';
+import { faPhone } from '@fortawesome/free-solid-svg-icons';
+
 
 const Contact = () => {
     const branches = [
@@ -47,24 +51,24 @@ const Contact = () => {
             </div>
             <hr width="85%" align="center" size="2px" noshade color="black"></hr>
 
-            <div className='icon'>
-                <a className='icon-container'>
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+            
+            <div className='icon'>  
+                <a className='icon-container' href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faFacebook} size="2x" color="#3b5998" />
                     <p>facebook</p>
                 </a>
-                <a className='icon-container'>
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                <a className='icon-container' href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faInstagram} size="2x" color="#C13584" />
                     <p>instagram</p>
                 </a>
-                <a className='icon-container'>
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                <a className='icon-container' href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faTiktok} size="2x" color="#000000" />
                     <p>tiktok</p>
                 </a>
-                <a className='icon-container'>
-                    <i class="fa fa-phone" aria-hidden="true"></i>
+                <a className='icon-container' href="tel:+1234567890">
+                    <FontAwesomeIcon icon={faPhone} size="2x" color="#25D366" />
                     <p>012-345-6789</p>
                 </a>
-
             </div>
 
             <Footer />

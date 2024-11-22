@@ -1,0 +1,71 @@
+/* พื้นหลัง */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #b6f0e0, #fffacd);
+}
+
+/* กล่องฟอร์ม */
+.login-box {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    width: 360px;
+    text-align: center;
+    box-shadow: 0 4px 10px black;
+}
+
+.login-logo {
+    display: flex;
+    gap: 36px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+/* โลโก้ */
+.login-logo img {
+    width: 100px;
+    height: auto;
+}
+
+/* หัวข้อ */
+.login-box h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000;
+}
+
+/* อินพุต */
+.login-form .login-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* ปุ่ม */
+.login-button {
+    background: #ffc107;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-button:hover {
+    background: #e0a800;
+}
+
+/* อักษรในปุ่ม */
+.login-button:focus {
+    outline: none;
+}

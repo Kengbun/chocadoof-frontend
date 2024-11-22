@@ -1,0 +1,69 @@
+/* พื้นหลัง */
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #b6f0e0, #fffacd);
+}
+
+/* กล่องฟอร์ม */
+.signup-box {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    width: 360px;
+    text-align: center;
+    box-shadow: 0 4px 10px black;
+}
+.signup-logo {
+    display: flex;
+    gap: 36px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+/* โลโก้ */
+.signup-logo img {
+    width: 100px;
+    height: auto;
+}
+
+/* หัวข้อ */
+.signup-box h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000;
+}
+
+/* อินพุต */
+.signup-form .signup-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* ปุ่ม */
+.signup-button {
+    background: #ffc107;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.signup-button:hover {
+    background: #e0a800;
+}
+
+/* อักษรในปุ่ม */
+.signup-button:focus {
+    outline: none;
+}

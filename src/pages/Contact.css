@@ -121,8 +121,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
 }
 
-.icon-container i {
-    font-size: 50px;
-}

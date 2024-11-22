@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import HomeImg from '../assets/home.jpg'
 import Banner from '../components/Banner.js';
 import Product from '../components/Product.js';
@@ -31,15 +32,17 @@ const Home = () => {
                         ทั้งอาหาร ขนม ของเล่น และผลิตภัณฑ์อื่น ๆ ครบครัน
                         พร้อมบริการแนะนำสินค้าจากผู้เชี่ยวชาญ
                     </p>
-                    <button className="shop-button">สินค้า</button>
+                    <Link to="/products">
+                        <button className="shop-button" >สินค้า</button>
+                    </Link>
                 </div>
                 <div className="homepage-image">
-                    <img src={HomeImg} alt="Chocadoof Petshop"/>
+                    <img src={HomeImg} alt="Chocadoof Petshop" />
                 </div>
             </div>
 
 
-             {/* product&article */}
+            {/* product&article */}
             <hr width="85%" align="center" size="2px" noshade color="black"></hr>
             <Product />
             <Article />
@@ -51,21 +54,21 @@ const Home = () => {
             <div class="brand-container">
                 <h1>แบรนด์สินค้า</h1>
                 <div class="grid">
-                    <img src= {royal} alt="brand"/>
-                    <img src={nekko} alt="brand"/>
-                    <img src={buzz} alt="brand"/>
-                    <img src={hill} alt="brand"/>
-                    <img src={jerhigh} alt="brand"/>
-                    <img src={marvo} alt="brand"/>
-                    <img src={regalos} alt="brand"/>
-                    <img src={monchou} alt="brand"/>
-                    <img src={moochie} alt="brand"/>
-                    <img src={Chocadoof} alt="brand"/>
+                    <img src={royal} alt="brand" />
+                    <img src={nekko} alt="brand" />
+                    <img src={buzz} alt="brand" />
+                    <img src={hill} alt="brand" />
+                    <img src={jerhigh} alt="brand" />
+                    <img src={marvo} alt="brand" />
+                    <img src={regalos} alt="brand" />
+                    <img src={monchou} alt="brand" />
+                    <img src={moochie} alt="brand" />
+                    <img src={Chocadoof} alt="brand" />
                 </div>
             </div>
             {/*end แบรนด์สินค้า */}
 
-            <Footer/>
+            <Footer />
         </div>
 
     );
