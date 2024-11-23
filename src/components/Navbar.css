@@ -11,6 +11,9 @@
   justify-content: center;
 }
 
+.navbar-container a {
+    text-decoration: none;
+}
 .logo {
   display: flex;
   align-items: center;
@@ -32,7 +35,7 @@
 .nav-links {
   display: flex;
   gap: 1.5rem;
-list-style-type: none;
+  list-style-type: none;
 }
 
 .nav-links a {

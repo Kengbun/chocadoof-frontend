@@ -16,7 +16,7 @@ const Product = () => {
         <section className="section">
             <div className="section-header">
                 <h2>สินค้ารีวิว</h2>
-                <a href="#" className="see-more">ดูทั้งหมด &gt;</a>
+                <a href="/" className="see-more">ดูทั้งหมด &gt;</a>
             </div>
             <div className="list">
                 {products.map((product) => (

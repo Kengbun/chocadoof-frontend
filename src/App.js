@@ -1,6 +1,6 @@
 // src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Products from './pages/Products';
@@ -11,6 +11,7 @@ import Contact from './pages/Contact';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import ProductDetail from './pages/ProductDetail'
+import Testpo from './pages/Testpo';
 
 
 function App() {
@@ -27,7 +28,9 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/tt" element={<Testpo />} />
         {/* <Route path="/user-profile" element={<UserProfile />} /> */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );

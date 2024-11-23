@@ -6,10 +6,12 @@ import Logo from "../assets/logo3.png";
 const Navbar = () => (
     <nav className="navbar">
         <div className="navbar-container">
-            <div className="logo">
-                <img src={Logo} alt="Chocadoof Logo" className="logo-image" />
-                <span>Chocadoof </span>
-            </div>
+            <Link to="/home">
+                <div className="logo">
+                    <img src={Logo} alt="Chocadoof Logo" className="logo-image" />
+                    <span>Chocadoof </span>
+                </div>
+            </Link>
             <ul className="nav-links">
                 <li><Link to="/">หน้าแรก</Link></li>
                 <li><Link to="/products">สินค้า</Link></li>

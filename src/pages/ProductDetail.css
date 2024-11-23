@@ -103,3 +103,36 @@
 .submit-review:hover {
     background-color: #ff9900;
 }
+
+
+
+
+.rating-input {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    gap: 5px;
+}
+
+.rating-input p {
+    margin: 0;
+    font-weight: bold;
+    color: #555;
+}
+
+.star {
+    font-size: 24px;
+    cursor: pointer;
+    color: #ccc;
+    /* สีเริ่มต้นของดาว */
+    transition: color 0.2s ease;
+}
+.star.selected {
+    color: #ffcc00;
+    /* สีของดาวที่ถูกเลือก (สีเหลืองทอง) */
+}
+
+.star:hover {
+    color: #ff9900;
+    /* สีของดาวเมื่อเมาส์เลื่อนผ่าน (สีส้ม) */
+}
