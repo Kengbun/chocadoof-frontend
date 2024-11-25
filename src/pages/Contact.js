@@ -4,7 +4,7 @@ import "./Contact.css";
 import Footer from '../components/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTiktok } from '@fortawesome/free-brands-svg-icons';
-import { faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faPhone, faStar } from '@fortawesome/free-solid-svg-icons';
 
 
 const Contact = () => {

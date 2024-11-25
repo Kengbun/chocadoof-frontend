@@ -3,7 +3,7 @@ import { useState } from 'react';
 import "./Signup.css";
 import logo from "../assets/logo.png";
 
-import axios from 'axios';
+import axios from '../confix/axios';
 
 const Signup = () => {
     const [email, setEmail] = useState('');
@@ -20,7 +20,7 @@ const Signup = () => {
         }
 
         try {
-            const res = await axios.post('http://localhost:5000/api/signup', { email, password, confirmPassword });
+            const res = await axios.post('/api/signup', { email, password, confirmPassword });
             setMessage(res.data);
         } catch (err) {
             setMessage('Error: ' + err.response.data);

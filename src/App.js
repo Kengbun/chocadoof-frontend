@@ -12,6 +12,10 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import ProductDetail from './pages/ProductDetail'
 import Testpo from './pages/Testpo';
+import ArticleForm from './pages/ArticleForm ';
+import Profile from './pages/Profile';
+import AdminDashboard from './pages/AdminDashboard';
+
 
 
 function App() {
@@ -24,12 +28,14 @@ function App() {
         <Route path="/productdetail" element={<ProductDetail />} />
         <Route path="/articles" element={<Articles />} />
         <Route path="/articledetail" element={<ArticleDetail />} />
+        <Route path="/articleform" element={<ArticleForm />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/tt" element={<Testpo />} />
-        {/* <Route path="/user-profile" element={<UserProfile />} /> */}
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/admindashboard" element={<AdminDashboard />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

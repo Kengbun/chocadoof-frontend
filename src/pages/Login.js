@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from 'axios';
+import axios from '../confix/axios';
 import "./Login.css";
 import logo from "../assets/logo3.png";
 
@@ -13,7 +13,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.post('http://localhost:5000/api/login', { email, password });
+            const res = await axios.post('/api/login', { email, password });
             setMessage(res.data.message);  // แสดงข้อความเมื่อ Login สำเร็จ
             setToken(res.data.token);      // เก็บ Token ที่ได้รับ
             localStorage.setItem('authToken', res.data.token);  // เก็บ Token ใน localStorage

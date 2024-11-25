@@ -4,6 +4,11 @@
     padding: 20px;
     font-family: Arial, sans-serif;
 }
+.product-detail {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
 
 .product-gallery {
     display: flex;
@@ -13,8 +18,8 @@
 }
 
 .main-product-image {
-    width: 300px;
-    height: auto;
+    width: 500px;
+    height: 500px;
     border-radius: 10px;
 }
 
@@ -53,6 +58,15 @@
     line-height: 1.5;
 }
 
+.set-section {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.set-section h1 {
+    color: black;
+}
+
 .reviews-section {
     margin-top: 40px;
 }
@@ -69,10 +83,13 @@
     height: 50px;
     border-radius: 50%;
 }
+.reviewer-avatar-detail p{
+    margin: 2px;
+   
+}
 
 .reviewer-name {
     font-weight: bold;
-    margin-bottom: 5px;
 }
 
 .review-text {
