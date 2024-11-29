@@ -1,15 +1,18 @@
-import React from "react";
-import { useState } from 'react';
+import React, { useState } from "react";
 import "./Signup.css";
 import logo from "../assets/logo.png";
-
-import axios from '../confix/axios';
+import { useNavigate } from "react-router-dom";
+import axios from '../confix/axios'; 
 
 const Signup = () => {
+    const navigate = useNavigate();
+
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false); // เพิ่มสถานะการโหลด
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,13 +22,19 @@ const Signup = () => {
             return;
         }
 
+        setLoading(true); // เมื่อกด submit, ให้แสดงสถานะการโหลด
         try {
-            const res = await axios.post('/api/signup', { email, password, confirmPassword });
-            setMessage(res.data);
+            const res = await axios.post('/users/register', { name, email, password });
+            setMessage(res.data.message || 'Registration successful'); // ใช้ข้อความที่ตอบกลับจากเซิร์ฟเวอร์หรือข้อความเริ่มต้น
+            alert(res.data.message)
+            navigate("/login"); 
         } catch (err) {
-            setMessage('Error: ' + err.response.data);
+            setMessage('Error: ' + (err.response ? err.response.data.message : 'Something went wrong'));
+        } finally {
+            setLoading(false); // เมื่อเสร็จสิ้นการเรียก API, รีเซ็ตสถานะการโหลด
         }
     };
+
     return (
         <div className="signup-container">
             <div className="signup-box">
@@ -34,6 +43,14 @@ const Signup = () => {
                     <img src={logo} alt="ChocaDoof Logo" />
                 </div>
                 <form className="signup-form" onSubmit={handleSubmit}>
+                    <input
+                        className="signup-input"
+                        type="text"
+                        placeholder="Name"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
                     <input
                         className="signup-input"
                         type="email"
@@ -58,13 +75,15 @@ const Signup = () => {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
-                    <button type="submit" className="signup-button">
-                        Sign up
+                    <button type="submit" className="signup-button" disabled={loading}>
+                        {loading ? "Signing up..." : "Sign up"}
                     </button>
                 </form>
-                <p>{message}</p>
+                {/* แสดงข้อความความสำเร็จหรือข้อผิดพลาด */}
+                {message && <p style={{ color: message.includes('Error') ? 'red' : 'green' }}>{message}</p>}
             </div>
         </div>
+        
     );
 };
 

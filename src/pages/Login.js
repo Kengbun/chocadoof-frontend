@@ -13,7 +13,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.post('/api/login', { email, password });
+            const res = await axios.post('/login', { email, password });
             setMessage(res.data.message);  // แสดงข้อความเมื่อ Login สำเร็จ
             setToken(res.data.token);      // เก็บ Token ที่ได้รับ
             localStorage.setItem('authToken', res.data.token);  // เก็บ Token ใน localStorage

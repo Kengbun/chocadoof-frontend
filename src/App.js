@@ -14,6 +14,7 @@ import ProductDetail from './pages/ProductDetail'
 import Testpo from './pages/Testpo';
 import ArticleForm from './pages/ArticleForm ';
 import Profile from './pages/Profile';
+import VerifyEmail from './pages/VerifyEmail';
 import AdminDashboard from './pages/AdminDashboard';
 
 
@@ -35,6 +36,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/tt" element={<Testpo />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/verify-email/:token" element={<VerifyEmail />} />
         <Route path="/admindashboard" element={<AdminDashboard />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

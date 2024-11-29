@@ -1,209 +1,107 @@
 import React, { useState } from "react";
-import img from '../assets/imgProduct/img.jpg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-import './ProductDetail.css';
-const ProductDetail = () => {
-    const user = [
-        {
-            id: 1,
-            name: "kk",
-            image: img
-        },
-        {
-            id: 2,
-            name: "keng za",
-            image: 'https://picsum.photos/200/300'
-        },
-    ];
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-    const productDetail = [
-        {
-            id: 1,
-            name: 'อาหารสุนัข พันธุ์ใหญ่ (MAXI PUPPY)',
-            discription: 'สปายตัวเอง กู๋คีตกวีแต๋ว โยโย่ เอฟเฟ็กต์ลิสต์สัมนาฉลุย คอลัมน์อุปการคุณซากุระสันทนาการ แรงผลัก ออเดอร์ติงต๊อง โปรเจ็กเตอร์ฮันนีมูนวีเจลีเมอร์ โบว์โปรเจ็กเตอร์เช็กฟีเวอร์ดีเจ แอ๊บแบ๊ว คอนโดมิเนียมบัลลาสต์คาแร็คเตอร์วินลิมิต บอยคอตต์หมิงป๋าโปรโมท เป็นไงล้มเหลวพุดดิ้งสเตย์มหาอุปราชา วอฟเฟิลวิว คาราโอเกะซามูไรออดิชั่นเคลม ฟรุตกรีนว้าวโกเต็กซ์',
-            discription2: "454654545454",
-            image: "https://picsum.photos/200/300",
-            image2: "https://picsum.photos/id/237/200/300",
-            image3: "https://picsum.photos/200/300",
-        },
-    ];
+function App() {
+    const navigate = useNavigate(); // เรียกใช้ useNavigate ในฟังก์ชัน Register
+    const [name, setName] = useState("");   // ชื่อผู้ใช้
+    const [email, setEmail] = useState(""); // อีเมล
+    const [password, setPassword] = useState(""); // รหัสผ่าน
+    const [confirmPassword, setConfirmPassword] = useState(""); // รหัสผ่านยืนยัน
+    const [loading, setLoading] = useState(false); // สำหรับแสดงสถานะการโหลด
+    const [error, setError] = useState(""); // เก็บข้อความ error
 
-    const productReview = [
-        {
-            id: 1,
-            product_id: 1,
-            user_id: 1,
-            rating: 2,
-            text: 'สินค้าคุณภาพดีมาก สุนัขที่บ้านกินแล้วแข็งแรงขึ้น ชอบมาก!'
-        },
-        {
-            id: 2,
-            product_id: 1,
-            user_id: 2,
-            rating: 5,
-            text: 'สินค้าคุณภาพดีมาก สุนัขที่บ้านกินแล้วแข็งแรงขึ้น ชอบมาก!'
-        },
-    ];
 
-    // จัดการรูปสินค้า
-    const [mainImage, setMainImage] = useState(productDetail[0].image);
-    // สถานะเก็บรีวิว
-    const [reviews, setReviews] = useState(productReview);
-    // เก็บข้อความรีวิว
-    const [reviewText, setReviewText] = useState('');
-    // เก็บคะแนนที่เลือก
-    const [rating, setRating] = useState(0);
-    //จัดการข้อมูลสินค้าและรีวิว
-    const [section, setSection] = useState("description");
+    // ฟังก์ชันสำหรับส่งข้อมูลไปยัง API
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    // ฟังก์ชันคำนวณคะแนนเฉลี่ย
-    const calculateAverageRating = () => {
-        const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-        return reviews.length > 0 ? (totalRating / reviews.length).toFixed(1) : 0;
-    };
+        if (name && email && password && confirmPassword) {
+            if (password !== confirmPassword) {
+                setError("รหัสผ่านและการยืนยันรหัสผ่านไม่ตรงกัน");
+                return;
+            }
 
-    // ฟังก์ชันแปลงคะแนนเป็นจำนวนดาว
-    const getStars = (rating) => {
-        let stars = [];
-        for (let i = 0; i < 5; i++) {
-            stars.push(
-                <FontAwesomeIcon
-                    key={i}
-                    icon={faStar}
-                    className={i < rating ? 'selected' : ''}
-                    onClick={() => setRating(i + 1)} // เมื่อคลิกที่ดาว จะเปลี่ยนคะแนน
-                    style={{ cursor: 'pointer', color: i < rating ? '#ffd700' : '#ddd' }}
-                />
-            );
+            setLoading(true); // ตั้งค่าให้กำลังโหลด
+            setError(""); // รีเซ็ตข้อความ error
+
+            try {
+                const response = await axios.post("/users/register", {
+                    name,
+                    email,
+                    password,
+                });
+
+                // ถ้าสมัครสมาชิกสำเร็จ
+                alert(`คุณ ${name} ได้สมัครสมาชิกเรียบร้อยแล้ว`);
+
+                // เก็บข้อมูลที่ตอบกลับจากเซิร์ฟเวอร์
+                // สมมติว่าเซิร์ฟเวอร์ส่งข้อมูลของผู้ใช้ที่ลงทะเบียนมา
+                console.log(response.data);
+
+                // ถ้าข้อมูลถูกส่งสำเร็จ
+                alert(response.data.message); // ใช้ response ที่เซิร์ฟเวอร์ตอบกลับ
+                navigate("/login"); // ไปที่หน้า login
+            } catch (error) {
+                // ถ้ามีข้อผิดพลาดเกิดขึ้น
+                console.log(error.response.data.message); // ตรวจสอบ error ที่ได้รับจาก API
+                setError(error.response.data.message);
+            } finally {
+                setLoading(false); // รีเซ็ตสถานะการโหลด
+            }
+        } else {
+            alert("กรุณากรอกข้อมูลให้ครบถ้วน");
         }
-        return stars;
-    };
-
-    // ฟังก์ชันจัดการเมื่อส่งรีวิว
-    const handleAddReview = () => {
-        if (reviewText.trim() === '' || rating === 0) {
-            alert('กรุณาใส่ข้อความรีวิวและให้คะแนนก่อนส่ง!');
-            return;
-        }
-
-        // เพิ่มรีวิวใหม่ลงใน array
-        const newReview = {
-            id: reviews.length + 1, // เพิ่ม id ใหม่
-            product_id: productDetail[0].id,
-            user_id: 1, // สมมติว่าเป็นผู้ใช้คนแรก
-            rating,
-            text: reviewText
-        };
-
-        setReviews([...reviews, newReview]);
-        setReviewText('');
-        setRating(0);
     };
 
     return (
-        <div className="product-detail-container">
-            <div className="product-detail">
-                {/* ส่วนแสดงภาพสินค้า */}
-                <div className="product-gallery">
-                    <img src={mainImage} alt="สินค้า" className="main-product-image" />
-                    <div className="thumbnail-gallery">
-                        <img
-                            src={productDetail[0].image}
-                            alt="ตัวอย่าง 1"
-                            className="thumbnail"
-                            onClick={() => setMainImage(productDetail[0].image)}
-                        />
-                        <img
-                            src={productDetail[0].image2}
-                            alt="ตัวอย่าง 2"
-                            className="thumbnail"
-                            onClick={() => setMainImage(productDetail[0].image2)}
-                        />
-                        <img
-                            src={productDetail[0].image3}
-                            alt="ตัวอย่าง 3"
-                            className="thumbnail"
-                            onClick={() => setMainImage(productDetail[0].image3)}
-                        />
-                    </div>
-                </div>
-
-                {/* ส่วนรายละเอียดสินค้า */}
-                <div className="product-info">
-                    <h1>{productDetail[0].name}</h1>
-                    <p className="product-rating">
-                        {/* เพิ่มดาวตามคะแนนเฉลี่ย */}
-                        {getStars(Math.round(calculateAverageRating()))}
-                    </p>
-                    <p className="product-description">
-                        {productDetail[0].discription}
-                    </p>
-                </div>
-            </div>
-            {/*เปลี่ยน Section */}
-            <div className="set-section">
-                <h1 onClick={() => setSection("description")}> รายละเอียด</h1>
-                <h1 onClick={() => setSection("")}>รีวิว</h1>
-            </div>
-            <hr width="85%" align="center" size="2px" noshade color="black"></hr>
-
-            {/*Section รีวิวสินค้า */}
-            {section === "description" ? (
+        <div className="App">
+            <h1>ลงทะเบียนผู้ใช้</h1>
+            <form onSubmit={handleSubmit}>
                 <div>
-                    <h3>รายละเอียด</h3>
-                    <p>{productDetail[0].discription}</p>
+                    <label>ชื่อผู้ใช้:</label>
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="กรุณากรอกชื่อ"
+                    />
                 </div>
+                <div>
+                    <label>อีเมล:</label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="กรุณากรอกอีเมล"
+                    />
+                </div>
+                <div>
+                    <label>รหัสผ่าน:</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="กรุณากรอกรหัสผ่าน"
+                    />
+                </div>
+                <div>
+                    <label>ยืนยันรหัสผ่าน:</label>
+                    <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="กรุณากรอกรหัสผ่านอีกครั้ง"
+                    />
+                </div>
+                <button type="submit" disabled={loading}>
+                    {loading ? "กำลังลงทะเบียน..." : "ลงทะเบียน"}
+                </button>
+            </form>
 
-            ) :
-                (
-                    <div>
-                        {/*Section รีวิวสินค้า */}
-                        <div className="reviews-section">
-                            <h3>รีวิวจากลูกค้า</h3>
-                            {reviews.map((review, index) => {
-                                // หาข้อมูลผู้รีวิวจาก user
-                                const reviewer = user.find(u => u.id === review.user_id);
-                                return (
-                                    <div key={index} className="review-item">
-                                        <img src={reviewer ? reviewer.image : ''} alt="ผู้รีวิว" className="reviewer-avatar" />
-                                        <div className="reviewer-avatar-detail">
-                                            <p className="reviewer-name">{reviewer ? reviewer.name : 'Unknown'}</p>
-                                            <p className="review-rating">{getStars(review.rating)}</p>
-                                            <p className="review-text">{review.text}</p>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                        <hr width="85%" align="center" size="2px" noshade color="black"></hr>
-                        {/* ฟอร์มเขียนรีวิว */}
-                        <div className="review-form">
-                            <h3>รีวิวสินค้าของคุณ</h3>
-
-                            <div className="rating-input">
-                                <p>ให้คะแนน:</p>
-                                <div style={{ display: 'flex' }}>
-                                    {getStars(rating)} {/* แสดงดาวที่เลือก */}
-                                </div>
-                                {/* <p>ให้คะแนน:{rating}</p> */}
-                            </div>
-
-                            <textarea
-                                value={reviewText}
-                                onChange={(e) => setReviewText(e.target.value)}
-                                placeholder="เขียนรีวิวของคุณที่นี่..."
-                                rows="4"
-                            ></textarea>
-
-                            <button className="submit-review" onClick={handleAddReview}>
-                                ส่งรีวิว
-                            </button>
-                        </div>
-                    </div>
-                )}
+            {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
     );
-};
+}
 
-export default ProductDetail;
+export default App;
