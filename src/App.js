@@ -1,4 +1,4 @@
-// src/App.js
+import "./App.css";
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -16,6 +16,8 @@ import ArticleForm from './pages/ArticleForm ';
 import Profile from './pages/Profile';
 import VerifyEmail from './pages/VerifyEmail';
 import AdminDashboard from './pages/AdminDashboard';
+import FormArticle from "./components/FormArticle";
+import FormEditArticle from "./components/FormEditArticle";
 
 
 
@@ -35,6 +37,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/tt" element={<Testpo />} />
+        <Route path="/form" element={<FormArticle />} />
+        <Route path="/edit/:id" element={<FormEditArticle />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/verify-email/:token" element={<VerifyEmail />} />
         <Route path="/admindashboard" element={<AdminDashboard />} />

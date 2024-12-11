@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Profile.css';
 import Footer from '../components/Footer';
+import FormArticle from '../components/FormArticle';
 
 const Profile = () => {
     // กำหนดข้อมูลผู้ใช้งานใน state
@@ -71,7 +72,7 @@ const Profile = () => {
                 </div>
 
                 {/* การจัดการบทความ */}
-                <div className="article-management">
+                {/* <div className="article-management">
                     <h3>จัดการบทความ</h3>
                     <button className="add-article-btn">เพิ่มบทความใหม่</button>
                     <table className="article-table">
@@ -97,7 +98,8 @@ const Profile = () => {
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </div> */}
+            <FormArticle/>
             </div>
             <Footer />
         </div>

@@ -12,24 +12,24 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
-    const [loading, setLoading] = useState(false); // เพิ่มสถานะการโหลด
+    const [loading, setLoading] = useState(false); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            setMessage('Passwords do not match');
+            setMessage('รหัสผ่านไม่ตรงกัน');
             return;
         }
 
         setLoading(true); // เมื่อกด submit, ให้แสดงสถานะการโหลด
         try {
             const res = await axios.post('/users/register', { name, email, password });
-            setMessage(res.data.message || 'Registration successful'); // ใช้ข้อความที่ตอบกลับจากเซิร์ฟเวอร์หรือข้อความเริ่มต้น
+            setMessage(res.data.message || 'การสมัครสมาชิกสำเร็จ'); // ใช้ข้อความที่ตอบกลับจากเซิร์ฟเวอร์หรือข้อความเริ่มต้น
             alert(res.data.message)
             navigate("/login"); 
         } catch (err) {
-            setMessage('Error: ' + (err.response ? err.response.data.message : 'Something went wrong'));
+            setMessage(err.response ? err.response.data.message : 'Server Error');
         } finally {
             setLoading(false); // เมื่อเสร็จสิ้นการเรียก API, รีเซ็ตสถานะการโหลด
         }
@@ -79,8 +79,9 @@ const Signup = () => {
                         {loading ? "Signing up..." : "Sign up"}
                     </button>
                 </form>
-                {/* แสดงข้อความความสำเร็จหรือข้อผิดพลาด */}
-                {message && <p style={{ color: message.includes('Error') ? 'red' : 'green' }}>{message}</p>}
+                {/* แสดงข้อความความ */}
+                {message && <p style={{ color: 'red' }}>{message}</p>}
+
             </div>
         </div>
         

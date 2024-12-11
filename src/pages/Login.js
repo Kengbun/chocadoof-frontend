@@ -7,18 +7,27 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
-    const [token, setToken] = useState(null);  // สำหรับเก็บ JWT Token
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const res = await axios.post('/login', { email, password });
-            setMessage(res.data.message);  // แสดงข้อความเมื่อ Login สำเร็จ
-            setToken(res.data.token);      // เก็บ Token ที่ได้รับ
-            localStorage.setItem('authToken', res.data.token);  // เก็บ Token ใน localStorage
+            // ส่งคำขอ login ไปยัง backend
+            const res = await axios.post('/users/login', { email, password });
+
+            // setMessage('เข้าสู่ระบบสำเร็จ');
+            // console.log(res.data.message);
+
+            // เก็บ token และ redirect
+            if (res.data.token) {
+                localStorage.setItem('authToken', res.data.token);
+                window.location.href = "/";
+            }
         } catch (err) {
-            setMessage('Error: ' + err.response.data);  // แสดงข้อความเมื่อเกิดข้อผิดพลาด
+            // จัดการข้อผิดพลาด
+            const errorMessage = err.response ? err.response.data.message : 'Server Error';
+            setMessage(errorMessage);
+            // console.error(errorMessage);
         }
     };
 
@@ -51,7 +60,13 @@ const Login = () => {
                             Login
                         </button>
                     </form>
-                    {message && <p>{message}</p>}
+                    {/* แสดงข้อความ */}
+                    {message && <p style={{ color: 'red' }}>{message}</p>}
+                    {/* {message && (
+                        <p className={`login-message ${message.includes('Error') ? 'error' : 'success'}`}>
+                            {message}
+                        </p>
+                    )} */}
                 </div>
             </div>
         </div>

@@ -13,7 +13,7 @@ const Articles = () => {
 
     // ฟังก์ชันสำหรับโหลดบทความเพิ่มเติม
     const loadMoreArticles = () => {
-        setVisibleArticles((prev) => prev + 5); // เพิ่ม 6 ชิ้นต่อการกดครั้งหนึ่ง
+        setVisibleArticles((prev) => prev + 5); // เพิ่ม 5 ชิ้นต่อการกดครั้งหนึ่ง
     };
 
     const articles = [
