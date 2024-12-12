@@ -18,6 +18,7 @@ import VerifyEmail from './pages/VerifyEmail';
 import AdminDashboard from './pages/AdminDashboard';
 import FormArticle from "./components/FormArticle";
 import FormEditArticle from "./components/FormEditArticle";
+import ManageArticles from "./components/ManageArticles";
 
 
 
@@ -37,7 +38,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/tt" element={<Testpo />} />
-        <Route path="/form" element={<FormArticle />} />
+        <Route path="/formarticle" element={<FormArticle />} />
+        <Route path="/managearticles" element={<ManageArticles />} />
         <Route path="/edit/:id" element={<FormEditArticle />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/verify-email/:token" element={<VerifyEmail />} />

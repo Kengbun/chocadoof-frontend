@@ -5,8 +5,7 @@ import axios from 'axios';
 const apiUrl = process.env.REACT_APP_API;
 
 const FormEditArticle = () => {
-
-    const params = useParams(); //URL params
+    const params = useParams(); // URL params
     const [data, setData] = useState({
         title: '',
         category: '',
@@ -18,19 +17,16 @@ const FormEditArticle = () => {
     const [selectedAdditionalImage, setSelectedAdditionalImage] = useState(null); // เก็บรูปภาพเพิ่มเติม
     const navigate = useNavigate();
 
-    // console.log(params.id);
-
     useEffect(() => {
-        loadData(params.id) //โหลดข้อมูลจาก id
-        setSelectedCoverImage(data.coverImage); // อัปเดต selectedCoverImage เมื่อ data.coverImage เปลี่ยน
-        setSelectedAdditionalImage(data.contentImage);// อัปเดต selectedAdditionalImage เมื่อ data.additionalImage เปลี่ยน
+        loadData(params.id); // โหลดข้อมูลจาก id
     }, []);
 
     const loadData = (id) => {
         axios.get(apiUrl + "/article/" + id)
             .then((res) => {
-                // console.log(res);  
-                setData(res.data)
+                setData(res.data);
+                setSelectedCoverImage(res.data.coverImage); // อัปเดต selectedCoverImage เมื่อ data.coverImage เปลี่ยน
+                setSelectedAdditionalImage(res.data.contentImage); // อัปเดต selectedAdditionalImage เมื่อ data.contentImage เปลี่ยน
             })
             .catch((error) => {
                 console.log(error);
@@ -38,63 +34,57 @@ const FormEditArticle = () => {
     };
 
     const handleChange = (e) => {
-        // console.log(e.target.name, e.target.value);
         setData({
             ...data,
             [e.target.name]: e.target.value
-        })
-    }
+        });
+    };
 
     const handleSubmit = async (e) => {
-        e.preventDefault() // ไม่ให้รีเฟรช
-        console.log(data)
-        await axios.put(apiUrl + "/article/" + params.id, data)
-            .then(res => {
-                // console.log(data)
-                // loadData();
-                navigate("/")
-            })
-            .catch((err) => console.log(err))
-    }
+        e.preventDefault(); // ป้องกันไม่ให้รีเฟรชหน้า
 
-    console.log(data)
-    // console.log(selectedCoverImage)
-    // console.log(selectedAdditionalImage)
+        const formData = new FormData();
 
-    
+        // เพิ่มค่าของ text fields
+        formData.append("title", data.title);
+        formData.append("category", data.category);
+        formData.append("content", data.content);
 
-    // ฟังก์ชันที่จัดการเมื่อเลือกไฟล์ภาพหน้าปก
+        // เพิ่มไฟล์ที่เลือกใน formData
+        if (selectedCoverImage && selectedCoverImage instanceof File) {
+            formData.append("coverImage", selectedCoverImage);
+        }
+
+        if (selectedAdditionalImage && selectedAdditionalImage instanceof File) {
+            formData.append("additionalImage", selectedAdditionalImage);
+        }
+
+        try {
+            const response = await axios.put(apiUrl + "/article/" + params.id, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+            console.log(response.data);
+            // navigate("/"); // ไปที่หน้าอื่นหลังจากอัปเดตเสร็จ
+        } catch (error) {
+            console.error("Error updating article:", error);
+        }
+    };
+
     const handleCoverImageChange = (event) => {
-        const file = event.target.files[0]; // เลือกไฟล์แรกจากไฟล์ที่เลือก
+        const file = event.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setSelectedCoverImage(reader.result); // เก็บข้อมูลภาพที่เลือกลงใน state
-                setData({
-                    ...data,
-                    coverImage: file, // เก็บไฟล์ใน formData
-                });
-            };
-            reader.readAsDataURL(file); // แปลงไฟล์เป็น URL
+            setSelectedCoverImage(file); // เก็บไฟล์ที่เลือก
         }
     };
 
-    // ฟังก์ชันที่จัดการเมื่อเลือกไฟล์รูปภาพเพิ่มเติม
     const handleAdditionalImageChange = (event) => {
-        const file = event.target.files[0]; // เลือกไฟล์แรกจากไฟล์ที่เลือก
+        const file = event.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setSelectedAdditionalImage(reader.result); // เก็บข้อมูลภาพที่เลือกลงใน state
-                setData({
-                    ...data,
-                    additionalImage: file, // เก็บไฟล์ใน formData
-                });
-            };
-            reader.readAsDataURL(file); // แปลงไฟล์เป็น URL
+            setSelectedAdditionalImage(file); // เก็บไฟล์ที่เลือก
         }
     };
-
 
     return (
         <div className="form-container">
@@ -105,7 +95,7 @@ const FormEditArticle = () => {
                         type="text"
                         name="title"
                         value={data.title}
-                        onChange={e => handleChange(e)}
+                        onChange={handleChange}
                         placeholder="กรอกหัวข้อบทความ"
                     />
                 </div>
@@ -113,10 +103,9 @@ const FormEditArticle = () => {
                     <label htmlFor="category">หมวดหมู่:</label>
                     <input
                         type="text"
-
                         name="category"
                         value={data.category}
-                        onChange={e => handleChange(e)}
+                        onChange={handleChange}
                         placeholder="กรอกหมวดหมู่"
                     />
                 </div>
@@ -125,14 +114,13 @@ const FormEditArticle = () => {
                     <input
                         type="file"
                         name="coverImage"
-                        onChange={handleCoverImageChange} // เรียกใช้ฟังก์ชัน handleCoverImageChange
+                        onChange={handleCoverImageChange}
                     />
-                    {/* แสดงตัวอย่างภาพหน้าปกที่เลือก */}
                     {selectedCoverImage && (
                         <div>
                             <h3>ตัวอย่างภาพหน้าปก:</h3>
                             <img
-                                src={selectedCoverImage }
+                                src={selectedCoverImage instanceof File ? URL.createObjectURL(selectedCoverImage) : selectedCoverImage}
                                 alt="Cover Preview"
                                 style={{ width: '200px', height: 'auto', objectFit: 'cover' }}
                             />
@@ -144,14 +132,13 @@ const FormEditArticle = () => {
                     <input
                         type="file"
                         name="additionalImage"
-                        onChange={handleAdditionalImageChange} // เรียกใช้ฟังก์ชัน handleAdditionalImageChange
+                        onChange={handleAdditionalImageChange}
                     />
-                    {/* แสดงตัวอย่างรูปภาพเพิ่มเติมที่เลือก */}
                     {selectedAdditionalImage && (
                         <div>
                             <h3>ตัวอย่างรูปภาพเพิ่มเติม:</h3>
                             <img
-                                src={selectedAdditionalImage}
+                                src={selectedAdditionalImage instanceof File ? URL.createObjectURL(selectedAdditionalImage) : selectedAdditionalImage}
                                 alt="Additional Image Preview"
                                 style={{ width: '200px', height: 'auto', objectFit: 'cover' }}
                             />
@@ -161,10 +148,9 @@ const FormEditArticle = () => {
                 <div className="form-group">
                     <label htmlFor="content">เนื้อหาบทความ:</label>
                     <textarea
-
                         name="content"
                         value={data.content}
-                        onChange={e => handleChange(e)}
+                        onChange={handleChange}
                         placeholder="เขียนเนื้อหาบทความที่นี่"
                         rows="5"
                     ></textarea>
@@ -175,6 +161,6 @@ const FormEditArticle = () => {
             </form>
         </div>
     );
-}
+};
 
-export default FormEditArticle
+export default FormEditArticle;
