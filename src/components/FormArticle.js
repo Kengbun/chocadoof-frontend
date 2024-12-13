@@ -9,12 +9,12 @@ const FormArticle = () => {
         title: '',
         category: '',
         coverImage: null,
-        additionalImage: null,
+        contentImage: null,
         content: '',
     });
 
     const [selectedCoverImage, setSelectedCoverImage] = useState(null); // แสดงภาพหน้าปก
-    const [selectedAdditionalImage, setSelectedAdditionalImage] = useState(null); // แสดงภาพเพิ่มเติม
+    const [selectedcontentImage, setSelectedcontentImage] = useState(null); // แสดงภาพเพิ่มเติม
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -39,17 +39,17 @@ const FormArticle = () => {
         }
     };
 
-    const handleAdditionalImageChange = (e) => {
+    const handlecontentImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setSelectedAdditionalImage(reader.result);
+                setSelectedcontentImage(reader.result);
             };
             reader.readAsDataURL(file);
             setFormData({
                 ...formData,
-                additionalImage: file, // เก็บไฟล์ใน state
+                contentImage: file, // เก็บไฟล์ใน state
             });
         }
     };
@@ -67,12 +67,11 @@ const FormArticle = () => {
         payload.append('category', formData.category);
         payload.append('content', formData.content);
         payload.append('coverImage', formData.coverImage);
-        if (formData.additionalImage) {
-            payload.append('additionalImage', formData.additionalImage);
+        if (formData.contentImage) {
+            payload.append('contentImage', formData.contentImage);
         }
 
         try {
-            console.log(formData)
             const response = await axios.post(`${apiUrl}/article/`, payload, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
@@ -83,6 +82,7 @@ const FormArticle = () => {
             alert('เกิดข้อผิดพลาดในการบันทึกบทความ');
         }
     };
+
 
     return (
         <div className="form-container">
@@ -126,17 +126,17 @@ const FormArticle = () => {
                     )}
                 </div>
                 <div className="form-group">
-                    <label htmlFor="additionalImage">รูปภาพเพิ่มเติม:</label>
+                    <label htmlFor="contentImage">รูปภาพเพิ่มเติม:</label>
                     <input
                         type="file"
-                        name="additionalImage"
-                        onChange={handleAdditionalImageChange}
+                        name="contentImage"
+                        onChange={handlecontentImageChange}
                     />
-                    {selectedAdditionalImage && (
+                    {selectedcontentImage && (
                         <div>
                             <h3>ตัวอย่างรูปภาพเพิ่มเติม:</h3>
                             <img
-                                src={selectedAdditionalImage}
+                                src={selectedcontentImage}
                                 alt="Additional Image Preview"
                                 style={{ width: '200px', height: 'auto', objectFit: 'cover' }}
                             />

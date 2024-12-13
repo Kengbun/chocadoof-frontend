@@ -60,7 +60,9 @@ const ManageArticles = () => {
     return (
         <div>
             <h3>จัดการบทความ</h3>
-            <button className="add-article-btn">เพิ่มบทความใหม่</button>
+            <Link to={"/formarticle"}>
+                <button className="add-article-btn">เพิ่มบทความใหม่</button>
+            </Link>
             <table className="article-table">
                 <thead>
                     <tr>
@@ -80,7 +82,7 @@ const ManageArticles = () => {
                                 <td>{article.title}</td>
                                 <td>{article.category}</td>
                                 <td>{formatDate(article.createdAt)}</td>
-                                <td>
+                                {/* <td>
                                     {article.contentImage ? (
                                         <img
                                             src={article.contentImage}
@@ -91,7 +93,7 @@ const ManageArticles = () => {
                                         <span>No Image</span> // กรณีที่ไม่มีภาพ
                                     )}
                                 </td>
-                                <td>{article.id}</td>
+                                <td>{article.id}</td> */}
                                 <td>
                                     <Link to={"/edit/" + article.id}>
                                         <button className="edit-btn">แก้ไข</button>

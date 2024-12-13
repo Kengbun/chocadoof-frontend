@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
-import './Profile.css';
+import './Profile.css';  // ใช้ไฟล์ CSS เดียวกันสำหรับสไตล์
 
 const Profile = () => {
     // กำหนดข้อมูลผู้ใช้งานใน state
@@ -17,33 +17,11 @@ const Profile = () => {
     const [editedName, setEditedName] = useState(user.name); // ชื่อที่แก้ไข
 
     // ฟังก์ชันบันทึกข้อมูล
-    const handleSave = async () => {
-        // อัปเดตข้อมูลชื่อ
+    const handleSave = () => {
         setUser((prevUser) => ({
             ...prevUser,
             name: editedName, // อัปเดตชื่อใหม่
         }));
-
-        // อัปโหลดรูปโปรไฟล์ถ้ามีการเลือกไฟล์ใหม่
-        if (profileImage) {
-            const formData = new FormData();
-            formData.append('profileImage', profileImage);
-
-            try {
-                // const response = await axios.post('http://localhost:8000/profile/upload', formData, {
-                //     headers: {
-                //         'Content-Type': 'multipart/form-data',
-                //     },
-                // });
-                alert('อัปเดตรูปโปรไฟล์สำเร็จ!');
-                // console.log('Response:', response.data);
-                // handleAvatarUpdate(response.data.avatarUrl); // อัปเดตรูปโปรไฟล์ที่ใหม่
-            } catch (error) {
-                console.error('Error uploading profile image:', error);
-                alert('เกิดข้อผิดพลาดในการอัปเดตรูปโปรไฟล์');
-            }
-        }
-
         setIsEditing(false); // ปิดโหมดแก้ไข
     };
 
@@ -68,6 +46,31 @@ const Profile = () => {
         }
     };
 
+    // ฟังก์ชันที่ส่งข้อมูลไปยังเซิร์ฟเวอร์
+    const handleSubmit = async () => {
+        if (!profileImage) {
+            alert('กรุณาเลือกไฟล์ก่อนบันทึก!');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('profileImage', profileImage);
+
+        try {
+            const response = await axios.post('http://localhost:8000/profile/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            alert('อัปเดตรูปโปรไฟล์สำเร็จ!');
+            console.log('Response:', response.data);
+            handleAvatarUpdate(response.data.avatarUrl); // อัปเดตรูปโปรไฟล์ที่ใหม่
+        } catch (error) {
+            console.error('Error uploading profile image:', error);
+            alert('เกิดข้อผิดพลาดในการอัปเดตรูปโปรไฟล์');
+        }
+    };
+
     return (
         <div>
             <div className="profile-container">
@@ -85,37 +88,33 @@ const Profile = () => {
                             }}
                         />
                         {/* ปุ่มแก้ไขรูปโปรไฟล์ */}
-                        {isEditing && (
-                            <label
-                                htmlFor="profileImageInput"
-                                style={{
-                                    position: 'absolute',
-                                    top: '5px',
-                                    right: '5px',
-                                    backgroundColor: '#fff',
-                                    borderRadius: '50%',
-                                    width: '30px',
-                                    height: '30px',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
-                                    cursor: 'pointer',
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faPen} />
-                            </label>
-                        )}
+                        <label
+                            htmlFor="profileImageInput"
+                            style={{
+                                position: 'absolute',
+                                top: '5px',
+                                right: '5px',
+                                backgroundColor: '#fff',
+                                borderRadius: '50%',
+                                width: '30px',
+                                height: '30px',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faPen} />
+                        </label>
                         {/* Input สำหรับเลือกไฟล์ */}
-                        {isEditing && (
-                            <input
-                                type="file"
-                                id="profileImageInput"
-                                accept="image/*"
-                                onChange={handleImageChange}
-                                style={{ display: 'none' }} // ซ่อน Input ไว้
-                            />
-                        )}
+                        <input
+                            type="file"
+                            id="profileImageInput"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            style={{ display: 'none' }} // ซ่อน Input ไว้
+                        />
                     </div>
                     <p className="profile-email">{user.email}</p>
                     <button
@@ -147,7 +146,37 @@ const Profile = () => {
                         </div>
                     )}
                 </div>
+
+                {/* การจัดการบทความ */}
+                {/* <div className="article-management">
+                    <h3>จัดการบทความ</h3>
+                    <button className="add-article-btn">เพิ่มบทความใหม่</button>
+                    <table className="article-table">
+                        <thead>
+                            <tr>
+                                <th>หัวข้อ</th>
+                                <th>หมวดหมู่</th>
+                                <th>วันที่</th>
+                                <th>การจัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {articles.map((article, index) => (
+                                <tr key={index}>
+                                    <td>{article.title}</td>
+                                    <td>{article.category}</td>
+                                    <td>{article.date}</td>
+                                    <td>
+                                        <button className="edit-btn">แก้ไข</button>
+                                        <button className="delete-btn">ลบ</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div> */}
             </div>
+            {/* <Footer /> */}
         </div>
     );
 };

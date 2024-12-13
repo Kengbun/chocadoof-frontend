@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Profile.css';
 import Footer from '../components/Footer';
-import FormArticle from '../components/FormArticle';
+import ManageArticles from '../components/ManageArticles';
 
 const Profile = () => {
     // กำหนดข้อมูลผู้ใช้งานใน state
@@ -15,13 +15,13 @@ const Profile = () => {
     const [isEditing, setIsEditing] = useState(false); // ใช้ตรวจสอบว่ากำลังแก้ไขหรือไม่
     const [editedName, setEditedName] = useState(user.name); // ชื่อที่แก้ไข
 
-    const articles = [
-        {
-            title: 'การดูแลสัตว์เลี้ยงในฤดูหนาว',
-            category: 'การดูแลสัตว์',
-            date: '2024-11-25',
-        },
-    ];
+    // const articles = [
+    //     {
+    //         title: 'การดูแลสัตว์เลี้ยงในฤดูหนาว',
+    //         category: 'การดูแลสัตว์',
+    //         date: '2024-11-25',
+    //     },
+    // ];
 
     // ฟังก์ชันบันทึกข้อมูล
     const handleSave = () => {
@@ -99,7 +99,7 @@ const Profile = () => {
                         </tbody>
                     </table>
                 </div> */}
-            <FormArticle/>
+            <ManageArticles/>
             </div>
             <Footer />
         </div>

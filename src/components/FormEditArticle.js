@@ -11,22 +11,22 @@ const FormEditArticle = () => {
         category: '',
         content: '',
         coverImage: '',
-        additionalImage: ''
+        contentImage: ''
     });
     const [selectedCoverImage, setSelectedCoverImage] = useState(null); // เก็บภาพหน้าปก
-    const [selectedAdditionalImage, setSelectedAdditionalImage] = useState(null); // เก็บรูปภาพเพิ่มเติม
+    const [selectedcontentImage, setSelectedcontentImage] = useState(null); // เก็บรูปภาพเพิ่มเติม
     const navigate = useNavigate();
 
     useEffect(() => {
         loadData(params.id); // โหลดข้อมูลจาก id
-    }, []);
+    }, [params.id]); // เพิ่ม params.id ใน dependencies เพื่อโหลดข้อมูลใหม่เมื่อ id เปลี่ยน
 
     const loadData = (id) => {
         axios.get(apiUrl + "/article/" + id)
             .then((res) => {
                 setData(res.data);
                 setSelectedCoverImage(res.data.coverImage); // อัปเดต selectedCoverImage เมื่อ data.coverImage เปลี่ยน
-                setSelectedAdditionalImage(res.data.contentImage); // อัปเดต selectedAdditionalImage เมื่อ data.contentImage เปลี่ยน
+                setSelectedcontentImage(res.data.contentImage); // ใช้ contentImage แทน contentImage
             })
             .catch((error) => {
                 console.log(error);
@@ -41,7 +41,7 @@ const FormEditArticle = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); // ป้องกันไม่ให้รีเฟรชหน้า
+        e.preventDefault();
 
         const formData = new FormData();
 
@@ -55,20 +55,21 @@ const FormEditArticle = () => {
             formData.append("coverImage", selectedCoverImage);
         }
 
-        if (selectedAdditionalImage && selectedAdditionalImage instanceof File) {
-            formData.append("additionalImage", selectedAdditionalImage);
+        if (selectedcontentImage && selectedcontentImage instanceof File) {
+            formData.append("contentImage", selectedcontentImage);
         }
 
         try {
-            const response = await axios.put(apiUrl + "/article/" + params.id, formData, {
+            const response = await axios.put(`${apiUrl}/article/${params.id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 }
             });
             console.log(response.data);
-            // navigate("/"); // ไปที่หน้าอื่นหลังจากอัปเดตเสร็จ
+            navigate("/"); // ไปที่หน้าอื่นหลังจากอัปเดตเสร็จ
         } catch (error) {
             console.error("Error updating article:", error);
+            alert('เกิดข้อผิดพลาดในการอัปเดตบทความ!');
         }
     };
 
@@ -79,12 +80,23 @@ const FormEditArticle = () => {
         }
     };
 
-    const handleAdditionalImageChange = (event) => {
+    const handlecontentImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            setSelectedAdditionalImage(file); // เก็บไฟล์ที่เลือก
+            setSelectedcontentImage(file); // เก็บไฟล์ที่เลือก
         }
     };
+
+    // ฟังก์ชันช่วยในการแสดงภาพตัวอย่าง
+    const renderImagePreview = (image) => {
+        if (image instanceof File) {
+            return URL.createObjectURL(image); // ถ้าเป็นไฟล์ที่เลือกจากเครื่อง
+        }
+        return image; // ถ้าเป็น URL หรือ path ของภาพที่มีอยู่แล้ว
+    };
+    console.log(data)
+    console.log(selectedCoverImage)
+    console.log(selectedcontentImage)
 
     return (
         <div className="form-container">
@@ -120,7 +132,7 @@ const FormEditArticle = () => {
                         <div>
                             <h3>ตัวอย่างภาพหน้าปก:</h3>
                             <img
-                                src={selectedCoverImage instanceof File ? URL.createObjectURL(selectedCoverImage) : selectedCoverImage}
+                                src={renderImagePreview(selectedCoverImage)}
                                 alt="Cover Preview"
                                 style={{ width: '200px', height: 'auto', objectFit: 'cover' }}
                             />
@@ -128,17 +140,17 @@ const FormEditArticle = () => {
                     )}
                 </div>
                 <div className="form-group">
-                    <label htmlFor="additionalImage">รูปภาพเพิ่มเติม:</label>
+                    <label htmlFor="contentImage">รูปภาพเพิ่มเติม:</label>
                     <input
                         type="file"
-                        name="additionalImage"
-                        onChange={handleAdditionalImageChange}
+                        name="contentImage"
+                        onChange={handlecontentImageChange}
                     />
-                    {selectedAdditionalImage && (
+                    {selectedcontentImage && (
                         <div>
                             <h3>ตัวอย่างรูปภาพเพิ่มเติม:</h3>
                             <img
-                                src={selectedAdditionalImage instanceof File ? URL.createObjectURL(selectedAdditionalImage) : selectedAdditionalImage}
+                                src={renderImagePreview(selectedcontentImage)}
                                 alt="Additional Image Preview"
                                 style={{ width: '200px', height: 'auto', objectFit: 'cover' }}
                             />
