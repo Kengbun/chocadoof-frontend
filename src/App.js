@@ -12,6 +12,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import ProductDetail from './pages/ProductDetail'
 import Testpo from './pages/Testpo';
+import Testpocopy from './pages/Testpo copy';
 import ArticleForm from './pages/ArticleForm ';
 import Profile from './pages/Profile';
 import VerifyEmail from './pages/VerifyEmail';
@@ -38,6 +39,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/tt" element={<Testpo />} />
+        <Route path="/ttc" element={<Testpocopy />} />
         <Route path="/formarticle" element={<FormArticle />} />
         <Route path="/managearticles" element={<ManageArticles />} />
         <Route path="/edit/:id" element={<FormEditArticle />} />

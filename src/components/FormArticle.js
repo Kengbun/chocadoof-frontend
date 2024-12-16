@@ -67,9 +67,10 @@ const FormArticle = () => {
         payload.append('category', formData.category);
         payload.append('content', formData.content);
         payload.append('coverImage', formData.coverImage);
-        if (formData.contentImage) {
-            payload.append('contentImage', formData.contentImage);
-        }
+        payload.append('contentImage', formData.contentImage);
+        // if (formData.contentImage) {
+        //     payload.append('contentImage', formData.contentImage);
+        // }
 
         try {
             const response = await axios.post(`${apiUrl}/article/`, payload, {

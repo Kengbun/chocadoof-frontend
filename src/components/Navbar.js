@@ -1,17 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 import Logo from "../assets/logo3.png";
+import Avatar from "../assets/avatar.png";
+import axios from 'axios';
 
+// const Avatar = "https://picsum.photos/200/300" 
 const Navbar = () => {
     // สถานะการล็อกอิน (ตัวอย่าง: true ถ้าล็อกอิน, false ถ้ายังไม่ล็อกอิน)
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [avatar, setAvatar] = useState(Avatar); // เก็บข้อมูลผู้ใช้
+
+    useEffect(() => {
+        // ตรวจสอบสถานะการล็อกอินโดยการตรวจสอบ token ใน localStorage
+        const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+        // console.log(token);
+
+        if (token) {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
+        }
+        
+        const avatar = async () => {
+            const token = localStorage.getItem('authToken'); // ดึง token จาก localStorage
+            try {
+                const res = await axios.get('/users/me', {
+                    headers: { authToken: `Bearer ${token}` }, // ส่ง token ใน header
+                });
+                // console.log("dkdkdkdk"+res);
+                setAvatar(res.data); // ตั้งค่าผู้ใช้
+                // console.log(res.data);
+            } 
+            catch (err) {
+                console.log(err);
+            }
+        };
+
+        avatar();
+        
+    }, []);
 
     const handleLogout = () => {
-        // ตัวอย่าง: กระบวนการล็อกเอาต์
+        // ลบ token เมื่อผู้ใช้ทำการล็อกเอาต์
+        localStorage.removeItem('authToken');
+        sessionStorage.removeItem('authToken');
         setIsLoggedIn(false);
-        console.log("Logged out successfully");
+        console.log('Logged out successfully');
     };
+
+
 
     return (
         <nav className="navbar">
@@ -32,7 +70,16 @@ const Navbar = () => {
                 <div className={isLoggedIn ? 'auth-links-login' : 'auth-links'} >
                     {isLoggedIn ? (
                         <>
-                            <Link to="/profile" className="auth-button-login">โปรไฟล์</Link>
+                            <Link to="/profile" className="auth-button-login">
+                                <img src={avatar.profile_picture ? avatar.profile_picture:Avatar}
+                                    style={{
+                                        width: '40px',  // Controls the width of the avatar
+                                        height: '40px', // Controls the height of the avatar
+                                        borderRadius: '50%',  // Makes the avatar image round
+                                        objectFit: 'cover',  // Ensures the image is well-cropped inside the circle
+                                        border: '2px solid #fff', // Optional: Adds a white border around the image
+                                    }}></img>
+                            </Link>
                             <button onClick={handleLogout} className="auth-button-login">ล็อกเอาต์</button>
                         </>
                     ) : (

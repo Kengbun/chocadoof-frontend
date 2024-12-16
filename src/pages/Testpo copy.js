@@ -88,25 +88,27 @@ const Profile = () => {
                             }}
                         />
                         {/* ปุ่มแก้ไขรูปโปรไฟล์ */}
-                        <label
-                            htmlFor="profileImageInput"
-                            style={{
-                                position: 'absolute',
-                                top: '5px',
-                                right: '5px',
-                                backgroundColor: '#fff',
-                                borderRadius: '50%',
-                                width: '30px',
-                                height: '30px',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
-                                cursor: 'pointer',
-                            }}
-                        >
-                            <FontAwesomeIcon icon={faPen} />
-                        </label>
+                        {isEditing && (
+                            <label
+                                htmlFor="profileImageInput"
+                                style={{
+                                    position: 'absolute',
+                                    top: '5px',
+                                    right: '5px',
+                                    backgroundColor: '#fff',
+                                    borderRadius: '50%',
+                                    width: '30px',
+                                    height: '30px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
+                                    cursor: 'pointer',
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faPen} />
+                            </label>
+                        )}
                         {/* Input สำหรับเลือกไฟล์ */}
                         <input
                             type="file"
@@ -146,37 +148,7 @@ const Profile = () => {
                         </div>
                     )}
                 </div>
-
-                {/* การจัดการบทความ */}
-                {/* <div className="article-management">
-                    <h3>จัดการบทความ</h3>
-                    <button className="add-article-btn">เพิ่มบทความใหม่</button>
-                    <table className="article-table">
-                        <thead>
-                            <tr>
-                                <th>หัวข้อ</th>
-                                <th>หมวดหมู่</th>
-                                <th>วันที่</th>
-                                <th>การจัดการ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {articles.map((article, index) => (
-                                <tr key={index}>
-                                    <td>{article.title}</td>
-                                    <td>{article.category}</td>
-                                    <td>{article.date}</td>
-                                    <td>
-                                        <button className="edit-btn">แก้ไข</button>
-                                        <button className="delete-btn">ลบ</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div> */}
             </div>
-            {/* <Footer /> */}
         </div>
     );
 };
