@@ -1,180 +1,157 @@
-import React, { useEffect, useState } from 'react';
-import './Profile.css';
-import Footer from '../components/Footer';
-import ManageArticles from '../components/ManageArticles';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { use } from 'react';
-import Avatar from "../assets/avatar.png";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import './Profile.css';  // ใช้ไฟล์ CSS เดียวกันสำหรับสไตล์
 
-const apiUrl = process.env.REACT_APP_API;
 const Profile = () => {
+    const apiUrl = process.env.REACT_APP_API;
 
     const [user, setUser] = useState(null); // เก็บข้อมูลผู้ใช้
-    const [profilePicture, setProfilePicture] = useState(null); // เก็บรูปโปรไฟล์ผู้ใช้
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false); // โหมดแก้ไข
+    const [editedName, setEditedName] = useState(''); // ชื่อที่แก้ไข
+    const [profile_picture, setprofile_picture] = useState(null); // รูปโปรไฟล์ใหม่
+    const [previewImage, setPreviewImage] = useState(null); // ตัวอย่างรูป
 
     useEffect(() => {
         loadData();
     }, []);
 
     const loadData = async () => {
-        const token = localStorage.getItem('authToken'); // ดึง token จาก localStorage
-        try {
-            const res = await axios.get('/users/me', {
-                headers: { authToken: `Bearer ${token}` }, // ส่ง token ใน header
-            });
-            // console.log("dkdkdkdk"+res);
-            setUser(res.data); // ตั้งค่าผู้ใช้
-            console.log(res.data);
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            console.error('Token not found. Please log in again.');
+            return;
         }
-        catch (err) {
-            console.log(err);
+
+        try {
+            const res = await axios.get(`${apiUrl}/users/me`, {
+                headers: { authToken: `Bearer ${token}` },
+            });
+            setUser(res.data);
+            setEditedName(res.data.name);
+            setPreviewImage(res.data.profile_picture || 'https://via.placeholder.com/150');
+        } catch (err) {
+            if (err.response && err.response.status === 401) {
+                console.error('Unauthorized access. Please log in again.');
+            } else {
+                console.error('Error loading profile:', err.message);
+            }
+        }
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setprofile_picture(file);
+            const previewUrl = URL.createObjectURL(file);
+            setPreviewImage(previewUrl); // แสดงตัวอย่างรูปใหม่
+        }
+    };
+
+    const handleSave = async () => {
+        const token = localStorage.getItem('authToken');
+        const formData = new FormData();
+        formData.append('name', editedName);
+        if (profile_picture) {
+            formData.append('profile_picture', profile_picture);
+        }
+
+        try {
+            const res = await axios.put(`${apiUrl}/users/me`, formData, {
+                headers: {
+                    authToken: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            alert('บันทึกโปรไฟล์สำเร็จ');
+            setIsEditing(false);
+            loadData(); // โหลดข้อมูลใหม่
+        } catch (err) {
+            console.error('Error saving profile:', err);
+            alert('เกิดข้อผิดพลาดในการบันทึก');
         }
     };
 
     return (
-        // <div>
-        //     <div className="profile-container">
-        //     //         {/* ส่วนโปรไฟล์ผู้ใช้ */}
-        //     //         <div className="profile-header">
-        //     //             <img src={user.profilePicture ? user.profilePicture : Avatar} alt="Profile" className="profile-avatar" />
-        //     //             <p className="profile-email">{user.email}</p>
-        //     //             {/* <button
-        //     //                 className="profile-edit-btn"
-        //     //                 onClick={() => setIsEditing(!isEditing)} // เปิด/ปิดโหมดแก้ไข
-        //     //             >
-        //     //                 {isEditing ? 'ยกเลิก' : 'แก้ไขโปรไฟล์'}
-        //     //             </button> */}
-        //     //         </div>
+        <div className="profile-container">
+            {user && (
+                <>
+                    <div className="profile-header">
+                        {/* รูปโปรไฟล์ */}
+                        <div style={{ position: 'relative', display: 'inline-block' }}>
+                            <img
+                                src={previewImage}
+                                alt="Profile Preview"
+                                style={{
+                                    width: '150px',
+                                    height: '150px',
+                                    borderRadius: '50%',
+                                    objectFit: 'cover',
+                                }}
+                            />
+                            {isEditing && (
+                                <label
+                                    htmlFor="profile_pictureInput"
+                                    style={{
+                                        position: 'absolute',
+                                        top: '5px',
+                                        right: '5px',
+                                        backgroundColor: '#fff',
+                                        borderRadius: '50%',
+                                        width: '30px',
+                                        height: '30px',
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
+                                        cursor: 'pointer',
+                                    }}
+                                >
+                                    <FontAwesomeIcon icon={faPen} />
+                                </label>
+                            )}
+                            <input
+                                type="file"
+                                id="profile_pictureInput"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                style={{ display: 'none' }}
+                            />
+                        </div>
+                        <p className="profile-email">{user.email}</p>
+                        <button
+                            className="profile-edit-btn"
+                            onClick={() => setIsEditing(!isEditing)}
+                        >
+                            {isEditing ? 'ยกเลิก' : 'แก้ไขโปรไฟล์'}
+                        </button>
+                    </div>
 
-        //     //         {/* ข้อมูลบัญชี */}
-        //     //         <div className="profile-info">
-        //     //             <h3>ข้อมูลบัญชี</h3>
-        //     //             {!isEditing ? (
-        //     //                 // โหมดแสดงข้อมูล
-        //     //                 <div>
-        //     //                     <p><strong>ชื่อ :</strong> {user.name}</p>
-        //     //                     <p><strong>อีเมล :</strong> {user.email}</p>
-        //     //                 </div>
-        //     //             ) : (
-        //     //                 // โหมดแก้ไขข้อมูล
-        //     //                 <p>123</p>
-        //     //                 // <div>
-        //     //                 //     <p><strong>ชื่อ :</strong></p>
-        //     //                 //     <input
-        //     //                 //         type="text"
-        //     //                 //         value={editedName}
-        //     //                 //         onChange={(e) => setEditedName(e.target.value)} // อัปเดตชื่อที่แก้ไข
-        //     //                 //         className="edit-input"
-        //     //                 //     />
-        //     //                 //     <button className="save-btn" onClick={handleSave}>บันทึก</button>
-        //     //                 // </div>
-        //     //             )}
-        //     //         </div>
-
-        //     //         {/* การจัดการบทความ */}
-        //     //         {/* <div className="article-management">
-        //     //             <h3>จัดการบทความ</h3>
-        //     //             <button className="add-article-btn">เพิ่มบทความใหม่</button>
-        //     //             <table className="article-table">
-        //     //                 <thead>
-        //     //                     <tr>
-        //     //                         <th>หัวข้อ</th>
-        //     //                         <th>หมวดหมู่</th>
-        //     //                         <th>วันที่</th>
-        //     //                         <th>การจัดการ</th>
-        //     //                     </tr>
-        //     //                 </thead>
-        //     //                 <tbody>
-        //     //                     {articles.map((article, index) => (
-        //     //                         <tr key={index}>
-        //     //                             <td>{article.title}</td>
-        //     //                             <td>{article.category}</td>
-        //     //                             <td>{article.date}</td>
-        //     //                             <td>
-        //     //                                 <button className="edit-btn">แก้ไข</button>
-        //     //                                 <button className="delete-btn">ลบ</button>
-        //     //                             </td>
-        //     //                         </tr>
-        //     //                     ))}
-        //     //                 </tbody>
-        //     //             </table>
-        //     //         </div> */}
-        //     //         <ManageArticles />
-                
-        // </div>
-        // </div >
-        // <div>
-        //     <div className="profile-container">
-        //         {/* ส่วนโปรไฟล์ผู้ใช้ */}
-        //         <div className="profile-header">
-        //             <img src={user.avatar} alt="Profile" className="profile-avatar" />
-        //             <p className="profile-email">{user.email}</p>
-        //             {/* <button
-        //                 className="profile-edit-btn"
-        //                 onClick={() => setIsEditing(!isEditing)} // เปิด/ปิดโหมดแก้ไข
-        //             >
-        //                 {isEditing ? 'ยกเลิก' : 'แก้ไขโปรไฟล์'}
-        //             </button> */}
-        //         </div>
-
-        //         {/* ข้อมูลบัญชี */}
-        //         <div className="profile-info">
-        //             <h3>ข้อมูลบัญชี</h3>
-        //             {!isEditing ? (
-        //                 // โหมดแสดงข้อมูล
-        //                 <div>
-        //                     <p><strong>ชื่อ :</strong> {user.name}</p>
-        //                     <p><strong>อีเมล :</strong> {user.email}</p>
-        //                 </div>
-        //             ) : (
-        //                 // โหมดแก้ไขข้อมูล
-        //                 <p>123</p>
-        //                 // <div>
-        //                 //     <p><strong>ชื่อ :</strong></p>
-        //                 //     <input
-        //                 //         type="text"
-        //                 //         value={editedName}
-        //                 //         onChange={(e) => setEditedName(e.target.value)} // อัปเดตชื่อที่แก้ไข
-        //                 //         className="edit-input"
-        //                 //     />
-        //                 //     <button className="save-btn" onClick={handleSave}>บันทึก</button>
-        //                 // </div>
-        //             )}
-        //         </div>
-
-        //         {/* การจัดการบทความ */}
-        //         {/* <div className="article-management">
-        //             <h3>จัดการบทความ</h3>
-        //             <button className="add-article-btn">เพิ่มบทความใหม่</button>
-        //             <table className="article-table">
-        //                 <thead>
-        //                     <tr>
-        //                         <th>หัวข้อ</th>
-        //                         <th>หมวดหมู่</th>
-        //                         <th>วันที่</th>
-        //                         <th>การจัดการ</th>
-        //                     </tr>
-        //                 </thead>
-        //                 <tbody>
-        //                     {articles.map((article, index) => (
-        //                         <tr key={index}>
-        //                             <td>{article.title}</td>
-        //                             <td>{article.category}</td>
-        //                             <td>{article.date}</td>
-        //                             <td>
-        //                                 <button className="edit-btn">แก้ไข</button>
-        //                                 <button className="delete-btn">ลบ</button>
-        //                             </td>
-        //                         </tr>
-        //                     ))}
-        //                 </tbody>
-        //             </table>
-        //         </div> */}
-        //         <ManageArticles />
-        //     </div>
-        //     <Footer />
-        // </div>
+                    {/* ข้อมูลบัญชี */}
+                    <div className="profile-info">
+                        <h3>ข้อมูลบัญชี</h3>
+                        {!isEditing ? (
+                            <div>
+                                <p><strong>ชื่อ :</strong> {user.name}</p>
+                                <p><strong>อีเมล :</strong> {user.email}</p>
+                            </div>
+                        ) : (
+                            <div>
+                                <p><strong>ชื่อ :</strong></p>
+                                <input
+                                    type="text"
+                                    value={editedName}
+                                    onChange={(e) => setEditedName(e.target.value)}
+                                    className="edit-input"
+                                />
+                                <button className="save-btn" onClick={handleSave}>บันทึก</button>
+                            </div>
+                        )}
+                    </div>
+                </>
+            )}
+        </div>
     );
 };
 

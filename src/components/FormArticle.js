@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-// import './ArticleForm.css';
 
 const FormArticle = () => {
     const apiUrl = process.env.REACT_APP_API;
@@ -14,7 +13,7 @@ const FormArticle = () => {
     });
 
     const [selectedCoverImage, setSelectedCoverImage] = useState(null); // แสดงภาพหน้าปก
-    const [selectedcontentImage, setSelectedcontentImage] = useState(null); // แสดงภาพเพิ่มเติม
+    const [selectedContentImage, setSelectedContentImage] = useState(null); // แสดงภาพเพิ่มเติม
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -39,12 +38,12 @@ const FormArticle = () => {
         }
     };
 
-    const handlecontentImageChange = (e) => {
+    const handleContentImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setSelectedcontentImage(reader.result);
+                setSelectedContentImage(reader.result);
             };
             reader.readAsDataURL(file);
             setFormData({
@@ -62,28 +61,33 @@ const FormArticle = () => {
             return;
         }
 
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            alert('กรุณาเข้าสู่ระบบ');
+            return;
+        }
+
         const payload = new FormData();
         payload.append('title', formData.title);
         payload.append('category', formData.category);
         payload.append('content', formData.content);
         payload.append('coverImage', formData.coverImage);
         payload.append('contentImage', formData.contentImage);
-        // if (formData.contentImage) {
-        //     payload.append('contentImage', formData.contentImage);
-        // }
 
         try {
             const response = await axios.post(`${apiUrl}/article/`, payload, {
-                headers: { 'Content-Type': 'multipart/form-data' },
+                headers: {
+                    'authtoken': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                },
             });
             alert('บทความถูกบันทึกเรียบร้อยแล้ว!');
             console.log('Response:', response.data);
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error:', error.response ? error.response.data : error.message);
             alert('เกิดข้อผิดพลาดในการบันทึกบทความ');
         }
     };
-
 
     return (
         <div className="form-container">
@@ -131,13 +135,13 @@ const FormArticle = () => {
                     <input
                         type="file"
                         name="contentImage"
-                        onChange={handlecontentImageChange}
+                        onChange={handleContentImageChange}
                     />
-                    {selectedcontentImage && (
+                    {selectedContentImage && (
                         <div>
                             <h3>ตัวอย่างรูปภาพเพิ่มเติม:</h3>
                             <img
-                                src={selectedcontentImage}
+                                src={selectedContentImage}
                                 alt="Additional Image Preview"
                                 style={{ width: '200px', height: 'auto', objectFit: 'cover' }}
                             />
@@ -147,7 +151,6 @@ const FormArticle = () => {
                 <div className="form-group">
                     <label htmlFor="content">เนื้อหาบทความ:</label>
                     <textarea
-                       
                         name="content"
                         value={formData.content}
                         onChange={handleChange}
