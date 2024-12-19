@@ -1,7 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const FormArticle = () => {
+    const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API;
 
     const [formData, setFormData] = useState({
@@ -81,6 +83,7 @@ const FormArticle = () => {
                     'Content-Type': 'multipart/form-data'
                 },
             });
+            navigate('/profile');
             alert('บทความถูกบันทึกเรียบร้อยแล้ว!');
             console.log('Response:', response.data);
         } catch (error) {

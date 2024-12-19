@@ -20,6 +20,8 @@ import AdminDashboard from './pages/AdminDashboard';
 import FormArticle from "./components/FormArticle";
 import FormEditArticle from "./components/FormEditArticle";
 import ManageArticles from "./components/ManageArticles";
+import FormEditProfile from "./components/FormEditProfile";
+import FormProduct from "./components/FormProduct";
 
 
 
@@ -29,6 +31,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/formproduct" element={<FormProduct />} />
         <Route path="/products" element={<Products />} />
         <Route path="/productdetail" element={<ProductDetail />} />
         <Route path="/articles" element={<Articles />} />
@@ -44,6 +47,7 @@ function App() {
         <Route path="/managearticles" element={<ManageArticles />} />
         <Route path="/edit/:id" element={<FormEditArticle />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/editprofile" element={<FormEditProfile />} />
         <Route path="/verify-email/:token" element={<VerifyEmail />} />
         <Route path="/admindashboard" element={<AdminDashboard />} />
         <Route path="*" element={<Navigate to="/" />} />

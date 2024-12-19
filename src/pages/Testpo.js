@@ -1,57 +1,81 @@
-import React, { useEffect, useState } from "react";
-import axios from "../confix/axios";
-import "./Profile.css";
-import Footer from "../components/Footer";
-import avatar from "../assets/avatar.png";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import './Profile.css';  // ใช้ไฟล์ CSS เดียวกันสำหรับสไตล์
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
-    const [user, setUser] = useState(null); // เก็บข้อมูลผู้ใช้
-    const [loading, setLoading] = useState(true); // สถานะการโหลด
-    const [error, setError] = useState(null); // เก็บข้อผิดพลาด
+    const apiUrl = process.env.REACT_APP_API;
+
+    const [user, setUser] = useState({
+        name: "",
+        email: "",
+        profile_picture: ""
+    }); // เก็บข้อมูลผู้ใช้
 
     useEffect(() => {
-        const fetchProfile = async () => {
-            const token = localStorage.getItem('authToken'); // ดึง token จาก localStorage
-            if (!token) {
-                setError('User is not authenticated.');
-                setLoading(false);
-                return;
-            }
-
-            try {
-                const res = await axios.get('/users/me', {
-                    headers: { authToken: `Bearer ${token}` }, // ส่ง token ใน header
-                });
-                setUser(res.data); // ตั้งค่าผู้ใช้
-            } catch (err) {
-                setError('Failed to fetch user data.');
-            } finally {
-                setLoading(false);
-            }
-            console.log(user);
-        };
-
-        fetchProfile();
+        loadData();
     }, []);
 
-    if (loading) {
-        return <p>Loading...</p>;
-    }
+    const loadData = async () => {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            console.error('Token not found. Please log in again.');
+            return;
+        }
 
-    if (error) {
-        return <p>Error: {error}</p>;
-    }
+        try {
+            const res = await axios.get(`${apiUrl}/users/me`, {
+                headers: { authToken: `Bearer ${token}` },
+            });
+            console.log(res.data);
+            setUser(res.data);
+
+        } catch (err) {
+            if (err.response && err.response.status === 401) {
+                console.error('Unauthorized access. Please log in again.');
+            } else {
+                console.error('Error loading profile:', err.message);
+            }
+        }
+    };
+
+
+
+
+
+
+
 
     return (
-        <div>
-            <div className="profile-container">
-                <div className="profile-header">
-                    <img src={user.profile_picture ? user.profile_picture : avatar} alt="Profile Avatar" className="profile-avatar" />
-                    <h1>{user.name}</h1>
-                    <p>{user.email}</p>
+        <div className="profile-container">
+            <div className="profile-header">
+                <div style={{ position: 'relative', display: 'inline-block' }}>
+                    <img
+                        src={user.profile_picture || 'https://via.placeholder.com/150'}
+                        alt="Profile Preview"
+                        style={{
+                            width: '150px',
+                            height: '150px',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                        }}
+                    />
+                    <p className="profile-email">{user.email}</p>
+                    <Link>
+                        <button className="profile-edit-btn">แก้ไขโปรไฟล์</button>
+                    </Link>
                 </div>
             </div>
-            <Footer />
+                {/* ข้อมูลบัญชี */}
+                <div className="profile-info">
+                    <h3>ข้อมูลบัญชี</h3>
+                    <div>
+                        <p><strong>ชื่อ :</strong> {user.name}</p>
+                        <p><strong>อีเมล :</strong> {user.email}</p>
+                    </div>
+                </div>
         </div>
     );
 };
