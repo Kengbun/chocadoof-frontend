@@ -22,6 +22,8 @@ import FormEditArticle from "./components/FormEditArticle";
 import ManageArticles from "./components/ManageArticles";
 import FormEditProfile from "./components/FormEditProfile";
 import FormProduct from "./components/FormProduct";
+import ManageProducts from "./components/ManageProducts";
+import FormEditProduct from "./components/FormEditProduct";
 
 
 
@@ -32,6 +34,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/formproduct" element={<FormProduct />} />
+        <Route path="/formeditproduct/:id" element={<FormEditProduct />} />
         <Route path="/products" element={<Products />} />
         <Route path="/productdetail" element={<ProductDetail />} />
         <Route path="/articles" element={<Articles />} />
@@ -45,6 +48,7 @@ function App() {
         <Route path="/ttc" element={<Testpocopy />} />
         <Route path="/formarticle" element={<FormArticle />} />
         <Route path="/managearticles" element={<ManageArticles />} />
+        <Route path="/manageproducts" element={<ManageProducts />} />
         <Route path="/edit/:id" element={<FormEditArticle />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/editprofile" element={<FormEditProfile />} />

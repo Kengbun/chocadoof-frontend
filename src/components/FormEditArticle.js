@@ -100,6 +100,7 @@ const FormEditArticle = () => {
 
     return (
         <div className="form-container">
+            <h2>แก้ไข้ข้อมูลบทความ</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="title">หัวข้อบทความ :</label>
@@ -108,7 +109,6 @@ const FormEditArticle = () => {
                         name="title"
                         value={data.title}
                         onChange={handleChange}
-                        placeholder="กรอกหัวข้อบทความ"
                     />
                 </div>
                 <div className="form-group">
@@ -118,7 +118,6 @@ const FormEditArticle = () => {
                         name="category"
                         value={data.category}
                         onChange={handleChange}
-                        placeholder="กรอกหมวดหมู่"
                     />
                 </div>
                 <div className="form-group">
@@ -163,7 +162,6 @@ const FormEditArticle = () => {
                         name="content"
                         value={data.content}
                         onChange={handleChange}
-                        placeholder="เขียนเนื้อหาบทความที่นี่"
                         rows="5"
                     ></textarea>
                 </div>
