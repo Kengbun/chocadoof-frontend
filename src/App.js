@@ -24,6 +24,7 @@ import FormEditProfile from "./components/FormEditProfile";
 import FormProduct from "./components/FormProduct";
 import ManageProducts from "./components/ManageProducts";
 import FormEditProduct from "./components/FormEditProduct";
+import FormReview from "./components/FormReview";
 
 
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/formeditproduct/:id" element={<FormEditProduct />} />
         <Route path="/products" element={<Products />} />
         <Route path="/productdetail" element={<ProductDetail />} />
+        <Route path="/formreview/:id" element={<FormReview />} />
         <Route path="/articles" element={<Articles />} />
         <Route path="/articledetail" element={<ArticleDetail />} />
         <Route path="/articleform" element={<ArticleForm />} />
@@ -44,7 +46,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/tt" element={<Testpo />} />
+        <Route path="/tt/:id" element={<Testpo />} />
         <Route path="/ttc" element={<Testpocopy />} />
         <Route path="/formarticle" element={<FormArticle />} />
         <Route path="/managearticles" element={<ManageArticles />} />

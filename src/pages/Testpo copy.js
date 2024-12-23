@@ -1,156 +1,72 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import Footer from '../components/Footer.js';
+import img from '../assets/imgProduct/img.jpg';
+import Banner from '../components/Banner.js';
+
+import './Products.css';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
-import './Profile.css';  // ใช้ไฟล์ CSS เดียวกันสำหรับสไตล์
 
-const Profile = () => {
-    // กำหนดข้อมูลผู้ใช้งานใน state
-    const [user, setUser] = useState({
-        name: 'John Doe',
-        email: 'user@example.com',
-        avatar: 'https://picsum.photos/200/300',  // รูปโปรไฟล์เริ่มต้น
-    });
+const Products = () => {
+    const apiUrl = process.env.REACT_APP_API;
+    const token = localStorage.getItem('authToken');
+    const [data, setData] = useState([]);
 
-    // กำหนด state สำหรับการแก้ไขข้อมูล
-    const [isEditing, setIsEditing] = useState(false); // ใช้ตรวจสอบว่ากำลังแก้ไขหรือไม่
-    const [editedName, setEditedName] = useState(user.name); // ชื่อที่แก้ไข
 
-    // ฟังก์ชันบันทึกข้อมูล
-    const handleSave = () => {
-        setUser((prevUser) => ({
-            ...prevUser,
-            name: editedName, // อัปเดตชื่อใหม่
-        }));
-        setIsEditing(false); // ปิดโหมดแก้ไข
-    };
+    useEffect(() => {
+        loadData();
+        console.log(data);
+    }, []);
 
-    // ฟังก์ชันจัดการการเปลี่ยนรูปโปรไฟล์
-    const handleAvatarUpdate = (newAvatarUrl) => {
-        setUser((prevUser) => ({
-            ...prevUser,
-            avatar: newAvatarUrl, // อัปเดตรูปโปรไฟล์ใหม่
-        }));
-    };
-
-    // ฟังก์ชันที่จัดการเมื่อเลือกไฟล์รูปโปรไฟล์ใหม่
-    const [profileImage, setProfileImage] = useState(null);
-    const [previewImage, setPreviewImage] = useState(user.avatar);
-
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setProfileImage(file);
-            const previewUrl = URL.createObjectURL(file);
-            setPreviewImage(previewUrl); // อัปเดตตัวอย่างภาพ
-        }
-    };
-
-    // ฟังก์ชันที่ส่งข้อมูลไปยังเซิร์ฟเวอร์
-    const handleSubmit = async () => {
-        if (!profileImage) {
-            alert('กรุณาเลือกไฟล์ก่อนบันทึก!');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('profileImage', profileImage);
-
+    const loadData = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/profile/upload', formData, {
+            const response = await axios.get(apiUrl + "/products/lists", {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+                    'authToken': `Bearer ${token}`
+                }
             });
-            alert('อัปเดตรูปโปรไฟล์สำเร็จ!');
-            console.log('Response:', response.data);
-            handleAvatarUpdate(response.data.avatarUrl); // อัปเดตรูปโปรไฟล์ที่ใหม่
+            setData(response.data);
         } catch (error) {
-            console.error('Error uploading profile image:', error);
-            alert('เกิดข้อผิดพลาดในการอัปเดตรูปโปรไฟล์');
+            console.error("Error loading data:", error);
         }
+    }
+
+    // สถานะสำหรับจัดการจำนวนสินค้าที่แสดง
+    const [visibleProducts, setVisibleProducts] = useState(5);
+
+    // ฟังก์ชันสำหรับโหลดสินค้าเพิ่มเติม
+    const loadMoreProducts = () => {
+        setVisibleProducts((prev) => prev + 10); // เพิ่ม 10 ชิ้นต่อการกดครั้งหนึ่ง
     };
 
     return (
         <div>
-            <div className="profile-container">
-                <div className="profile-header">
-                    {/* รูปโปรไฟล์ */}
-                    <div style={{ position: 'relative', display: 'inline-block' }}>
-                        <img
-                            src={previewImage}
-                            alt="Profile Preview"
-                            style={{
-                                width: '150px',
-                                height: '150px',
-                                borderRadius: '50%',
-                                objectFit: 'cover',
-                            }}
-                        />
-                        {/* ปุ่มแก้ไขรูปโปรไฟล์ */}
-                        {isEditing && (
-                            <label
-                                htmlFor="profileImageInput"
-                                style={{
-                                    position: 'absolute',
-                                    top: '5px',
-                                    right: '5px',
-                                    backgroundColor: '#fff',
-                                    borderRadius: '50%',
-                                    width: '30px',
-                                    height: '30px',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
-                                    cursor: 'pointer',
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faPen} />
-                            </label>
-                        )}
-                        {/* Input สำหรับเลือกไฟล์ */}
-                        <input
-                            type="file"
-                            id="profileImageInput"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            style={{ display: 'none' }} // ซ่อน Input ไว้
-                        />
+            <Banner />
+            <div className="product-page">
+                <h1 className="page-title">สินค้า</h1>
+                <div className="product-filter">
+                    <span>เรียงโดย: ยอดนิยม ล่าสุด สุนัข แมว</span>
+                </div>
+                <div className="product-list">
+                    {data.slice(0, visibleProducts).map((data, index) => (
+                        <div key={index} className="product-card">
+                            <img src={data.main_image} alt={data.product_name} />
+                            <h3>{data.product_name}</h3>
+                            <div className="product-rating">
+                                {"⭐".repeat()}
+                            </div>
+                            <button className='product-btn'>ดูสินค้า</button>
+                        </div>
+                    ))}
+                </div>
+                {visibleProducts < data.length && ( // แสดงปุ่ม "โหลดเพิ่ม" หากมีสินค้าเหลือ
+                    <div className="load-more">
+                        <button onClick={loadMoreProducts}>เพิ่มเติม</button>
                     </div>
-                    <p className="profile-email">{user.email}</p>
-                    <button
-                        className="profile-edit-btn"
-                        onClick={() => setIsEditing(!isEditing)} // เปิด/ปิดโหมดแก้ไข
-                    >
-                        {isEditing ? 'ยกเลิก' : 'แก้ไขโปรไฟล์'}
-                    </button>
-                </div>
-
-                {/* ข้อมูลบัญชี */}
-                <div className="profile-info">
-                    <h3>ข้อมูลบัญชี</h3>
-                    {!isEditing ? (
-                        <div>
-                            <p><strong>ชื่อ :</strong> {user.name}</p>
-                            <p><strong>อีเมล :</strong> {user.email}</p>
-                        </div>
-                    ) : (
-                        <div>
-                            <p><strong>ชื่อ :</strong></p>
-                            <input
-                                type="text"
-                                value={editedName}
-                                onChange={(e) => setEditedName(e.target.value)} // อัปเดตชื่อที่แก้ไข
-                                className="edit-input"
-                            />
-                            <button className="save-btn" onClick={handleSave}>บันทึก</button>
-                        </div>
-                    )}
-                </div>
+                )}
             </div>
+            <Footer />
         </div>
     );
 };
 
-export default Profile;
+export default Products;

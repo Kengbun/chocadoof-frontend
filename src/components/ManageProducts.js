@@ -8,7 +8,7 @@ const ManageProducts = () => {
     const apiUrl = process.env.REACT_APP_API;
     const [data, setData] = useState([]);
     // สถานะสำหรับจัดการจำนวนสินค้าที่แสดง
-    const [visibleProducts, setVisibleProducts] = useState(2);
+    const [visibleProducts, setVisibleProducts] = useState(10);
 
     // โหลดข้อมูล
     useEffect(() => {
