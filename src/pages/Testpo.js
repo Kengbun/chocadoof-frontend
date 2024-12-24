@@ -1,19 +1,19 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import img from '../components/cat.jpg';
+import img2 from '../components/cat2.jpg';
+import img3 from '../assets/Articledetail.jpg';
+import Footer from '../components/Footer';
+import Article from '../components/Article'
+import './Articles.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+// import st from './Articles.modul.css'
 
-const Testpo = () => {
-    const params = useParams();
+const Articles = () => {
+    const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API;
 
-    const [product, setProduct] = useState(null);
-    const [review, setReview] = useState([]);
-    const [mainImage, setMainImage] = useState(''); // ตั้งค่าเริ่มต้นเป็นรูป placeholder หรือ ''
-    const [rating, setRating] = useState(0);
-    const [averageRating, setAverageRating] = useState(0);
-    
+    const [articles, setArticles] = useState([]);
 
     useEffect(() => {
         loadData();
@@ -21,93 +21,72 @@ const Testpo = () => {
 
     const loadData = async () => {
         try {
-            const response = await axios.get(apiUrl + '/products/Details/' + params.id);
-            setProduct(response.data.product);
-            setReview(response.data.reviews);
-            setAverageRating(response.data.averageRating);
-            // const averageRating = (response.data.averageRating);
+            const response = await axios.get(apiUrl + "/article")
+            setArticles(response.data);
+            console.log(response.data);
         } catch (err) {
-            console.log(err);
+            console.log(err)
         }
-    };
-
-    // ตั้งค่า mainImage หลังจาก product โหลดเสร็จ
-    useEffect(() => {
-        if (product) {
-            setMainImage(product.main_image);
-        }
-    }, [product]);
-
-    if (!product) {
-        return <p>กำลังโหลดข้อมูล...</p>;
     }
+    // สถานะสำหรับจัดการจำนวนบทความ
+    const [visible, setVisibleArticles] = useState(5);
 
-
-    // ฟังก์ชันแปลงคะแนนเป็นจำนวนดาว
-    const getStars = (rating) => {
-        let stars = [];
-        for (let i = 0; i < 5; i++) {
-            stars.push(
-                <FontAwesomeIcon
-                    key={i}
-                    icon={faStar}
-                    className={i < rating ? 'selected' : ''}
-                    onClick={() => setRating(i + 1)} // เมื่อคลิกที่ดาว จะเปลี่ยนคะแนน
-                    style={{ cursor: 'pointer', color: i < rating ? '#ffd700' : '#ddd' }}
-                />
-            );
-        }
-        return stars;
+    // ฟังก์ชันสำหรับโหลดบทความเพิ่มเติม
+    const loadMoreArticles = () => {
+        setVisibleArticles((prev) => prev + 10); // เพิ่ม 5 ชิ้นต่อการกดครั้งหนึ่ง
     };
 
-    
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('th-TH', {
+            day: '2-digit', // วันที่ 2 หลัก
+            month: 'short', // เดือนแบบย่อ (เช่น ธ.ค.)
+            year: 'numeric' // ปี พ.ศ.
+        });
+    };
 
     return (
         <div>
-            <div className="product-detail-container">
-
-                <div className="product-detail">
-
-                    {/* ส่วนแสดงภาพสินค้า */}
-                    <div className="product-gallery">
-                        <img src={mainImage} alt="สินค้า" className="main-product-image" />
-                        <div className="thumbnail-gallery">
-                            <img
-                                src={product.main_image}
-                                alt="ตัวอย่าง 1"
-                                className="thumbnail"
-                                onClick={() => setMainImage(product.main_image)}
-                            />
-                            <img
-                                src={product.additional_image_1}
-                                alt="ตัวอย่าง 2"
-                                className="thumbnail"
-                                onClick={() => setMainImage(product.additional_image_1)}
-                            />
-                            <img
-                                src={product.additional_image_2}
-                                alt="ตัวอย่าง 3"
-                                className="thumbnail"
-                                onClick={() => setMainImage(product.additional_image_2)}
-                            />
-                        </div>
-                    </div>
-                    {/* ส่วนรายละเอียดสินค้า */}
-                    <div className="product-info">
-                        <h1>{product.product_name}</h1>
-                        <p className="product-rating">
-                            {/* เพิ่มดาวตามคะแนนเฉลี่ย */}
-                            {getStars(Math.round(averageRating))}
-                        </p>
-                        <p className="product-description">
-                            {product.short_description}
-                        </p>
-                    </div>
+            {/* ส่วนแสดงบทความเด่น */}
+            <div className="article-highlight">
+                <div className="article-image">
+                    <img src={img3} alt="บทความ" />
+                </div>
+                <div className="article-overlay">
+                    <h3>ทำไมแมวชอบคาบอะไรแปลก ๆ มาฝากทาส</h3>
                 </div>
             </div>
-        </div>
+            {/* <Article className='{st.list}'/> */}
 
+            <div className="list-grid">
+                {articles.slice(0, visible).map((article) => (
+                    <div className="article-card" key={article.id}>
+                        <img src={article.coverImage} alt={article.title} />
+                        <h3>{article.title}</h3>
+                        <p>{article.content}</p>
+                        <div className="profile">
+                            <div className="author-profile">
+                                <img src={article.author.profile_picture} alt={article.author.profile_picture} />
+                            </div>
+                            <div className="author-profile-name">
+                                <span>{article.author.name}</span>
+                                <span>{formatDate(article.createdAt)}</span>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* ปุ่มโหลดเพิ่ม */}
+            {visible < articles.length && (
+                <div className="load-more">
+                    <button onClick={loadMoreArticles}>โหลดเพิ่ม</button>
+                </div>
+            )}
+
+            <Footer />
+        </div>
     );
 };
 
-export default Testpo;
+export default Articles;

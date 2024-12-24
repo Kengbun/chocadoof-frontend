@@ -1,105 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import img from '../components/cat.jpg';
 import img2 from '../components/cat2.jpg';
 import img3 from '../assets/Articledetail.jpg';
 import Footer from '../components/Footer';
 import Article from '../components/Article'
-import './Articles.css'; 
+import './Articles.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 // import st from './Articles.modul.css'
 
 const Articles = () => {
+    const navigate = useNavigate();
+    const apiUrl = process.env.REACT_APP_API;
+
+    const [articles, setArticles] = useState([]);
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    const loadData = async () => {
+        try {
+            const response = await axios.get(apiUrl + "/article")
+            setArticles(response.data);
+            console.log(response.data);
+        } catch (err) {
+            console.log(err)
+        }
+    }
     // สถานะสำหรับจัดการจำนวนบทความ
     const [visible, setVisibleArticles] = useState(5);
 
     // ฟังก์ชันสำหรับโหลดบทความเพิ่มเติม
     const loadMoreArticles = () => {
-        setVisibleArticles((prev) => prev + 5); // เพิ่ม 5 ชิ้นต่อการกดครั้งหนึ่ง
+        setVisibleArticles((prev) => prev + 10); // เพิ่ม 5 ชิ้นต่อการกดครั้งหนึ่ง
     };
 
-    const articles = [
-        {
-            id: 1,
-            title: 'ทำไมแมวชอบ...',
-            content: 'ทำไมแมวชอบขนมอะไรแปลก ๆ มหาศาล',
-            image: img,
-            author: 'Dasteen',
-            author_image: img2,
-            date: 'Jan 10, 2022',
-        },
-        {
-            id: 2,
-            title: 'ทำไมสุนัขถึงชอบ...',
-            content: 'มองหาคำตอบของนิสัยสุนัขที่น่าสนใจ',
-            image: img,
-            author: 'Dasteen',
-            author_image: img2,
-            date: 'Jan 15, 2022',
-        },
-        {
-            id: 2,
-            title: 'ทำไมสุนัขถึงชอบ...',
-            content: 'มองหาคำตอบของนิสัยสุนัขที่น่าสนใจ',
-            image: img,
-            author: 'Dasteen',
-            author_image: img2,
-            date: 'Jan 15, 2022',
-        },
-        {
-            id: 2,
-            title: 'ทำไมสุนัขถึงชอบ...',
-            content: 'มองหาคำตอบของนิสัยสุนัขที่น่าสนใจ',
-            image: img,
-            author: 'Dasteen',
-            author_image: img2,
-            date: 'Jan 15, 2022',
-        },
-        {
-            id: 2,
-            title: 'ทำไมสุนัขถึงชอบ...',
-            content: 'มองหาคำตอบของนิสัยสุนัขที่น่าสนใจ',
-            image: img,
-            author: 'Dasteen',
-            author_image: img2,
-            date: 'Jan 15, 2022',
-        },
-        {
-            id: 2,
-            title: 'ทำไมสุนัขถึงชอบ...',
-            content: 'มองหาคำตอบของนิสัยสุนัขที่น่าสนใจ',
-            image: img,
-            author: 'Dasteen',
-            author_image: img2,
-            date: 'Jan 15, 2022',
-        },
-        {
-            id: 2,
-            title: 'ทำไมสุนัขถึงชอบ...',
-            content: 'มองหาคำตอบของนิสัยสุนัขที่น่าสนใจ',
-            image: img,
-            author: 'Dasteen',
-            author_image: img2,
-            date: 'Jan 15, 2022',
-        },
-        {
-            id: 2,
-            title: 'ทำไมสุนัขถึงชอบ...',
-            content: 'มองหาคำตอบของนิสัยสุนัขที่น่าสนใจ',
-            image: img,
-            author: 'Dasteen',
-            author_image: img2,
-            date: 'Jan 15, 2022',
-        },
-        {
-            id: 2,
-            title: 'ทำไมสุนัขถึงชอบ...',
-            content: 'มองหาคำตอบของนิสัยสุนัขที่น่าสนใจ',
-            image: img,
-            author: 'Dasteen',
-            author_image: img2,
-            date: 'Jan 15, 2022',
-        },
-        // เพิ่มข้อมูลบทความเพิ่มเติมตามต้องการ
-    ];
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('th-TH', {
+            day: '2-digit', // วันที่ 2 หลัก
+            month: 'short', // เดือนแบบย่อ (เช่น ธ.ค.)
+            year: 'numeric' // ปี พ.ศ.
+        });
+    };
 
     return (
         <div>
@@ -113,20 +57,20 @@ const Articles = () => {
                 </div>
             </div>
             {/* <Article className='{st.list}'/> */}
-            
+
             <div className="list-grid">
                 {articles.slice(0, visible).map((article) => (
                     <div className="article-card" key={article.id}>
-                        <img src={article.image} alt={article.title} />
+                        <img src={article.coverImage} alt={article.title} />
                         <h3>{article.title}</h3>
                         <p>{article.content}</p>
                         <div className="profile">
                             <div className="author-profile">
-                                <img src={article.author_image} alt={article.author} />
+                                <img src={article.author.profile_picture} alt={article.author.profile_picture} />
                             </div>
                             <div className="author-profile-name">
-                                <span>{article.author}</span>
-                                <span>{article.date}</span>
+                                <span>{article.author.name}</span>
+                                <span>{formatDate(article.createdAt)}</span>
                             </div>
                         </div>
                     </div>

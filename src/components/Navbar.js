@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import Logo from "../assets/logo3.png";
 import Avatar from "../assets/avatar.png";
@@ -7,20 +7,16 @@ import axios from 'axios';
 
 // const Avatar = "https://picsum.photos/200/300" 
 const Navbar = () => {
-    // สถานะการล็อกอิน (ตัวอย่าง: true ถ้าล็อกอิน, false ถ้ายังไม่ล็อกอิน)
+    const navigate = useNavigate();
+    // สถานะการล็อกอิน 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [avatar, setAvatar] = useState(Avatar); // เก็บข้อมูลผู้ใช้
 
     useEffect(() => {
-        // ตรวจสอบสถานะการล็อกอินโดยการตรวจสอบ token ใน localStorage
-        const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+        
         // console.log(token);
 
-        if (token) {
-            setIsLoggedIn(true);
-        } else {
-            setIsLoggedIn(false);
-        }
+        checkLoginStatus();
         
         const avatar = async () => {
             const token = localStorage.getItem('authToken'); // ดึง token จาก localStorage
@@ -40,13 +36,18 @@ const Navbar = () => {
         avatar();
         
     }, []);
+    const checkLoginStatus = () => {
+        const token = localStorage.getItem('authToken');
+        setIsLoggedIn(!!token); // แปลง Token ให้เป็น Boolean
+    }
 
     const handleLogout = () => {
         // ลบ token เมื่อผู้ใช้ทำการล็อกเอาต์
         localStorage.removeItem('authToken');
-        sessionStorage.removeItem('authToken');
+        // sessionStorage.removeItem('authToken');
         setIsLoggedIn(false);
         console.log('Logged out successfully');
+        navigate("/"); 
     };
 
 

@@ -37,7 +37,7 @@ function App() {
         <Route path="/formproduct" element={<FormProduct />} />
         <Route path="/formeditproduct/:id" element={<FormEditProduct />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/productdetail" element={<ProductDetail />} />
+        <Route path="/productdetail/:id" element={<ProductDetail />} />
         <Route path="/formreview/:id" element={<FormReview />} />
         <Route path="/articles" element={<Articles />} />
         <Route path="/articledetail" element={<ArticleDetail />} />
@@ -46,7 +46,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/tt/:id" element={<Testpo />} />
+        <Route path="/tt" element={<Testpo />} />
         <Route path="/ttc" element={<Testpocopy />} />
         <Route path="/formarticle" element={<FormArticle />} />
         <Route path="/managearticles" element={<ManageArticles />} />

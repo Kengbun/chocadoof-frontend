@@ -23,7 +23,9 @@
     box-shadow: 0 2px 5px #0000007a;
     border-radius: 20px;
     padding: 5px 8px;
+    margin-left: 10px;
 }
+
 
 /* จัดการสินค้า */
 .product-list {
@@ -99,4 +101,15 @@
 
 .load-more button:hover {
     background-color: #ff9900;
+}
+
+.button-filter {
+    background: #fff;
+    font-weight: 700;
+    box-shadow: 0 2px 5px #0000007a;
+    border-radius: 20px;
+    border: 0px;
+    padding: 5px 8px;
+    margin-left: 10px;
+    cursor: pointer;
 }
