@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import HomeImg from '../assets/home.jpg'
 import Banner from '../components/Banner.js';
-import Product from '../components/Product.js';
-import Article from '../components/Article.js';
+import Product from './Products.js';
+import Article from './Articles.js';
 import './Home.css'
 import royal from '../assets/brand_img/royal.png';
 import nekko from '../assets/brand_img/nekko.png';
@@ -16,6 +16,7 @@ import monchou from '../assets/brand_img/monchou.png';
 import moochie from '../assets/brand_img/moochie.png';
 import Chocadoof from '../assets/logo3.png';
 import Footer from '../components/Footer.js';
+import TT from './Testpo.js'
 
 const Home = () => {
     return (
@@ -44,6 +45,7 @@ const Home = () => {
 
             {/* product&article */}
             <hr width="85%" align="center" size="2px" noshade color="black"></hr>
+            {/* <TT/> */}
             <Product />
             <Article />
             <hr width="85%" align="center" size="2px" noshade color="black"></hr>

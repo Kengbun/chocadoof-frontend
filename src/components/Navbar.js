@@ -68,25 +68,20 @@ const Navbar = () => {
                     <li><Link to="/about">เกี่ยวกับเรา</Link></li>
                     <li><Link to="/contact">ติดต่อ</Link></li>
                 </ul>
-                <div className={isLoggedIn ? 'auth-links-login' : 'auth-links'} >
+                <div className={isLoggedIn ? 'nav-login' : 'nav-links'} >
                     {isLoggedIn ? (
                         <>
-                            <Link to="/profile" className="auth-button-login">
+                            <Link to="/profile" className="nav-button-login">
                                 <img src={avatar.profile_picture ? avatar.profile_picture:Avatar}
-                                    style={{
-                                        width: '40px',  // Controls the width of the avatar
-                                        height: '40px', // Controls the height of the avatar
-                                        borderRadius: '50%',  // Makes the avatar image round
-                                        objectFit: 'cover',  // Ensures the image is well-cropped inside the circle
-                                        border: '2px solid #fff', // Optional: Adds a white border around the image
-                                    }}></img>
+                                    className='nav-avatar'
+                                    />
                             </Link>
-                            <button onClick={handleLogout} className="auth-button-login">ล็อกเอาต์</button>
+                            <button onClick={handleLogout} className="nav-button">ออกจากระบบ</button>
                         </>
                     ) : (
                         <>
-                            <Link to="/login" className="auth-button">เข้าสู่ระบบ</Link>
-                            <Link to="/signup" className="auth-button">สมัครสมาชิก</Link>
+                            <Link to="/login" className="nav-button">เข้าสู่ระบบ</Link>
+                            <Link to="/signup" className="nav-button">สมัครสมาชิก</Link>
                         </>
                     )}
                 </div>

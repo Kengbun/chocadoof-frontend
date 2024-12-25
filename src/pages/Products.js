@@ -7,7 +7,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 import './Products.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Products = () => {
     const navigate = useNavigate();
@@ -74,41 +74,70 @@ const Products = () => {
         }
         setProducts(sorted);
     };
+    const location = useLocation();
+    // const isHomePage = location.pathname === '/'; // ตรวจสอบว่าหน้าปัจจุบันคือหน้า Home
 
     return (
         <div>
-            <Banner />
-            <div className="product-page">
-                <h1 className="page-title">สินค้า</h1>
-                <div className="product-filter">
-                    <span>เรียงโดย:</span>
-                    <button className='button-filter' onClick={() => sortProducts('popular')}>ยอดนิยม</button >
-                    <button className='button-filter' onClick={() => sortProducts('latest')}>ล่าสุด</button >
-                    <button className='button-filter' onClick={() => sortProducts('dog')}>สุนัข</button >
-                    <button className='button-filter' onClick={() => sortProducts('cat')}>แมว</button >
-                    <button className='button-filter' onClick={() => sortProducts('reset')}>รีเซ็ต</button >
 
-                </div>
-                <div className="product-list">
-                    {products.slice(0, visibleProducts).map((product, index) => (
-                        <div key={index} className="product-card">
-                            <img src={product.main_image} alt={product.product_name} />
-                            <h3>{product.product_name}</h3>
-                            <p className="product-rating">{getStars(product.averageRating)}</p>
-                            <button
-                                className='product-btn'
-                                onClick={() => handleViewProduct(product.id)}
-                            >ดูสินค้า</button>
-                        </div>
-                    ))}
-                </div>
-                {visibleProducts < products.length && ( // แสดงปุ่ม "โหลดเพิ่ม" หากมีสินค้าเหลือ
-                    <div className="load-more">
-                        <button onClick={loadMoreProducts}>เพิ่มเติม</button>
+            {location.pathname === '/' ? (
+                <div>
+                    <div className="section-header">
+                        <h2>สินค้ารีวิว</h2>
+                        <a href="/" className="see-more">ดูทั้งหมด &gt;</a>
                     </div>
-                )}
-            </div>
-            <Footer />
+                    < div className="product-list">
+                        {products.slice(0, visibleProducts).map((product, index) => (
+                            <div key={index} className="product-card">
+                                <img src={product.main_image} alt={product.product_name} />
+                                <h3>{product.product_name}</h3>
+                                <p className="product-rating">{getStars(product.averageRating)}</p>
+                                <button
+                                    className='product-btn'
+                                    onClick={() => handleViewProduct(product.id)}
+                                >ดูสินค้า</button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+            ) : (
+
+                <div>
+                    <Banner />
+                    <div className="product-page">
+                        <h1 className="page-title">สินค้า</h1>
+                        <div className='product-filter'>
+                            <span>เรียงโดย:</span>
+                            <button className='button-filter' onClick={() => sortProducts('popular')}>ยอดนิยม</button >
+                            <button className='button-filter' onClick={() => sortProducts('latest')}>ล่าสุด</button >
+                            <button className='button-filter' onClick={() => sortProducts('dog')}>สุนัข</button >
+                            <button className='button-filter' onClick={() => sortProducts('cat')}>แมว</button >
+                            <button className='button-filter' onClick={() => sortProducts('reset')}>รีเซ็ต</button >
+
+                        </div>
+                        <div className="product-list">
+                            {products.slice(0, visibleProducts).map((product, index) => (
+                                <div key={index} className="product-card">
+                                    <img src={product.main_image} alt={product.product_name} />
+                                    <h3>{product.product_name}</h3>
+                                    <p className="product-rating">{getStars(product.averageRating)}</p>
+                                    <button
+                                        className='product-btn'
+                                        onClick={() => handleViewProduct(product.id)}
+                                    >ดูสินค้า</button>
+                                </div>
+                            ))}
+                        </div>
+                        {visibleProducts < products.length && ( // แสดงปุ่ม "โหลดเพิ่ม" หากมีสินค้าเหลือ
+                            <div className="load-more">
+                                <button onClick={loadMoreProducts}>เพิ่มเติม</button>
+                            </div>
+                        )}
+                    </div>
+                    <Footer />
+                </div>
+            )}
         </div>
     );
 };

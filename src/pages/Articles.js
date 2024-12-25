@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import Article from '../components/Article'
 import './Articles.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 // import st from './Articles.modul.css'
 
 const Articles = () => {
@@ -45,47 +45,95 @@ const Articles = () => {
         });
     };
 
+    const handleViewArticle = (articleId) => {
+        navigate(`/articledetail/${articleId}`); // นำทางไปยังหน้าแสดงรายละเอียดสินค้า
+    };
+
+    const location = useLocation();
+
     return (
         <div>
-            {/* ส่วนแสดงบทความเด่น */}
-            <div className="article-highlight">
-                <div className="article-image">
-                    <img src={img3} alt="บทความ" />
-                </div>
-                <div className="article-overlay">
-                    <h3>ทำไมแมวชอบคาบอะไรแปลก ๆ มาฝากทาส</h3>
-                </div>
-            </div>
-            {/* <Article className='{st.list}'/> */}
 
-            <div className="list-grid">
-                {articles.slice(0, visible).map((article) => (
-                    <div className="article-card" key={article.id}>
-                        <img src={article.coverImage} alt={article.title} />
-                        <h3>{article.title}</h3>
-                        <p>{article.content}</p>
-                        <div className="profile">
-                            <div className="author-profile">
-                                <img src={article.author.profile_picture} alt={article.author.profile_picture} />
+            {location.pathname === '/' ? (
+                <div>
+                    <div className="section-header">
+                        <h2>บทความ</h2>
+                        <a href="/" className="see-more">ดูทั้งหมด &gt;</a>
+                    </div>
+                    <div className="list-grid">
+                        {articles.slice(0, visible).map((article) => (
+                            <div style={{ cursor: 'pointer' }}
+                                onClick={() => handleViewArticle(article.id)}
+                                className="article-card" key={article.id}>
+                                <img src={article.coverImage} alt={article.title} />
+                                <h3>{article.title}</h3>
+                                <p>{article.content}</p>
+                                <div className="profile">
+                                    <div className="author-profile">
+                                        <img src={article.author.profile_picture} alt={article.author.profile_picture} />
+                                    </div>
+                                    <div className="author-profile-name">
+                                        <span>{article.author.name}</span>
+                                        <span>{formatDate(article.createdAt)}</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="author-profile-name">
-                                <span>{article.author.name}</span>
-                                <span>{formatDate(article.createdAt)}</span>
-                            </div>
+                        ))}
+                    </div>
+                </div>
+
+            ) : (
+
+                <div>
+                    {/* ส่วนแสดงบทความเด่น */}
+                    <div className="article-highlight">
+                        <div className="article-image">
+                            <img src={img3} alt="บทความ" />
+                        </div>
+                        <div className="article-overlay">
+                            <h3>ทำไมแมวชอบคาบอะไรแปลก ๆ มาฝากทาส</h3>
                         </div>
                     </div>
-                ))}
-            </div>
+                    {/* <Article className='{st.list}'/> */}
 
-            {/* ปุ่มโหลดเพิ่ม */}
-            {visible < articles.length && (
-                <div className="load-more">
-                    <button onClick={loadMoreArticles}>โหลดเพิ่ม</button>
+                    <div className="list-grid">
+                        {articles.slice(0, visible).map((article) => (
+                            <div style={{ cursor: 'pointer' }}
+                                onClick={() => handleViewArticle(article.id)}
+                                className="article-card" key={article.id}>
+                                <img src={article.coverImage} alt={article.title} />
+                                <h3>{article.title}</h3>
+                                <p>{article.content}</p>
+                                <div className="profile">
+                                    <div className="author-profile">
+                                        <img src={article.author.profile_picture} alt={article.author.profile_picture} />
+                                    </div>
+                                    <div className="author-profile-name">
+                                        <span>{article.author.name}</span>
+                                        <span>{formatDate(article.createdAt)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* ปุ่มโหลดเพิ่ม */}
+                    {visible < articles.length && (
+                        <div className="load-more">
+                            <button onClick={loadMoreArticles}>โหลดเพิ่ม</button>
+                        </div>
+                    )}
+
+                    <Footer />
                 </div>
-            )}
 
-            <Footer />
+            )
+            }
+
         </div>
+
+
+
     );
 };
 
