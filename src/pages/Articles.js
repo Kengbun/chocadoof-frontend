@@ -65,15 +65,15 @@ const Articles = () => {
                             <div style={{ cursor: 'pointer' }}
                                 onClick={() => handleViewArticle(article.id)}
                                 className="article-card" key={article.id}>
-                                <img src={article.coverImage} alt={article.title} />
+                                <img src={article.coverImage || img} alt={article.title || img} />
                                 <h3>{article.title}</h3>
                                 <p>{article.content}</p>
                                 <div className="profile">
                                     <div className="author-profile">
-                                        <img src={article.author.profile_picture} alt={article.author.profile_picture} />
+                                        <img src={article?.author?.profile_picture} alt={article?.author?.profile_picture} />
                                     </div>
                                     <div className="author-profile-name">
-                                        <span>{article.author.name}</span>
+                                        <span>{article?.author?.name}</span>
                                         <span>{formatDate(article.createdAt)}</span>
                                     </div>
                                 </div>

@@ -73,6 +73,9 @@
 .nav-button:hover {
   background-color: #000000;
   color: #fff;
+  /* border-radius:20px; */
+
+
 }
 
 .nav-login {

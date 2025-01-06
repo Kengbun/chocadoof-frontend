@@ -157,7 +157,8 @@ const ProductDetail = () => {
                         </div>
                         <hr width="85%" align="center" size="2px" noshade color="black"></hr>
                         {isLoggedIn ? (
-                            <FormReview params={params} />
+                                <FormReview params={params} reviewSubmitted ={loadData}/>
+                            
                         ) : (
                             <p>กรุณา <a href="/login">ล็อกอิน</a> เพื่อเขียนรีวิว</p>
                         )}

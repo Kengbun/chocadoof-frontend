@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { useParams } from 'react-router-dom';
 
-const FormReview = (props) => {
-    const params = props.params
+const FormReview = ({ params, reviewSubmitted }) => {
+    // const params = props.params
     const apiUrl = process.env.REACT_APP_API;
     const token = localStorage.getItem('authToken');
     // const params = useParams();
@@ -12,9 +11,11 @@ const FormReview = (props) => {
     const [formData, setFormData] = useState({
         review_description: '',
         rating: 0,
-        product_id: params.id, // คุณอาจตั้งค่าเริ่มต้นจาก props หรือ context
+        // product_id: params.params.id, // คุณอาจตั้งค่าเริ่มต้นจาก props หรือ context
             
     });
+    console.log(params.id);
+    // console.log(reviewSubmitted);
 
     
 
@@ -39,11 +40,12 @@ const FormReview = (props) => {
 
     // ฟังก์ชันจัดการการเปลี่ยนแปลงข้อความ
     const handleInputChange = (e) => {
-        setFormData({ ...formData, review_description: e.target.value });
+        setFormData({ ...formData, review_description: e.target.value, product_id: params.id, });
     };
 
     // ฟังก์ชันส่งรีวิว
     const submitReview = async () => {
+        // console.log(formData.product_id);
         if (!formData.rating || !formData.review_description) {
             alert('กรุณาให้คะแนนและเขียนรีวิวก่อนส่ง');
             return;
@@ -51,33 +53,36 @@ const FormReview = (props) => {
 
         console.log(formData);
 
-        // setLoading(true);
-        // try {
-        //     const response = await fetch(`${apiUrl}/reviews`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(formData),
-        //     });
-
-        //     if (response.ok) {
-        //         alert('รีวิวของคุณถูกส่งเรียบร้อยแล้ว');
-        //         setFormData({
-        //             review_description: '',
-        //             rating: 0,
-        //             product_id: '',
-        //             user_id: '',
-        //         });
-        //     } else {
-        //         alert('เกิดข้อผิดพลาดในการส่งรีวิว');
-        //     }
-        // } catch (error) {
-        //     console.error('Error submitting review:', error);
-        //     alert('ไม่สามารถส่งรีวิวได้');
-        // } finally {
-        //     setLoading(false);
-        // }
+        setLoading(true);
+        try {
+            const response = await fetch(`${apiUrl}/review`, {
+                method: 'POST',
+                headers: {
+                    'authtoken': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            
+            if (response.ok) {
+                alert('รีวิวของคุณถูกส่งเรียบร้อยแล้ว');
+                setFormData({
+                    review_description: '',
+                    rating: 0,
+                    product_id: '',
+                    // user_id: '',
+                });
+                reviewSubmitted();
+            } else {
+                alert('เกิดข้อผิดพลาดในการส่งรีวิว');
+            }
+            console.log(response);
+        } catch (error) {
+            console.error('Error submitting review:', error);
+            alert('ไม่สามารถส่งรีวิวได้');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (

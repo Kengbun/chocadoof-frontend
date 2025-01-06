@@ -1,7 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './AdminDashboard.css';
-
+import ManageReviews from '../components/ManageReviews';
+import ManageProducts from '../components/ManageProducts';
+import ManageArticles from '../components/ManageArticles';
+import ManageUser from '../components/ManageUser';
+import axios from 'axios';
 const AdminDashboard = () => {
+
+    const token = localStorage.getItem('authToken');
+    const apiUrl = process.env.REACT_APP_API;
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    const loadData = async () => {
+        // console.log(token);
+        try {
+            const response = await axios.get(apiUrl + "/users/dashboard", {
+                headers: {
+                    'authToken': `Bearer ${token}`
+                }
+            });
+            console.log(response.data);
+            setData(response.data);
+        } catch (error) {
+            console.error("Error loading data:", error);
+        }
+    }
+
     return (
         <div className="admin-dashboard">
             {/* Sidebar */}
@@ -9,7 +37,7 @@ const AdminDashboard = () => {
                 <h2>Chocadoof Admin</h2>
                 <nav>
                     <ul>
-                        <li>Dashboard</li>
+                        <li onClick={ManageArticles}>Dashboard</li>
                         <li>จัดการบทความ</li>
                         <li>จัดการรีวิว</li>
                         <li>จัดการสินค้า</li>
@@ -23,20 +51,25 @@ const AdminDashboard = () => {
                 <header className="dashboard-header">
                     <div className="dashboard-card">
                         <h3>บทความทั้งหมด</h3>
-                        <p>30</p>
+                        <p>{data.allArticles}</p>
                     </div>
                     <div className="dashboard-card">
                         <h3>รีวิวทั้งหมด</h3>
-                        <p>30</p>
+                        <p>{data.allReviews}</p>
                     </div>
                     <div className="dashboard-card">
                         <h3>ผู้ใช้งาน</h3>
-                        <p>30</p>
+                        <p>{data.allUsers}</p>
                     </div>
                 </header>
 
+                <ManageUser />
+                <ManageProducts />
+                <ManageReviews />
+                <ManageArticles />
+
                 {/* Tables */}
-                <section className="manage-section">
+                {/* <section className="manage-section">
                     <h3>จัดการบทความ</h3>
                     <table>
                         <thead>
@@ -59,31 +92,9 @@ const AdminDashboard = () => {
                             </tr>
                         </tbody>
                     </table>
-                </section>
+                </section> */}
 
-                {/* Repeat for Reviews, Products, and Users */}
-                <section className="manage-section">
-                    <h3>จัดการรีวิว</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ชื่อผู้รีวิว</th>
-                                <th>รีวิว</th>
-                                <th>การจัดการ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>John</td>
-                                <td>สินค้าดีมาก</td>
-                                <td>
-                                    <button className="btn btn-edit">แก้ไข</button>
-                                    <button className="btn btn-delete">ลบ</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
+
             </main>
         </div>
     );
