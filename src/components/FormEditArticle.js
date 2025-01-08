@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../confix/axios';
 
-const apiUrl = process.env.REACT_APP_API;
 
 const FormEditArticle = () => {
     const params = useParams(); // URL params
@@ -22,7 +22,7 @@ const FormEditArticle = () => {
     }, [params.id]); // เพิ่ม params.id ใน dependencies เพื่อโหลดข้อมูลใหม่เมื่อ id เปลี่ยน
 
     const loadData = (id) => {
-        axios.get(apiUrl + "/article/" + id)
+        axios.get( "/article/" + id)
             .then((res) => {
                 setData(res.data);
                 setSelectedCoverImage(res.data.coverImage); // อัปเดต selectedCoverImage เมื่อ data.coverImage เปลี่ยน
@@ -60,7 +60,7 @@ const FormEditArticle = () => {
         }
 
         try {
-            const response = await axios.put(`${apiUrl}/article/${params.id}`, formData, {
+            const response = await axios.put(`/article/${params.id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 }

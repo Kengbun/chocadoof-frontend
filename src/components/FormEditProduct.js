@@ -1,14 +1,15 @@
-import axios from 'axios';
+// import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from '../confix/axios';
 
 
-const apiUrl = process.env.REACT_APP_API;
 const token = localStorage.getItem('authToken');
 
 
 const FormEditProduct = () => {
     const params = useParams();
+    const navigate = useNavigate();
 
     const [data, setdata] = useState({
         product_name: "",
@@ -33,7 +34,7 @@ const FormEditProduct = () => {
 
     const loadData = async (id) => {
         try {
-            const response = await axios.get(apiUrl + "/products/" + id, {
+            const response = await axios.get( "/products/" + id, {
                 headers: {
                     'authToken': `Bearer ${token}`
                 }
@@ -85,7 +86,7 @@ const FormEditProduct = () => {
                 formData.append("additional_image_2", formData.additional_image_2);
             }
 
-            const response = await axios.put(`${apiUrl}/products/${params.id}`, formData, {
+            const response = await axios.put(`/products/${params.id}`, formData, {
                 headers: {
                     'authToken': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
@@ -94,6 +95,7 @@ const FormEditProduct = () => {
 
             
             console.log("Product updated successfully:", response.data);
+            navigate("/");
         } catch (error) {
             console.error("Error updating product:", error);
         }

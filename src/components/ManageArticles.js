@@ -1,10 +1,10 @@
 // rafce
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../confix/axios';
 
 const ManageArticles = () => {
-    const apiUrl = process.env.REACT_APP_API;
 
 
     const [data, setData] = useState([]);
@@ -16,7 +16,7 @@ const ManageArticles = () => {
     }, []);
 
     const loadData = async () => {
-        await axios.get(apiUrl + "/article/")
+        await axios.get( "/article/")
             .then((res) => setData(res.data))
             .catch((err) => console.log(err))
     };
@@ -38,7 +38,7 @@ const ManageArticles = () => {
     // const handleSubmit = async (e) => {
     //     e.preventDefault() // ไม่ให้รีเฟรช
     //     // console.log(form)
-    //     await axios.post(apiUrl + "/article/", form)
+    //     await axios.post( "/article/", form)
     //         .then(res => {
     //             console.log(res.data);
     //             loadData();
@@ -48,7 +48,7 @@ const ManageArticles = () => {
 
     const handleRemove = async (id) => {
         console.log(id);
-        await axios.delete(apiUrl + "/article/" + id)
+        await axios.delete( "/article/" + id)
             .then(res => {
                 console.log(res.data);
                 loadData();
@@ -58,7 +58,7 @@ const ManageArticles = () => {
 
 
     return (
-        <div>
+        <div id="manage-articles">
             <h3>จัดการบทความ</h3>
             <Link to={"/formarticle"}>
                 <button className="add-article-btn">เพิ่มบทความใหม่</button>

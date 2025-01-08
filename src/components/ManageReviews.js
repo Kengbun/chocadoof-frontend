@@ -1,10 +1,10 @@
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../confix/axios';
 import React, { useEffect, useState } from 'react'
 
 const ManageReviews = () => {
 
   const token = localStorage.getItem('authToken');
-  const apiUrl = process.env.REACT_APP_API;
   const [data, setData] = useState([]);
   const [visibleReviwes, setVisibleReviwes] = useState(5);
 
@@ -16,7 +16,7 @@ const ManageReviews = () => {
   const loadData = async () => {
     // console.log(token);
     try {
-      const response = await axios.get(apiUrl + "/review/", {
+      const response = await axios.get( "/review/", {
         headers: {
           'authToken': `Bearer ${token}`
         }
@@ -31,7 +31,7 @@ const ManageReviews = () => {
   const handleRemove = async (id) => {
     // console.log(id);
     try {
-      const response = await axios.delete(apiUrl + "/review/" + id, {
+      const response = await axios.delete( "/review/" + id, {
         headers: {
           'authToken': `Bearer ${token}`
         }
@@ -49,7 +49,7 @@ const ManageReviews = () => {
   };
 
   return (
-    <div>
+    <div id= "manage-reviews">
       <h3>จัดการรีวิว</h3>
 
       <table className="article-table">

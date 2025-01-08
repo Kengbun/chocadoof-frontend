@@ -1,11 +1,11 @@
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../confix/axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 
 const ManageProducts = () => {
 
     const token = localStorage.getItem('authToken');
-    const apiUrl = process.env.REACT_APP_API;
     const [data, setData] = useState([]);
     // สถานะสำหรับจัดการจำนวนสินค้าที่แสดง
     const [visibleProducts, setVisibleProducts] = useState(10);
@@ -19,7 +19,7 @@ const ManageProducts = () => {
     const loadData = async () => {
         // console.log(token);
         try {
-            const response = await axios.get(apiUrl + "/products/", {
+            const response = await axios.get( "/products/", {
                 headers: {
                     'authToken': `Bearer ${token}`
                 }
@@ -35,7 +35,7 @@ const ManageProducts = () => {
     const handleRemove = async (id) => {
         // console.log(id);
         try {
-            const response = await axios.delete(apiUrl + "/products/" +id, {
+            const response = await axios.delete( "/products/" +id, {
                 headers: {
                     'authToken': `Bearer ${token}`
                 }
@@ -60,7 +60,7 @@ const ManageProducts = () => {
     };
 
     return (
-        <div>
+        <div id="manage-products">
             <h3>จัดการสินค้า</h3>
             <Link to={"/formproduct"}>
                 <button className="add-article-btn">เพิ่มสินค้าใหม่</button>

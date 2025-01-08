@@ -3,7 +3,6 @@ import img from '../components/cat.jpg';
 import img2 from '../components/cat2.jpg';
 import img3 from '../assets/Articledetail.jpg';
 import Footer from '../components/Footer';
-import Article from '../components/Article'
 import './Articles.css';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';

@@ -3,15 +3,14 @@ import img from '../components/cat.jpg';
 import img2 from '../components/cat2.jpg';
 import img3 from '../assets/Articledetail.jpg';
 import Footer from '../components/Footer';
-import Article from '../components/Article'
 import './Articles.css';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../confix/axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 // import st from './Articles.modul.css'
 
 const Articles = () => {
     const navigate = useNavigate();
-    const apiUrl = process.env.REACT_APP_API;
 
     const [articles, setArticles] = useState([]);
 
@@ -21,9 +20,22 @@ const Articles = () => {
 
     const loadData = async () => {
         try {
-            const response = await axios.get(apiUrl + "/article")
-            setArticles(response.data);
+            const response = await axios.get( "/article")
+            // setArticles(response.data);
             console.log(response.data);
+
+            const update = response.data.map((article) => {
+                return{
+                    ...article,
+                    author: {
+                        ...article.author,
+                        profile_picture: article?.author?.profile_picture || "https://picsum.photos/200/300",
+                    }
+                }
+            })
+            setArticles(update);
+            console.log(articles)
+            
         } catch (err) {
             console.log(err)
         }
@@ -65,7 +77,7 @@ const Articles = () => {
                             <div style={{ cursor: 'pointer' }}
                                 onClick={() => handleViewArticle(article.id)}
                                 className="article-card" key={article.id}>
-                                <img src={article.coverImage || img} alt={article.title || img} />
+                                <img src={article.coverImage || "https://picsum.photos/200/300"} alt={article.title || "https://picsum.photos/200/300"} />
                                 <h3>{article.title}</h3>
                                 <p>{article.content}</p>
                                 <div className="profile">

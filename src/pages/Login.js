@@ -13,6 +13,7 @@ const Login = () => {
 
         try {
             // ส่งคำขอ login ไปยัง backend
+            // console.log(email, password);
             const res = await axios.post('/users/login', { email, password });
 
             // setMessage('เข้าสู่ระบบสำเร็จ');

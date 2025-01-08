@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import HomeImg from '../assets/home.jpg'
 import Banner from '../components/Banner.js';
 import Product from './Products.js';
-import Article from './Articles.js';
+import Articles from './Articles.js';
 import './Home.css'
 import royal from '../assets/brand_img/royal.png';
 import nekko from '../assets/brand_img/nekko.png';
@@ -47,7 +47,7 @@ const Home = () => {
             <hr width="85%" align="center" size="2px" noshade color="black"></hr>
             {/* <TT/> */}
             <Product />
-            <Article />
+            <Articles />
             <hr width="85%" align="center" size="2px" noshade color="black"></hr>
             {/* end product&article */}
 

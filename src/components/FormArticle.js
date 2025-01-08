@@ -1,10 +1,11 @@
-import axios from 'axios';
+// import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from '../confix/axios';
 
 const FormArticle = () => {
     const navigate = useNavigate();
-    const apiUrl = process.env.REACT_APP_API;
+    
 
     const [formData, setFormData] = useState({
         title: '',
@@ -77,7 +78,7 @@ const FormArticle = () => {
         payload.append('contentImage', formData.contentImage);
 
         try {
-            const response = await axios.post(`${apiUrl}/article/`, payload, {
+            const response = await axios.post(`/article/`, payload, {
                 headers: {
                     'authtoken': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'

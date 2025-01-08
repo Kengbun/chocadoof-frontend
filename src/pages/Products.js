@@ -6,12 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 import './Products.css';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../confix/axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Products = () => {
     const navigate = useNavigate();
-    const apiUrl = process.env.REACT_APP_API;
     const [products, setProducts] = useState([]);
     const [originalProducts, setOriginalProducts] = useState([]);
 
@@ -21,7 +21,7 @@ const Products = () => {
 
     const loadData = async () => {
         try {
-            const response = await axios.get(apiUrl + "/products/lists")
+            const response = await axios.get("/products/lists")
             setProducts(response.data);
             setOriginalProducts(response.data);
             console.log(response.data);

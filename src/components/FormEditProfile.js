@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../confix/axios';
 import { useNavigate } from 'react-router-dom';
 
-const apiUrl = process.env.REACT_APP_API;
 
 const FormEditProfile = () => {
     const navigate = useNavigate();
@@ -28,7 +28,7 @@ const FormEditProfile = () => {
         }
 
         try {
-            const res = await axios.get(`${apiUrl}/users/me`, {
+            const res = await axios.get(`/users/me`, {
                 headers: {
                     authToken: `Bearer ${token}`,
                 },
@@ -69,7 +69,7 @@ const FormEditProfile = () => {
         }
 
         try {
-            await axios.put(`${apiUrl}/users/me`, formData, {
+            await axios.put(`/users/me`, formData, {
                 headers: {
                     authToken: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',

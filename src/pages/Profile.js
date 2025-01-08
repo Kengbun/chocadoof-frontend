@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../confix/axios';
 import './Profile.css';  // ใช้ไฟล์ CSS เดียวกันสำหรับสไตล์
 import { Link } from 'react-router-dom';
 import ManageArticles from '../components/ManageArticles';
 
 const Profile = () => {
-    const apiUrl = process.env.REACT_APP_API;
 
     const [user, setUser] = useState({
         name: "",
@@ -25,7 +25,7 @@ const Profile = () => {
         }
 
         try {
-            const res = await axios.get(`${apiUrl}/users/me`, {
+            const res = await axios.get(`/users/me`, {
                 headers: { authToken: `Bearer ${token}` },
             });
             console.log(res.data);

@@ -15,7 +15,6 @@ import Testpo from './pages/Testpo';
 import Testpocopy from './pages/Testpo copy';
 import ArticleForm from './pages/ArticleForm ';
 import Profile from './pages/Profile';
-import VerifyEmail from './pages/VerifyEmail';
 import AdminDashboard from './pages/AdminDashboard';
 import FormArticle from "./components/FormArticle";
 import FormEditArticle from "./components/FormEditArticle";
@@ -54,7 +53,6 @@ function App() {
         <Route path="/edit/:id" element={<FormEditArticle />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/editprofile" element={<FormEditProfile />} />
-        <Route path="/verify-email/:token" element={<VerifyEmail />} />
         <Route path="/admindashboard" element={<AdminDashboard />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

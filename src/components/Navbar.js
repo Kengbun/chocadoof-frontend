@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import Logo from "../assets/logo3.png";
 import Avatar from "../assets/avatar.png";
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../confix/axios';
 
 // const Avatar = "https://picsum.photos/200/300" 
 const Navbar = () => {
@@ -68,7 +69,7 @@ const Navbar = () => {
                     <li><Link to="/about">เกี่ยวกับเรา</Link></li>
                     <li><Link to="/contact">ติดต่อ</Link></li>
                 </ul>
-                <div className={isLoggedIn ? 'nav-login' : 'nav-links'} >
+                <div className={'nav-login'} >
                     {isLoggedIn ? (
                         <>
                             <Link to="/profile" className="nav-button-login">

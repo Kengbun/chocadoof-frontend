@@ -4,11 +4,11 @@ import ManageReviews from '../components/ManageReviews';
 import ManageProducts from '../components/ManageProducts';
 import ManageArticles from '../components/ManageArticles';
 import ManageUser from '../components/ManageUser';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../confix/axios';
 const AdminDashboard = () => {
 
     const token = localStorage.getItem('authToken');
-    const apiUrl = process.env.REACT_APP_API;
     const [data, setData] = useState([]);
 
     useEffect(() => {
@@ -18,7 +18,7 @@ const AdminDashboard = () => {
     const loadData = async () => {
         // console.log(token);
         try {
-            const response = await axios.get(apiUrl + "/users/dashboard", {
+            const response = await axios.get( "/users/dashboard", {
                 headers: {
                     'authToken': `Bearer ${token}`
                 }
@@ -29,6 +29,13 @@ const AdminDashboard = () => {
             console.error("Error loading data:", error);
         }
     }
+    // ฟังก์ชันสำหรับเลื่อน
+    const scrollToSection = (id) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth" })
+        }
+    }
 
     return (
         <div className="admin-dashboard">
@@ -37,11 +44,11 @@ const AdminDashboard = () => {
                 <h2>Chocadoof Admin</h2>
                 <nav>
                     <ul>
-                        <li onClick={ManageArticles}>Dashboard</li>
-                        <li>จัดการบทความ</li>
-                        <li>จัดการรีวิว</li>
-                        <li>จัดการสินค้า</li>
-                        <li>จัดการผู้ใช้งาน</li>
+                        <li onClick={() => scrollToSection("dashboard")}>Dashboard</li>
+                        <li onClick={() => scrollToSection("manage-articles")}>จัดการบทความ</li>
+                        <li onClick={() => scrollToSection("manage-reviews")}>จัดการรีวิว</li>
+                        <li onClick={() => scrollToSection("manage-products")}>จัดการสินค้า</li>
+                        <li onClick={() => scrollToSection("manage-users")}>จัดการผู้ใช้งาน</li>
                     </ul>
                 </nav>
             </aside>

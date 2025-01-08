@@ -1,10 +1,10 @@
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../confix/axios';
 import React, { useEffect, useState } from 'react'
 
-export default function ManageUser() {
+const ManageUser = () => {
 
     const token = localStorage.getItem('authToken');
-    const apiUrl = process.env.REACT_APP_API;
     const [data, setData] = useState([]);
     const [visibleUsers, setVisibleUsers] = useState(5);
 
@@ -15,7 +15,7 @@ export default function ManageUser() {
     const loadData = async () => {
         // console.log(token);
         try {
-            const response = await axios.get(apiUrl + "/users/", {
+            const response = await axios.get("/users/", {
                 headers: {
                     'authToken': `Bearer ${token}`
                 }
@@ -42,7 +42,7 @@ export default function ManageUser() {
     const handleRemove = async (id) => {
         // console.log(id);
         try {
-            const response = await axios.delete(apiUrl + "/users/" + id, {
+            const response = await axios.delete( "/users/" + id, {
                 headers: {
                     'authToken': `Bearer ${token}`
                 }
@@ -55,7 +55,7 @@ export default function ManageUser() {
     }
 
     return (
-        <div>
+        <div id = " manage-users"> 
             <h3>จัดการผู้ใช้</h3>
 
             <table className="article-table">
@@ -101,3 +101,5 @@ export default function ManageUser() {
         </div>
     )
 }
+
+export default ManageUser

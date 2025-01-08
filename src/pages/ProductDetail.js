@@ -1,4 +1,5 @@
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../confix/axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,7 +9,6 @@ import './ProductDetail.css';
 
 const ProductDetail = () => {
     const params = useParams();
-    const apiUrl = process.env.REACT_APP_API;
 
     const [product, setProduct] = useState(null);
     const [review, setReview] = useState([]);
@@ -32,7 +32,7 @@ const ProductDetail = () => {
 
     const loadData = async () => {
         try {
-            const response = await axios.get(apiUrl + '/products/Details/' + params.id);
+            const response = await axios.get( '/products/Details/' + params.id);
             setProduct(response.data.product);
             setReview(response.data.reviews);
             setAverageRating(response.data.averageRating);

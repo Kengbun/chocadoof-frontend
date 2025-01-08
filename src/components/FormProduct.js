@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import axios from '../confix/axios';
 
 const FormProduct = () => {
     const [formData, setFormData] = useState({
@@ -44,7 +45,7 @@ const FormProduct = () => {
                 return;
             }
 
-            await axios.post(`${process.env.REACT_APP_API}/products`, data, {
+            await axios.post(`/products`, data, {
                 headers: {
                     'authtoken': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'

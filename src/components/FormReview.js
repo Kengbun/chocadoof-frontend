@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import axios from '../confix/axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 const FormReview = ({ params, reviewSubmitted }) => {
     // const params = props.params
-    const apiUrl = process.env.REACT_APP_API;
     const token = localStorage.getItem('authToken');
     // const params = useParams();
 
@@ -55,7 +55,7 @@ const FormReview = ({ params, reviewSubmitted }) => {
 
         setLoading(true);
         try {
-            const response = await fetch(`${apiUrl}/review`, {
+            const response = await axios.get(`/review`, {
                 method: 'POST',
                 headers: {
                     'authtoken': `Bearer ${token}`,

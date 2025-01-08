@@ -3,18 +3,17 @@ import './ArticleDetail.css';
 import Footer from '../components/Footer';
 import img from '../components/cat.jpg';
 import ArticleImage from '../assets/Articledetail.jpg';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../confix/axios';
 import { useParams } from 'react-router-dom';
 
 
 const ArticleDetail = () => {
     const params = useParams();
-    const apiUrl = process.env.REACT_APP_API;
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
     // console.log(params.id);
-    // console.log(apiUrl);
 
     useEffect(() => {
         loadData();
@@ -22,7 +21,7 @@ const ArticleDetail = () => {
 
     const loadData = async () => {
         try {
-            const response = await axios.get(apiUrl + "/article/" + params.id);
+            const response = await axios.get("/article/" + params.id);
             console.log(response.data);
             setData(response.data);
         } catch (err) {
@@ -54,9 +53,9 @@ const ArticleDetail = () => {
 
                 <div className="author-details">
                     <div className="author-profile">
-                        <img src={data.author.profile_picture} alt="img" />
+                        <img src={data.author.profile_picture || "https://picsum.photos/200/300"} alt="img" />
                     </div>
-                    <p className="author-name">{data.author.name}</p>
+                    <p className="author-name">{data.author.name }</p>
                     <p className="publish-date">{formatDate(data.createdAt)}</p>
                 </div>
                 <img src={data.contentImage} alt="Cat playing" className="article-image" />
