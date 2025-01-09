@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import axios from 'axios';
 import axios from '../confix/axios';
 import { useNavigate } from 'react-router-dom';
+import "../pages/Articles.css"
 
 
 const FormEditProfile = () => {

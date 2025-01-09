@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import Logo from "../assets/logo3.png";
-import Avatar from "../assets/avatar.png";
+// import Avatar from "https://picsum.photos/200/300";
 // import axios from 'axios';
 import axios from '../confix/axios';
 
-// const Avatar = "https://picsum.photos/200/300" 
+// import role from '../functions/role';
+
+const Avatar = "https://picsum.photos/200/300" 
 const Navbar = () => {
     const navigate = useNavigate();
     // สถานะการล็อกอิน 
@@ -45,18 +47,20 @@ const Navbar = () => {
     const handleLogout = () => {
         // ลบ token เมื่อผู้ใช้ทำการล็อกเอาต์
         localStorage.removeItem('authToken');
-        // sessionStorage.removeItem('authToken');
         setIsLoggedIn(false);
         console.log('Logged out successfully');
-        navigate("/"); 
+        window.location.reload();
+        // navigate("/"); 
     };
+    // const a = role.getRole()
+    // console.log(a);
 
 
 
     return (
         <nav className="navbar">
             <div className="navbar-container">
-                <Link to="/home">
+                <Link to="/">
                     <div className="logo">
                         <img src={Logo} alt="Chocadoof Logo" className="logo-image" />
                         <span>Chocadoof</span>

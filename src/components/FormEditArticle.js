@@ -31,6 +31,7 @@ const FormEditArticle = () => {
             .catch((error) => {
                 console.log(error);
             });
+        // console.log("//////////////"+data)    
     };
 
     const handleChange = (e) => {
@@ -66,7 +67,7 @@ const FormEditArticle = () => {
                 }
             });
             console.log(response.data);
-            navigate("/"); // ไปที่หน้าอื่นหลังจากอัปเดตเสร็จ
+            navigate("/profile"); // ไปที่หน้าอื่นหลังจากอัปเดตเสร็จ
         } catch (error) {
             console.error("Error updating article:", error);
             alert('เกิดข้อผิดพลาดในการอัปเดตบทความ!');

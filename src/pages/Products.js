@@ -7,7 +7,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 import './Products.css';
 // import axios from 'axios';
-import axios from '../confix/axios';
+import axios from '../confix/axios.js';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Products = () => {

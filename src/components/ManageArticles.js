@@ -60,7 +60,7 @@ const ManageArticles = () => {
     return (
         <div id="manage-articles">
             <h3>จัดการบทความ</h3>
-            <Link to={"/formarticle"}>
+            <Link to={"/formArticle"}>
                 <button className="add-article-btn">เพิ่มบทความใหม่</button>
             </Link>
             <table className="article-table">
@@ -95,7 +95,7 @@ const ManageArticles = () => {
                                 </td>
                                 <td>{article.id}</td> */}
                                 <td>
-                                    <Link to={"/edit/" + article.id}>
+                                    <Link to={"/article/edit/" + article.id}>
                                         <button className="edit-btn">แก้ไข</button>
                                     </Link>
                                     <button onClick={() => handleRemove(article.id)} className="delete-btn">ลบ</button>

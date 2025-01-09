@@ -55,16 +55,15 @@ const FormReview = ({ params, reviewSubmitted }) => {
 
         setLoading(true);
         try {
-            const response = await axios.get(`/review`, {
-                method: 'POST',
+            const response = await axios.post(`/review`,formData, {
                 headers: {
                     'authtoken': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                // body: JSON.stringify(formData),
             });
             
-            if (response.ok) {
+            if (response.request.status === 201) {
                 alert('รีวิวของคุณถูกส่งเรียบร้อยแล้ว');
                 setFormData({
                     review_description: '',
@@ -77,9 +76,10 @@ const FormReview = ({ params, reviewSubmitted }) => {
                 alert('เกิดข้อผิดพลาดในการส่งรีวิว');
             }
             console.log(response);
-        } catch (error) {
-            console.error('Error submitting review:', error);
+        } catch (err) {
+            console.err('err submitting review:', err);
             alert('ไม่สามารถส่งรีวิวได้');
+            console.log("err= "+ err)
         } finally {
             setLoading(false);
         }

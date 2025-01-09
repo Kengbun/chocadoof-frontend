@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../confix/axios';
+import '../pages/ArticleForm.css';
 
 const FormArticle = () => {
     const navigate = useNavigate();

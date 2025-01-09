@@ -46,7 +46,7 @@ const Profile = () => {
             <div className="profile-header">
                 <div style={{ position: 'relative', display: 'inline-block' }}>
                     <img
-                        src={user.profile_picture || 'https://via.placeholder.com/150'}
+                        src={user.profile_picture || "https://picsum.photos/200/300"}
                         alt="Profile Preview"
                         style={{
                             width: '150px',
@@ -56,7 +56,7 @@ const Profile = () => {
                         }}
                     />
                     <p className="profile-email">{user.email}</p>
-                    <Link to="/editprofile">
+                    <Link to="/profiledit">
                         <button className="profile-edit-btn">แก้ไขโปรไฟล์</button>
                     </Link>
                 </div>
