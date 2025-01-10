@@ -5,7 +5,6 @@ import gallery1 from '../assets/gallery/img1.jpg';
 import gallery2 from '../assets/gallery/img2.jpg';
 import gallery3 from '../assets/gallery/img3.jpg';
 import './About.css';
-import Footer from '../components/Footer';
 
 const About = () => {
     return (
@@ -56,8 +55,6 @@ const About = () => {
                     <img src={gallery3} alt="รูป" />
                 </div>
             </div>
-            <Footer />
-
         </div>
     );
 };

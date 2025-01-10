@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './ArticleDetail.css';
-import Footer from '../components/Footer';
-import img from '../components/cat.jpg';
-import ArticleImage from '../assets/Articledetail.jpg';
 // import axios from 'axios';
 import axios from '../confix/axios';
 import { useParams } from 'react-router-dom';
@@ -68,7 +65,6 @@ const ArticleDetail = () => {
 
                 </div>
             </div>
-            <Footer />
         </div>
     );
 };

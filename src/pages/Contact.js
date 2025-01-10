@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import baranch_img from "../assets/branches_img/branch.jpg";
 import "./Contact.css";
-import Footer from '../components/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTiktok } from '@fortawesome/free-brands-svg-icons';
-import { faPhone, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faPhone } from '@fortawesome/free-solid-svg-icons';
 
 
 const Contact = () => {
@@ -70,8 +69,6 @@ const Contact = () => {
                     <p>012-345-6789</p>
                 </a>
             </div>
-
-            <Footer />
         </div>
     );
 };

@@ -72,7 +72,7 @@ export default {
             components.articleEdit,
 
         ],
-        redirectRoute: "/",
+        redirectRoute: "/profile",
     },
     admin: {
         allowedRoutes: [
@@ -93,6 +93,6 @@ export default {
 
             components.adminDashboard,
         ],
-        redirectRoute: "/",
+        redirectRoute: "/admin/dashboard",
     },
 };

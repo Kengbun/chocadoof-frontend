@@ -15,8 +15,6 @@ import regalos from '../assets/brand_img/regalos.png';
 import monchou from '../assets/brand_img/monchou.png';
 import moochie from '../assets/brand_img/moochie.png';
 import Chocadoof from '../assets/logo3.png';
-import Footer from '../components/Footer.js';
-import TT from './Testpo.js'
 
 const Home = () => {
     return (
@@ -70,7 +68,6 @@ const Home = () => {
             </div>
             {/*end แบรนด์สินค้า */}
 
-            <Footer />
         </div>
 
     );

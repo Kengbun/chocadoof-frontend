@@ -2,6 +2,7 @@ import "./App.css";
 import React, { useState } from 'react';
 // import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Footer from "./components/Footer";
 // import Home from './pages/Home';
 // import Products from './pages/Products';
 // import Articles from './pages/Articles';
@@ -35,10 +36,11 @@ function App() {
   console.log(role);
 
   return (
-    <diV clessName="App">
+    <div >
       <Navbar/>
       <PrivateRoutes role={role} setRole={setRole} />
-    </diV>
+      <Footer/>
+    </div>
 
     // <Router>
     //   <Navbar />

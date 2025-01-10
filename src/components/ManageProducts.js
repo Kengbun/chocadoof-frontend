@@ -19,7 +19,7 @@ const ManageProducts = () => {
     const loadData = async () => {
         // console.log(token);
         try {
-            const response = await axios.get( "/products/", {
+            const response = await axios.get( "/products/lists", {
                 headers: {
                     'authToken': `Bearer ${token}`
                 }

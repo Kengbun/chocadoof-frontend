@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from '../confix/axios';
 
 const ManageArticles = () => {
-
+    const token = localStorage.getItem('authToken');
 
     const [data, setData] = useState([]);
     // const [form, setForm] = useState({});
@@ -16,9 +16,17 @@ const ManageArticles = () => {
     }, []);
 
     const loadData = async () => {
-        await axios.get( "/article/")
-            .then((res) => setData(res.data))
-            .catch((err) => console.log(err))
+        try {
+            const response = await axios.get("/article/user/articles/list",{
+                headers: {
+                    'authToken': `Bearer ${token}`
+                }
+            });
+            // console.log(response.data);
+            setData(response.data);
+        } catch (error) {
+            console.error("Error loading data:", error);
+        }
     };
 
     // ฟังก์ชันสำหรับแปลงวันที่
@@ -48,12 +56,17 @@ const ManageArticles = () => {
 
     const handleRemove = async (id) => {
         console.log(id);
-        await axios.delete( "/article/" + id)
-            .then(res => {
-                console.log(res.data);
-                loadData();
-            })
-            .catch((err) => console.log(err))
+        try {
+            const response = await axios.delete( "/article/" + id, {
+                headers: {
+                    'authToken': `Bearer ${token}`
+                }
+            });
+            console.log(response.data);
+            loadData();
+        } catch (error) {
+            console.error("Error deleting data:", error);
+        }
     }
 
 

@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import img from '../components/cat.jpg';
-import img2 from '../components/cat2.jpg';
 import img3 from '../assets/Articledetail.jpg';
-import Footer from '../components/Footer';
 import './Articles.css';
-// import axios from 'axios';
-import axios from '../confix/axios';
+import axios from 'axios';
+// import axios from '../confix/axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 // import st from './Articles.modul.css'
 
@@ -70,7 +67,7 @@ const Articles = () => {
                 <div>
                     <div className="section-header">
                         <h2>บทความ</h2>
-                        <a href="/" className="see-more">ดูทั้งหมด &gt;</a>
+                        <a href="/articles" className="see-more">ดูทั้งหมด &gt;</a>
                     </div>
                     <div className="list-grid">
                         {articles.slice(0, visible).map((article) => (
@@ -136,7 +133,6 @@ const Articles = () => {
                         </div>
                     )}
 
-                    <Footer />
                 </div>
 
             )

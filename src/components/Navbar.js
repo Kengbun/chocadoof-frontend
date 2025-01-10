@@ -3,12 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import Logo from "../assets/logo3.png";
 // import Avatar from "https://picsum.photos/200/300";
-// import axios from 'axios';
-import axios from '../confix/axios';
+import axios from 'axios';
+// import axios from '../confix/axios';
 
 // import role from '../functions/role';
 
-const Avatar = "https://picsum.photos/200/300" 
+const Avatar = "https://picsum.photos/200/300"
 const Navbar = () => {
     const navigate = useNavigate();
     // สถานะการล็อกอิน 
@@ -16,29 +16,33 @@ const Navbar = () => {
     const [avatar, setAvatar] = useState(Avatar); // เก็บข้อมูลผู้ใช้
 
     useEffect(() => {
-        
-        // console.log(token);
-
         checkLoginStatus();
-        
-        const avatar = async () => {
-            const token = localStorage.getItem('authToken'); // ดึง token จาก localStorage
-            try {
-                const res = await axios.get('/users/me', {
-                    headers: { authToken: `Bearer ${token}` }, // ส่ง token ใน header
-                });
-                // console.log("dkdkdkdk"+res);
-                setAvatar(res.data); // ตั้งค่าผู้ใช้
-                // console.log(res.data);
-            } 
-            catch (err) {
-                console.log(err);
-            }
-        };
-
-        avatar();
-        
     }, []);
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            getAvatar();
+        } else {
+            setAvatar(Avatar);
+        }
+    }, [isLoggedIn]);
+
+    const getAvatar = async () => {
+        const token = localStorage.getItem('authToken'); // ดึง token จาก localStorage
+        try {
+            const res = await axios.get('/users/me', {
+                headers: { authToken: `Bearer ${token}` }, // ส่ง token ใน header
+            });
+            // console.log("dkdkdkdk"+res);
+            setAvatar(res.data); // ตั้งค่าผู้ใช้
+            // console.log(res.data);
+        }
+        catch (err) {
+            console.log(err);
+        }
+    };
+
+    
     const checkLoginStatus = () => {
         const token = localStorage.getItem('authToken');
         setIsLoggedIn(!!token); // แปลง Token ให้เป็น Boolean
@@ -77,9 +81,9 @@ const Navbar = () => {
                     {isLoggedIn ? (
                         <>
                             <Link to="/profile" className="nav-button-login">
-                                <img src={avatar.profile_picture ? avatar.profile_picture:Avatar}
+                                <img src={avatar.profile_picture ? avatar.profile_picture : Avatar}
                                     className='nav-avatar'
-                                    />
+                                />
                             </Link>
                             <button onClick={handleLogout} className="nav-button">ออกจากระบบ</button>
                         </>

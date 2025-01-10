@@ -54,3 +54,47 @@
 .load-more-button:hover {
     background-color: #ff8f00;
 }
+
+
+
+
+
+
+
+/* ยังไม่ได้ใช้ */
+
+
+p {
+    display: -webkit-box;
+    /* ใช้ Flexbox */
+    -webkit-line-clamp: 3;
+    /* จำกัดข้อความไม่เกิน 3 บรรทัด */
+    -webkit-box-orient: vertical;
+    /* ตั้งค่าให้เรียงข้อความในแนวตั้ง */
+    overflow: hidden;
+    /* ซ่อนข้อความที่ล้น */
+    text-overflow: ellipsis;
+    /* แสดง ... ที่ข้อความล้น */
+}
+
+.kk {
+    white-space: normal;
+    /* อนุญาตให้ข้อความขึ้นบรรทัดใหม่ */
+    word-wrap: break-word;
+    /* ตัดคำเมื่อข้อความยาวเกิน */
+    word-break: break-word;
+    /* ตัดข้อความเมื่อไม่มีจุดเว้นวรรค */
+}
+
+h3 {
+
+    white-space: nowrap;
+    /* ป้องกันการขึ้นบรรทัดใหม่ */
+    overflow: hidden;
+    /* ซ่อนข้อความที่ล้นกรอบ */
+    text-overflow: ellipsis;
+    /* แสดง ... เมื่อข้อความล้น */
+    /* width: 200px; */
+    /* กำหนดความกว้าง */
+
+}

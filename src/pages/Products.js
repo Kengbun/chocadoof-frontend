@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Footer from '../components/Footer.js';
-import img from '../assets/imgProduct/img.jpg';
 import Banner from '../components/Banner.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 import './Products.css';
-// import axios from 'axios';
-import axios from '../confix/axios.js';
+import axios from 'axios';
+// import axios from '../confix/axios.js';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Products = () => {
@@ -24,7 +22,7 @@ const Products = () => {
             const response = await axios.get("/products/lists")
             setProducts(response.data);
             setOriginalProducts(response.data);
-            console.log(response.data);
+            // console.log(response.data);
         } catch (error) {
             console.error("Error loading data:", error);
         }
@@ -61,13 +59,17 @@ const Products = () => {
     const sortProducts = (criteria) => {
         let sorted = [...products];
         if (criteria === 'popular') {
+            sorted = [...originalProducts];
             sorted.sort((a, b) => b.averageRating - a.averageRating);
             // console.log(sorted);
         } else if (criteria === 'latest') {
+            sorted = [...originalProducts];
             sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         } else if (criteria === 'dog') {
+            sorted = [...originalProducts];
             sorted = sorted.filter(product => product.category === 'dog');
         } else if (criteria === 'cat') {
+            sorted = [...originalProducts];
             sorted = sorted.filter(product => product.category === 'cat');
         } else if (criteria === 'reset') {
             sorted = [...originalProducts];
@@ -84,7 +86,7 @@ const Products = () => {
                 <div>
                     <div className="section-header">
                         <h2>สินค้ารีวิว</h2>
-                        <a href="/" className="see-more">ดูทั้งหมด &gt;</a>
+                        <a href="/products" className="see-more">ดูทั้งหมด &gt;</a>
                     </div>
                     < div className="product-list">
                         {products.slice(0, visibleProducts).map((product, index) => (
@@ -135,7 +137,6 @@ const Products = () => {
                             </div>
                         )}
                     </div>
-                    <Footer />
                 </div>
             )}
         </div>
