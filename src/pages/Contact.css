@@ -1,6 +1,6 @@
 .branch-list {
     padding: 2rem;
-    background: #f5f5f5;
+    /* background: #f5f5f5; */
 }
 
 .contact-page-title {
@@ -33,31 +33,32 @@
     padding: 0 10px;
 }
 
-.branch-card h2 {
+.branch-card h2 ,.branch-card p{
     font-size: 1.2rem;
     /* ปรับขนาดตัวอักษร */
     margin: 0.5rem 0;
-    white-space: nowrap;
+    white-space: wrap;
+    overflow-wrap: break-word;
     /* ป้องกันข้อความขึ้นบรรทัดใหม่ */
-    overflow: hidden;
+    /* overflow: hidden; */
     /* ซ่อนข้อความที่ล้น */
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis; */
     /* แสดง ... แทนข้อความที่ล้น */
 }
 
 .branch-card p {
-    font-size: 1rem;
+    /* font-size: 1rem; */
     /* ปรับขนาดตัวอักษร */
-    margin: 0.5rem 0;
-    overflow: hidden;
+    /* margin: 0.5rem 0; */
+    /* overflow: hidden; */
     /* ซ่อนข้อความที่ล้น */
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis; */
     /* แสดง ... แทนข้อความที่ล้น */
-    display: -webkit-box;
+    /* display: -webkit-box; */
     /* ใช้ร่วมกับ line-clamp */
-    -webkit-line-clamp: 2;
+    /* -webkit-line-clamp: 2; */
     /* แสดงข้อความไม่เกิน 2 บรรทัด */
-    -webkit-box-orient: vertical;
+    /* -webkit-box-orient: vertical; */
     /* ใช้กับ line-clamp */
 }
 

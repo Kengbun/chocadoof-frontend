@@ -1,0 +1,28 @@
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* ปรับความสูงให้เต็มหน้าจอ */
+    background-color: #f9f9f900;
+    /* สีพื้นหลัง */
+}
+
+.loading-logo {
+    width: 100px;
+    /* กำหนดขนาดของโลโก้ */
+    height: 100px;
+    animation: spin 1s linear infinite;
+    /* การหมุน */
+    /* color: #000; */
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

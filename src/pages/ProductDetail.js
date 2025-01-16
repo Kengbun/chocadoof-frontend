@@ -7,6 +7,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import FormReview from '../components/FormReview';
 import './ProductDetail.css';
 
+
 const ProductDetail = () => {
     const params = useParams();
 
@@ -125,14 +126,14 @@ const ProductDetail = () => {
 
                 {/*Section รีวิวสินค้า */}
                 {section === 'description' ? (
-                    <div>
+                    <div className={`section-transition ${section === 'description' ? 'active' : ''}`}>
                         <h3>รายละเอียด</h3>
                         <p className="product-description">
                             {product.detailed_description}
                         </p>
                     </div>
                 ) : (
-                    <div>
+                        <div className={`section-transition ${section === 'description' ? 'active' : ''}`}>
                         {/*Section รีวิวสินค้า */}
                         <div className="review-section">
                             <h3>รีวิวจากลูกค้า</h3>
@@ -141,7 +142,7 @@ const ProductDetail = () => {
                                 return (
                                     <div key={index} className="review-item">
                                         <img
-                                            src={reviewer.profile_picture}
+                                            src={reviewer.profile_picture || "https://picsum.photos/200/300"}
                                             alt="ผู้รีวิว"
                                             className="reviewer-avatar"
                                         />

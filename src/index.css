@@ -9,6 +9,11 @@ body {
   /* background-image: url("./bg1.jpg");
   background-repeat: no-repeat;
   background-size: 100%; */
+  /* background: 
+      url('./bg2.jpeg');
+    background-size: cover;
+    background-repeat: repeat;
+    background-position: center; */
 }
 
 code {

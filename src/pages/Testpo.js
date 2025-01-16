@@ -1,139 +1,74 @@
-import React, { useEffect, useState } from 'react';
-import img from '../components/cat.jpg';
-import img2 from '../components/cat2.jpg';
-import img3 from '../assets/Articledetail.jpg';
-import Footer from '../components/Footer';
-import './Articles.css';
-import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
-// import st from './Articles.modul.css'
+import React from 'react';
+import { Form, Input, Button, Typography } from 'antd';
+import 'antd/dist/reset.css'; // ใช้เวอร์ชั่นใหม่อาจต้องใช้ reset.css
+// import './tt.css';
+import img from '../assets/logo3.png'
 
-const Articles = () => {
-    const navigate = useNavigate();
-    const apiUrl = process.env.REACT_APP_API;
+const { Title } = Typography;
 
-    const [articles, setArticles] = useState([]);
-
-    useEffect(() => {
-        loadData();
-    }, []);
-
-    const loadData = async () => {
-        try {
-            const response = await axios.get(apiUrl + "/article")
-            setArticles(response.data);
-            console.log(response.data);
-        } catch (err) {
-            console.log(err)
-        }
-    }
-    // สถานะสำหรับจัดการจำนวนบทความ
-    const [visible, setVisibleArticles] = useState(5);
-
-    // ฟังก์ชันสำหรับโหลดบทความเพิ่มเติม
-    const loadMoreArticles = () => {
-        setVisibleArticles((prev) => prev + 10); // เพิ่ม 5 ชิ้นต่อการกดครั้งหนึ่ง
+const Login = () => {
+    const onFinish = (values) => {
+        console.log('Success:', values);
     };
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('th-TH', {
-            day: '2-digit', // วันที่ 2 หลัก
-            month: 'short', // เดือนแบบย่อ (เช่น ธ.ค.)
-            year: 'numeric' // ปี พ.ศ.
-        });
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
     };
-
-    const handleViewArticle = (articleId) => {
-        navigate(`/articledetail/${articleId}`); // นำทางไปยังหน้าแสดงรายละเอียดสินค้า
-    };
-
-    const location = useLocation();
 
     return (
-        <div>
+        <div className="login-container">
+            <div className="login-card">
+                <img
+                    src={img}
+                    alt="Choca Doof Logo"
+                    className="logo"
+                />
+                <Title level={3}>Login</Title>
+                <Form
+                    name="login"
+                    layout="vertical"
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                >
+                    <Form.Item
+                        label="Email"
+                        name="email"
+                        rules={[
+                            {
+                                type: 'email',
+                                message: 'The input is not valid E-mail!',
+                            },
+                            {
+                                required: true,
+                                message: 'Please input your email!',
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Email" />
+                    </Form.Item>
 
-            {location.pathname === '/' ? (
-                <div>
-                    <div className="section-header">
-                        <h2>บทความ</h2>
-                        <a href="/" className="see-more">ดูทั้งหมด &gt;</a>
-                    </div>
-                    <div className="list-grid">
-                        {articles.slice(0, visible).map((article) => (
-                            <div style={{ cursor: 'pointer' }}
-                                onClick={() => handleViewArticle(article.id)}
-                                className="article-card" key={article.id}>
-                                <img src={article.coverImage} alt={article.title} />
-                                <h3>{article.title}</h3>
-                                <p>{article.content}</p>
-                                <div className="profile">
-                                    <div className="author-profile">
-                                        <img src={article.author.profile_picture} alt={article.author.profile_picture} />
-                                    </div>
-                                    <div className="author-profile-name">
-                                        <span>{article.author.name}</span>
-                                        <span>{formatDate(article.createdAt)}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                    <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your password!',
+                            },
+                        ]}
+                    >
+                        <Input.Password placeholder="Password" />
+                    </Form.Item>
 
-            ) : (
-                
-                    <div>
-                        {/* ส่วนแสดงบทความเด่น */}
-                        <div className="article-highlight">
-                            <div className="article-image">
-                                <img src={img3} alt="บทความ" />
-                            </div>
-                            <div className="article-overlay">
-                                <h3>ทำไมแมวชอบคาบอะไรแปลก ๆ มาฝากทาส</h3>
-                            </div>
-                        </div>
-                        {/* <Article className='{st.list}'/> */}
-
-                        <div className="list-grid">
-                            {articles.slice(0, visible).map((article) => (
-                                <div style={{ cursor: 'pointer' }}
-                                    onClick={() => handleViewArticle(article.id)}
-                                    className="article-card" key={article.id}>
-                                    <img src={article.coverImage} alt={article.title} />
-                                    <h3>{article.title}</h3>
-                                    <p>{article.content}</p>
-                                    <div className="profile">
-                                        <div className="author-profile">
-                                            <img src={article.author.profile_picture} alt={article.author.profile_picture} />
-                                        </div>
-                                        <div className="author-profile-name">
-                                            <span>{article.author.name}</span>
-                                            <span>{formatDate(article.createdAt)}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* ปุ่มโหลดเพิ่ม */}
-                        {visible < articles.length && (
-                            <div className="load-more">
-                                <button onClick={loadMoreArticles}>โหลดเพิ่ม</button>
-                            </div>
-                        )}
-
-                        <Footer />
-                    </div>
-                
-            )
-            }
-
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" block>
+                            Login
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </div>
         </div>
-
-
-
     );
 };
 
-export default Articles;
+export default Login;

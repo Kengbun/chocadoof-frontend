@@ -21,7 +21,7 @@ axios.interceptors.response.use(
             return Promise.reject(error);
         }
 
-        // ส่งข้อผิดพลาดที่ไม่ใช่ 403 หรือ "kk" กลับ
+        // ส่งข้อผิดพลาดที่ไม่ใช่ 403 หรือ "Unauthorized: Token not found" กลับ
         return Promise.reject(error);
     }
 );

@@ -76,7 +76,7 @@ const Articles = () => {
                                 className="article-card" key={article.id}>
                                 <img src={article.coverImage || "https://picsum.photos/200/300"} alt={article.title || "https://picsum.photos/200/300"} />
                                 <h3>{article.title}</h3>
-                                <p>{article.content}</p>
+                                <p className='cut-text'>{article.content}</p>
                                 <div className="profile">
                                     <div className="author-profile">
                                         <img src={article?.author?.profile_picture} alt={article?.author?.profile_picture} />
@@ -112,7 +112,7 @@ const Articles = () => {
                                 className="article-card" key={article.id}>
                                 <img src={article.coverImage} alt={article.title} />
                                 <h3>{article.title}</h3>
-                                <p>{article.content}</p>
+                                <p className='cut-text'>{article.content}</p>
                                 <div className="profile">
                                     <div className="author-profile">
                                         <img src={article.author.profile_picture} alt={article.author.profile_picture} />

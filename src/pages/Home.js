@@ -16,6 +16,7 @@ import monchou from '../assets/brand_img/monchou.png';
 import moochie from '../assets/brand_img/moochie.png';
 import Chocadoof from '../assets/logo3.png';
 
+
 const Home = () => {
     return (
         <div>

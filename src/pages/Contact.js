@@ -8,7 +8,7 @@ import { faPhone } from '@fortawesome/free-solid-svg-icons';
 
 const Contact = () => {
     const branches = [
-        { id: 1, name: 'สาsdfgsdfgsdfgขฟหกดฟหกดฟหฟหกา 1', description: 'รายละเอียดฟหกดหฟกดหฟกดฟหกดสาขา 1sdfgsdfgsdfgsdgsdfgsdfgsdgfsdfgsdgfssdfgsdfgsdf', image: baranch_img, mapUrl: 'https://www.google.com/maps?q=13.7390,100.5363' },
+        { id: 1, name: 'สาsdfgsdfgsdfgขฟหกดฟหกดฟหฟหกา 1', description: 'รายละเอียดฟหกดหฟกดหฟกดฟหกดสาขา', image: baranch_img, mapUrl: 'https://www.google.com/maps?q=13.7390,100.5363' },
         { id: 2, name: 'สาขา 2', description: 'รายละเอียดสาขา 2', image: baranch_img, mapUrl: 'https://www.google.com/maps?q=13.7390,100.5363' },
         { id: 3, name: 'สาขา 3', description: 'รายละเอียดสาขา 3', image: baranch_img, mapUrl: 'https://www.google.com/maps?q=13.7390,100.5363' },
         { id: 4, name: 'สาขา 4', description: 'รายละเอียดสาขา 4', image: baranch_img, mapUrl: 'https://www.google.com/maps?q=13.7390,100.5363' },
@@ -25,6 +25,12 @@ const Contact = () => {
 
     return (
         <div>
+
+            <div className="about-highlight">
+                <div className="about-image">
+                    <img src='https://picsum.photos/id/160/1200/500.jpg' alt="รูป" />
+                </div>
+            </div>
 
             <div className="branch-list">
                 <h1 className='contact-page-title'>สาขา</h1>

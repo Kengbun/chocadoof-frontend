@@ -8,6 +8,8 @@ import SignupPage from "../pages/Signup";
 
 import ProductDetail from "../pages/ProductDetail";
 import ProductsPage from "../pages/Products";
+import FormProduct from "../components/FormProduct";
+import FormEditProduct from "../components/FormEditProduct";
 
 
 import ProfilePage from "../pages/Profile";
@@ -15,6 +17,11 @@ import ProfileEdit from "../components/FormEditProfile";
 import FormArticle from "../components/FormArticle";
 import FormEditArticle from "../components/FormEditArticle";
 import AdminDashboard from "../pages/AdminDashboard";
+
+//test
+import Loading from "../components/Loading";
+// import TT from "../pages/Testpo"
+import ResetPassword from "../pages/auth/ResetPassword";
 
 
 const components = {
@@ -35,7 +42,16 @@ const components = {
     formArticle: { path: "/formArticle", component: FormArticle },
     articleEdit: { path: "/article/edit/:id", component: FormEditArticle },
 
-    adminDashboard: { path: "/admin/dashboard", component: AdminDashboard }
+    formProduct : { path: "/formProduct", component: FormProduct },
+    productEdit : { path: "/product/edit/:id", component: FormEditProduct },
+
+    adminDashboard: { path: "/admin/dashboard", component: AdminDashboard },
+
+    resetpassword: { path: "/reset-password", component: ResetPassword},
+    resetPasswordToken: { path: "/reset-password/:token", component: ResetPassword},
+
+    kk: { path: "/kk", component: Loading },
+    // TT: { path: "/tt", component: TT}
 };
 
 export default {
@@ -51,6 +67,12 @@ export default {
 
             components.productDetail,
             components.articleDetail,
+
+            components.resetpassword,
+            components.resetPasswordToken,
+
+            components.kk,
+            // components.TT
         ],
         redirectRoute: "/login",
     },
@@ -71,6 +93,8 @@ export default {
             components.formArticle,
             components.articleEdit,
 
+            components.resetpassword,
+
         ],
         redirectRoute: "/profile",
     },
@@ -85,11 +109,14 @@ export default {
             components.productDetail,
             components.articleDetail,
 
-            components.profile,
+            // components.profile,
             components.profileEdit,
 
             components.formArticle,
             components.articleEdit,
+
+            components.formProduct,
+            components.productEdit,
 
             components.adminDashboard,
         ],

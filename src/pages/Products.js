@@ -67,10 +67,10 @@ const Products = () => {
             sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         } else if (criteria === 'dog') {
             sorted = [...originalProducts];
-            sorted = sorted.filter(product => product.category === 'dog');
+            sorted = sorted.filter(product => product.category === 'dog' || product.category === 'สุนัข');
         } else if (criteria === 'cat') {
             sorted = [...originalProducts];
-            sorted = sorted.filter(product => product.category === 'cat');
+            sorted = sorted.filter(product => product.category === 'cat' || product.category === 'แมว');
         } else if (criteria === 'reset') {
             sorted = [...originalProducts];
         }

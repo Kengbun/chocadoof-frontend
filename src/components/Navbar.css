@@ -59,7 +59,10 @@
   margin-left: 3rem;
 }
 
+
+
 .nav-button {
+  display: flex;
   background-color: #fff;
   color: #000000;
   padding: 0.5rem 1rem;

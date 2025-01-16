@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 // import axios from 'axios';
 import axios from '../confix/axios';
 
+import Role from '../functions/role';
+
 const ManageArticles = () => {
     const token = localStorage.getItem('authToken');
 
@@ -16,8 +18,12 @@ const ManageArticles = () => {
     }, []);
 
     const loadData = async () => {
+        const role = Role.getRole(token);
+        console.log(role);
+        const url = role === 'admin'? '/article/list/admin' : '/article/user/articles/list';
+        console.log(url);
         try {
-            const response = await axios.get("/article/user/articles/list",{
+            const response = await axios.get(url,{
                 headers: {
                     'authToken': `Bearer ${token}`
                 }

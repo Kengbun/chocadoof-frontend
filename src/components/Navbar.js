@@ -4,6 +4,7 @@ import './Navbar.css';
 import Logo from "../assets/logo3.png";
 // import Avatar from "https://picsum.photos/200/300";
 import axios from 'axios';
+import Role from '../functions/role';
 // import axios from '../confix/axios';
 
 // import role from '../functions/role';
@@ -42,7 +43,7 @@ const Navbar = () => {
         }
     };
 
-    
+
     const checkLoginStatus = () => {
         const token = localStorage.getItem('authToken');
         setIsLoggedIn(!!token); // แปลง Token ให้เป็น Boolean
@@ -58,6 +59,13 @@ const Navbar = () => {
     };
     // const a = role.getRole()
     // console.log(a);
+
+    const token = localStorage.getItem('authToken');
+
+    const role = Role.getRole(token);
+    
+    const url = role === 'admin' ? '/admin/dashboard' : '/profile';
+    console.log(url);
 
 
 
@@ -80,7 +88,7 @@ const Navbar = () => {
                 <div className={'nav-login'} >
                     {isLoggedIn ? (
                         <>
-                            <Link to="/profile" className="nav-button-login">
+                            <Link to={url} className="nav-button-login">
                                 <img src={avatar.profile_picture ? avatar.profile_picture : Avatar}
                                     className='nav-avatar'
                                 />

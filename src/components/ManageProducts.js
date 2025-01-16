@@ -88,7 +88,7 @@ const ManageProducts = () => {
                                     <td>{formatDate(products.createdAt)}</td>
                                     {/* <td>{data(products.createdAt)}</td> */}
                                     <td>
-                                        <Link to={"/formeditproduct/" + products.id}>
+                                        <Link to={"/product/edit/" + products.id}>
                                             <button className="edit-btn">แก้ไข</button>
                                         </Link>
                                         <button

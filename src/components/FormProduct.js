@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 // import axios from "axios";
 import axios from '../confix/axios';
+import { useNavigate } from 'react-router-dom';
 
 const FormProduct = () => {
+    const navigate = useNavigate();
+    
     const [formData, setFormData] = useState({
         product_name: "",
         short_description: "",
@@ -53,6 +56,7 @@ const FormProduct = () => {
             });
             console.log(data);
             alert("บันทึกข้อมูลสินค้าสำเร็จ");
+            navigate('admin/dashboard');
         } catch (error) {
             console.error("Error creating product:", error);
             alert("เกิดข้อผิดพลาดในการบันทึกข้อมูลสินค้า");

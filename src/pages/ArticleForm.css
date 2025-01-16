@@ -13,6 +13,10 @@
     margin-bottom: 15px;
 }
 
+.form-group textarea {
+    height: 300px;
+}
+
 label {
     display: block;
     font-weight: bold;
