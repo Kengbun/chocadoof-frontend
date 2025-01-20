@@ -72,7 +72,6 @@ export default {
             components.resetPasswordToken,
 
             components.kk,
-            
             // components.TT
         ],
         redirectRoute: "/login",
