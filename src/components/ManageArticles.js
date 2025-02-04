@@ -5,12 +5,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from '../confix/axios';
 
 import Role from '../functions/role';
+import { useLoadMore, formatDate } from '../functions/functions';
 
 const ManageArticles = () => {
     const token = localStorage.getItem('authToken');
 
     const [data, setData] = useState([]);
     // const [form, setForm] = useState({});
+    const { visible, loadMore } = useLoadMore(5, 5);
 
 
     useEffect(() => {
@@ -20,10 +22,10 @@ const ManageArticles = () => {
     const loadData = async () => {
         const role = Role.getRole(token);
         console.log(role);
-        const url = role === 'admin'? '/article/list/admin' : '/article/user/articles/list';
+        const url = role === 'admin' ? '/article/list/admin' : '/article/user/articles/list';
         console.log(url);
         try {
-            const response = await axios.get(url,{
+            const response = await axios.get(url, {
                 headers: {
                     'authToken': `Bearer ${token}`
                 }
@@ -41,29 +43,12 @@ const ManageArticles = () => {
         return date.toLocaleDateString('th-TH'); // แปลงให้เป็นรูปแบบวันที่ที่อ่านง่าย
     };
 
-    // const handleChange = (e) => {
-    //     // console.log(e.target.name, e.target.value);
-    //     setForm({
-    //         ...form,
-    //         [e.target.name]: e.target.value
-    //     })
-    // }
-    // console.log(form)
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault() // ไม่ให้รีเฟรช
-    //     // console.log(form)
-    //     await axios.post( "/article/", form)
-    //         .then(res => {
-    //             console.log(res.data);
-    //             loadData();
-    //         })
-    //         .catch((err) => console.log(err))
-    // }
+
 
     const handleRemove = async (id) => {
         console.log(id);
         try {
-            const response = await axios.delete( "/article/" + id, {
+            const response = await axios.delete("/article/" + id, {
                 headers: {
                     'authToken': `Bearer ${token}`
                 }
@@ -77,65 +62,64 @@ const ManageArticles = () => {
 
 
     return (
-        <div id="manage-articles">
-            <h3>จัดการบทความ</h3>
-            <Link to={"/formArticle"}>
-                <button className="add-article-btn">เพิ่มบทความใหม่</button>
-            </Link>
-            <table className="article-table">
-                <thead>
-                    <tr>
-                        <th>ลำดับ</th>
-                        <th>หัวข้อ</th>
-                        <th>หมวดหมู่</th>
-                        <th>วันที่</th>
-                        {/* <th>id</th> */}
-                        <th>การจัดการ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        data.length > 0 ? data.map((article, index) => (
-                            <tr key={index}> {/* ใช้ key สำหรับแต่ละแถว */}
-                                <td>{index + 1}</td>
-                                <td>{article.title}</td>
-                                <td>{article.category}</td>
-                                <td>{formatDate(article.createdAt)}</td>
-                                {/* <td>
-                                    {article.contentImage ? (
-                                        <img
-                                            src={article.contentImage}
-                                            alt="Content Image"
-                                            style={{ width: '100px', height: 'auto', objectFit: 'cover' }}
-                                        />
-                                    ) : (
-                                        <span>No Image</span> // กรณีที่ไม่มีภาพ
-                                    )}
-                                </td>
-                                <td>{article.id}</td> */}
-                                <td>
-                                    <Link to={"/article/edit/" + article.id}>
-                                        <button className="edit-btn">แก้ไข</button>
-                                    </Link>
-                                    <button onClick={() => handleRemove(article.id)} className="delete-btn">ลบ</button>
-                                </td>
-                            </tr>
-                        )) : (
-                            <tr>
-                                <td colSpan="4">ไม่มีข้อมูลบทความ</td>
-                            </tr>
-                        )
-                    }
-                </tbody>
-            </table>
+        <div id="manage-articles" className="container my-4">
+            <h3 className=" mb-4">จัดการบทความ</h3>
 
-            {/* <form onSubmit={handleSubmit}>
-                <input type='text' name='title' onChange={e => handleChange(e)} placeholder='title' />
-                <input type='text' name='category' onChange={e => handleChange(e)} placeholder='category' />
-                <input type='text' name='content' onChange={e => handleChange(e)} placeholder='content' />
-                <button>submit</button>
-            </form> */}
+            {/* ปุ่มเพิ่มบทความใหม่ */}
+            <div className="mb-3">
+                <Link to="/formArticle">
+                    <button className="btn btn-success rounded px-3 py-2">เพิ่มบทความใหม่</button>
+                </Link>
+            </div>
+
+            {/* ตารางบทความ */}
+            <div className="table-responsive">
+                <table className="table table-bordered  table-hover text-center align-middle">
+                    <thead className="table-secondary">
+                        <tr>
+                            <th>ลำดับ</th>
+                            <th>หัวข้อ</th>
+                            <th>หมวดหมู่</th>
+                            <th>วันที่</th>
+                            <th>การจัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.length > 0 ? (
+                            data.slice(0, visible).map((article, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{article.title}</td>
+                                    <td>{article.category}</td>
+                                    <td>{formatDate(article.createdAt)}</td>
+                                    <td>
+                                        <div className="d-flex justify-content-center gap-2">
+                                            <Link to={`/article/edit/${article.id}`}>
+                                                <button className="btn btn-primary btn-sm">แก้ไข</button>
+                                            </Link>
+                                            <button onClick={() => handleRemove(article.id)} className="btn btn-danger btn-sm">
+                                                ลบ
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="5">ไม่มีข้อมูลบทความ</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+            {/* ปุ่มเพิ่มเติม */}
+            {visible < data.length && (
+                <div className="text-center mt-3">
+                    <button className="custom-btn rounded" onClick={loadMore}>เพิ่มเติม</button>
+                </div>
+            )}
         </div>
+
     );
 }
 

@@ -34,7 +34,7 @@ const FormEditProduct = () => {
 
     const loadData = async (id) => {
         try {
-            const response = await axios.get( "/products/" + id, {
+            const response = await axios.get("/products/" + id, {
                 headers: {
                     'authToken': `Bearer ${token}`
                 }
@@ -62,8 +62,8 @@ const FormEditProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log(data.additional_image_2 );
-            
+            console.log(data.additional_image_2);
+
             // อัปเดตข้อมูลสินค้า
             const formData = new FormData();
             formData.append("product_name", data.product_name);
@@ -93,7 +93,7 @@ const FormEditProduct = () => {
                 }
             });
 
-            
+
             console.log("Product updated successfully:", response.data);
             navigate("/");
         } catch (error) {
@@ -105,76 +105,90 @@ const FormEditProduct = () => {
 
 
     return (
-        <div className="form-container">
+        <div className="container card my-5 p-5 shadow"
+            // style={{ maxWidth: '600px' }}
+        >
             <h2>แก้ไข้ข้อมูลสินค้า</h2>
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-                <div className="form-group">
-                    <label htmlFor="product_name">ชื่อสินค้า:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="product_name">ชื่อสินค้า:</label>
                     <input
+                        className='form-control'
                         type="text"
                         name="product_name"
+                        maxLength={100}
                         value={data.product_name}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="short_description">คำอธิบายสั้น:</label>
+                <div className="mb-3">
+                    <div className="mb-3">
+                        <label className='form-label fw-bold text-dark' htmlFor="category">หมวดหมู่สินค้า:</label>
+                        <input
+                            className='form-control'
+                            type="text"
+                            name="category"
+                            maxLength={20}
+                            value={data.category}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <label className='form-label fw-bold text-dark' htmlFor="short_description">คำอธิบายสั้น:</label>
                     <input
+                        className='form-control'
                         type="text"
                         name="short_description"
+                        maxLength={255}
                         value={data.short_description}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="detailed_description">คำอธิบายละเอียด:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="detailed_description">คำอธิบายละเอียด:</label>
                     <textarea
+                        className='form-control'
                         name="detailed_description"
+                        maxLength={5000}
                         value={data.detailed_description}
                         onChange={handleChange}
                         required
+                        rows={6}
                     ></textarea>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="category">หมวดหมู่สินค้า:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="main_image">รูปภาพหลัก:</label>
                     <input
-                        type="text"
-                        name="category"
-                        value={data.category}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="main_image">รูปภาพหลัก:</label>
-                    <input
+                        className='form-control'
                         type="file"
                         name="main_image"
                         onChange={handleImageChange}
 
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="additional_image_1">รูปภาพเสริม 1:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="additional_image_1">รูปภาพเสริม 1:</label>
                     <input
+                        className='form-control'
                         type="file"
                         name="additional_image_1"
                         onChange={handleImageChange}
 
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="additional_image_2">รูปภาพเสริม 2:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="additional_image_2">รูปภาพเสริม 2:</label>
                     <input
+                        className='form-control'
                         type="file"
                         name="additional_image_2"
                         onChange={handleImageChange}
 
                     />
                 </div>
-                <button type="submit" className="submit-button">
+                <button type="submit" className="custom-btn rounded">
                     บันทึกสินค้า
                 </button>
             </form>

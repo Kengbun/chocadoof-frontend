@@ -12,12 +12,12 @@ const FormReview = ({ params, reviewSubmitted }) => {
         review_description: '',
         rating: 0,
         // product_id: params.params.id, // คุณอาจตั้งค่าเริ่มต้นจาก props หรือ context
-            
+
     });
     console.log(params.id);
     // console.log(reviewSubmitted);
 
-    
+
 
     const [loading, setLoading] = useState(false); // สำหรับจัดการสถานะการโหลด
 
@@ -55,14 +55,14 @@ const FormReview = ({ params, reviewSubmitted }) => {
 
         setLoading(true);
         try {
-            const response = await axios.post(`/review`,formData, {
+            const response = await axios.post(`/review`, formData, {
                 headers: {
                     'authtoken': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
                 // body: JSON.stringify(formData),
             });
-            
+
             if (response.request.status === 201) {
                 alert('รีวิวของคุณถูกส่งเรียบร้อยแล้ว');
                 setFormData({
@@ -79,7 +79,7 @@ const FormReview = ({ params, reviewSubmitted }) => {
         } catch (err) {
             console.err('err submitting review:', err);
             alert('ไม่สามารถส่งรีวิวได้');
-            console.log("err= "+ err)
+            console.log("err= " + err)
         } finally {
             setLoading(false);
         }
@@ -87,22 +87,26 @@ const FormReview = ({ params, reviewSubmitted }) => {
 
     return (
         <div>
-            <div className="review-form">
-                <div className="rating-input">
+            <div className="">
+                <div className="d-flex">
                     <p>ให้คะแนน:</p>
-                    <div style={{ display: 'flex' }}>
+                    <div 
+                        // style={{ display: 'flex' }}
+                    >
                         {getStars(formData.rating)} {/* แสดงดาวที่เลือก */}
                     </div>
                 </div>
 
                 <textarea
+                    className='form-control'
                     value={formData.review_description}
                     onChange={handleInputChange}
+                    maxLength={350}
                     placeholder="เขียนรีวิวของคุณที่นี่..."
                     rows="4"
                 ></textarea>
 
-                <button className="submit-review" onClick={submitReview} disabled={loading}>
+                <button className="custom-btn rounded mt-3" onClick={submitReview} disabled={loading}>
                     {loading ? 'กำลังส่ง...' : 'ส่งรีวิว'}
                 </button>
             </div>

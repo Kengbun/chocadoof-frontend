@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './ArticleDetail.css';
+// import './ArticleDetail.css';
 // import axios from 'axios';
 import axios from '../confix/axios';
 import { useParams } from 'react-router-dom';
@@ -42,30 +42,36 @@ const ArticleDetail = () => {
     return (
         // <div>
         //     </div>
-        <div>
-            <div className="article-container">
-                <h1 className="article-title">
-                    {data.title}
-                </h1>
+        <div className="container my-5">
+            <div className="card shadow p-5 ">
+                
+                <h1 className="card-title text-center">{data.title}</h1>
 
-                <div className="author-details">
-                    <div className="author-profile">
-                        <img src={data.author.profile_picture || "https://picsum.photos/200/300"} alt="img" />
+                <div className="d-flex align-items-center gap-3 my-3">
+                    <img
+                        className="img-fluid rounded-circle shadow"
+                        style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                        src={data.author.profile_picture || "https://picsum.photos/200/300"}
+                        alt="Author"
+                    />
+                    <div>
+                        <p className="fw-bold mb-0 text-nowrap">{data.author.name}</p>
+                        <p className="text-muted small mb-0">{formatDate(data.createdAt)}</p>
                     </div>
-                    <p className="author-name">{data.author.name }</p>
-                    <p className="publish-date">{formatDate(data.createdAt)}</p>
                 </div>
-                <img src={data.contentImage} alt="Cat playing" className="article-image" />
+
+                {data.contentImage && (
+                    <img src={data.contentImage} alt="Content Image" className="img-fluid rounded  my-3" />
+                )}
+
                 <div className="article-content">
-                    {data.content.split('\n').map((paragraph, index) => (
-                        <p key={index}>{paragraph}</p>
+                    {data.content.split("\n").map((paragraph, index) => (
+                        <p key={index} className="text-break">{paragraph}</p>
                     ))}
-
-                    {/* <p>{data.content}</p> */}
-
                 </div>
             </div>
         </div>
+
     );
 };
 

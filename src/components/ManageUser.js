@@ -1,12 +1,13 @@
 // import axios from 'axios';
 import axios from '../confix/axios';
 import React, { useEffect, useState } from 'react'
+import {useLoadMore, formatDate }from '../functions/functions';
 
 const ManageUser = () => {
 
     const token = localStorage.getItem('authToken');
     const [data, setData] = useState([]);
-    const [visibleUsers, setVisibleUsers] = useState(5);
+    const {visible, loadMore} = useLoadMore(5,5);
 
     useEffect(() => {
         loadData();
@@ -27,22 +28,14 @@ const ManageUser = () => {
         }
     }
 
-    // ฟังก์ชันสำหรับแปลงวันที่
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('th-TH'); // แปลงให้เป็นรูปแบบวันที่ที่อ่านง่าย
-    };
+   
 
-    // ฟังก์ชันสำหรับโหลดสินค้าเพิ่มเติม
-    const loadMoreUsers = () => {
-        setVisibleUsers((prev) => prev + 5); // เพิ่ม 5 ชิ้นต่อการกดครั้งหนึ่ง
-    };
 
     // ฟังก์ชันสำหรับลบส user
     const handleRemove = async (id) => {
         // console.log(id);
         try {
-            const response = await axios.delete( "/users/" + id, {
+            const response = await axios.delete("/users/" + id, {
                 headers: {
                     'authToken': `Bearer ${token}`
                 }
@@ -55,50 +48,53 @@ const ManageUser = () => {
     }
 
     return (
-        <div id = " manage-users"> 
-            <h3>จัดการผู้ใช้</h3>
+        <div id="manage-users" className="container my-4">
+            <h3 className=" mb-4">จัดการผู้ใช้</h3>
 
-            <table className="article-table">
-                <thead>
-                    <tr>
-                        <th>ชื่อ</th>
-                        <th>อีเมล</th>
-                        <th>วันที่ลงทะเบียน</th>
-                        <th>การจัดการ</th>
-                    </tr>
-                </thead>
-                { // ตรวจสอบว่ามีข้อมูลหรือไม่
-                    data.length > 0 ? (
-                        // แสดงข้อมูล
-                        data.slice(0, visibleUsers).map((users, index) => (
-                            <tr key={index}> {/* ใช้ key สำหรับแต่ละแถว */}
-                                {/* <td>{index + 1}</td> */}
-                                <td>{users.name}</td>
-                                <td>{users.email}</td>
-                                <td>{formatDate(users.createdAt)}</td>
-                                <td>
-                                    <button
-                                        className="delete-btn"
-                                        onClick={() => handleRemove(users.id)}
-                                    >ลบ</button>
-                                </td>
-                            </tr>
-                        ))
-                    ) : (
+            {/* ตารางผู้ใช้ */}
+            <div className="table-responsive">
+                <table className="table table-bordered table-hover text-center align-middle">
+                    <thead className="table-secondary">
                         <tr>
-                            <td colSpan="4">ไม่มีข้อมูล</td>
+                            <th>ชื่อ</th>
+                            <th>อีเมล</th>
+                            <th>วันที่ลงทะเบียน</th>
+                            <th>การจัดการ</th>
                         </tr>
-                    )
-                }
+                    </thead>
+                    <tbody>
+                        {data.length > 0 ? (
+                            data.slice(0, visible).map((user, index) => (
+                                <tr key={index}>
+                                    <td>{user.name}</td>
+                                    <td>{user.email}</td>
+                                    <td>{formatDate(user.createdAt)}</td>
+                                    <td>
+                                        <button className="btn btn-danger btn-sm" onClick={() => handleRemove(user.id)}>
+                                            ลบ
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="4">ไม่มีข้อมูล</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
 
-            </table>
-            {/* แสดงปุ่มเพิ่มเติม */}
-            {visibleUsers < data.length && (
-                <div className="load-more">
-                    <button onClick={loadMoreUsers}>เพิ่มเติม</button>
+            {/* ปุ่มเพิ่มเติม */}
+            {visible < data.length && (
+                <div className="text-center mt-3">
+                    <button className="custom-btn rounded" onClick={loadMore}>
+                        เพิ่มเติม
+                    </button>
                 </div>
             )}
         </div>
+
     )
 }
 

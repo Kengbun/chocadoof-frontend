@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import axios from 'axios';
 import axios from '../confix/axios';
 import { useNavigate } from 'react-router-dom';
-import "../pages/Articles.css"
+// import "../pages/Articles.css"
 
 
 const FormEditProfile = () => {
@@ -88,18 +88,22 @@ const FormEditProfile = () => {
     };
 
     return (
-        <div className="form-container">
+        <div className="container card my-5 p-5 shadow"
+        style={{maxWidth: "600px"}}
+        >
             <div>
                 <h3>ตัวอย่างรูปโปรไฟล์:</h3>
                 <img
+                    className='border border-2 border-white  rounded-circle'
+                    style={{ width: 150, height: 150 }}
                     src={renderImagePreview(selectedProfilePicture || data.profile_picture)}
                     alt="Profile Preview"
-                    style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }}
                 />
-                <div className="form-group">
-                    <label htmlFor="profile_picture">รูปโปรไฟล์:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark'  htmlFor="profile_picture">รูปโปรไฟล์:</label>
 
                     <input
+                        className='form-control'
                         type="file"
                         name="profile_picture"
                         onChange={handleImageChange}
@@ -108,20 +112,23 @@ const FormEditProfile = () => {
             </div>
             <h2>ข้อมูลโปรไฟล์</h2>
             <form onSubmit={handleSave}>
-                <div className="form-group">
-                    <label htmlFor="name">ชื่อ:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark'  htmlFor="name">ชื่อ:</label>
                     <input
+                        className='form-control'
                         type="text"
                         name="name"
+                        maxLength={100}   //กำหนดใส่ได้ไม่เกิน 100 ตัว
                         value={data.name}
                         onChange={handleChange}
                         placeholder="กรอกชื่อ"
 
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="email">อีเมล:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark'  htmlFor="email">อีเมล:</label>
                     <input
+                        className='form-control'
                         type="email"
                         name="email"
                         value={data.email}
@@ -131,7 +138,7 @@ const FormEditProfile = () => {
                 </div>
 
 
-                <button className="submit-button" type="submit">อัปเดตข้อมูลโปรไฟล์</button>
+                <button className="custom-btn rounded" type="submit">อัปเดตข้อมูลโปรไฟล์</button>
             </form>
         </div>
     );

@@ -3,6 +3,8 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './Banner.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import PromoImage1 from '../assets/banner_img/b4.jpg'; 
 import PromoImage2 from '../assets/banner_img/b5.jpg';
 import PromoImage3 from '../assets/banner_img/b6.jpg';
@@ -20,7 +22,7 @@ const Banner = () => {
     };
 
     return (
-        <section className="banner-carousel">
+        <section className="banner-carousel container-xxl">
             <Slider {...settings}>
                 <div>
                     <img src={PromoImage1} alt="โปรโมชั่น 1" className="carousel-image" />

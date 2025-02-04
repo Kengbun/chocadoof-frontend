@@ -22,7 +22,7 @@ const FormEditArticle = () => {
     }, [params.id]); // เพิ่ม params.id ใน dependencies เพื่อโหลดข้อมูลใหม่เมื่อ id เปลี่ยน
 
     const loadData = (id) => {
-        axios.get( "/article/" + id)
+        axios.get("/article/" + id)
             .then((res) => {
                 setData(res.data);
                 setSelectedCoverImage(res.data.coverImage); // อัปเดต selectedCoverImage เมื่อ data.coverImage เปลี่ยน
@@ -100,37 +100,44 @@ const FormEditArticle = () => {
     console.log(selectedcontentImage)
 
     return (
-        <div className="form-container">
+        <div className="container card my-5 p-5 shadow"
+            // style={{ maxWidth: '600px' }}
+        >
             <h2>แก้ไข้ข้อมูลบทความ</h2>
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="title">หัวข้อบทความ :</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="title">หัวข้อบทความ :</label>
                     <input
+                        className='form-control'
                         type="text"
                         name="title"
+                        maxLength={150}   //กำหนดใส่ได้ไม่เกิน 150 ตัว
                         value={data.title}
                         onChange={handleChange}
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="category">หมวดหมู่:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="category">หมวดหมู่:</label>
                     <input
+                        className='form-control'
                         type="text"
                         name="category"
+                        maxLength={20}   //กำหนดใส่ได้ไม่เกิน 20 ตัว
                         value={data.category}
                         onChange={handleChange}
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="coverImage">รูปภาพหน้าปก:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="coverImage">รูปภาพหน้าปก:</label>
                     <input
+                        className='form-control'
                         type="file"
                         name="coverImage"
                         onChange={handleCoverImageChange}
                     />
                     {selectedCoverImage && (
-                        <div>
-                            <h3>ตัวอย่างภาพหน้าปก:</h3>
+                        <div className='mt-3'>
+                            <h5>ตัวอย่างภาพหน้าปก:</h5>
                             <img
                                 src={renderImagePreview(selectedCoverImage)}
                                 alt="Cover Preview"
@@ -139,16 +146,17 @@ const FormEditArticle = () => {
                         </div>
                     )}
                 </div>
-                <div className="form-group">
-                    <label htmlFor="contentImage">รูปภาพเพิ่มเติม:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="contentImage">รูปภาพเพิ่มเติม:</label>
                     <input
+                        className='form-control'
                         type="file"
                         name="contentImage"
                         onChange={handlecontentImageChange}
                     />
                     {selectedcontentImage && (
-                        <div>
-                            <h3>ตัวอย่างรูปภาพเพิ่มเติม:</h3>
+                        <div className='mt-3'>
+                            <h5>ตัวอย่างรูปภาพเพิ่มเติม:</h5>
                             <img
                                 src={renderImagePreview(selectedcontentImage)}
                                 alt="Additional Image Preview"
@@ -157,19 +165,22 @@ const FormEditArticle = () => {
                         </div>
                     )}
                 </div>
-                <div className="form-group">
-                    <label htmlFor="content">เนื้อหาบทความ:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="content">เนื้อหาบทความ:</label>
                     <textarea
+                        className='form-control'
                         name="content"
+                        maxLength={10000}   //กำหนดใส่ได้ไม่เกิน 10000 ตัว
                         value={data.content}
                         onChange={handleChange}
-                        rows="5"
+                        rows="10"
                     ></textarea>
                 </div>
-                <button type="submit" className="submit-button">
+                <button type="submit" className="custom-btn rounded">
                     บันทึกบทความ
                 </button>
             </form>
+
         </div>
     );
 };

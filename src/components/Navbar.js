@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './Navbar.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Logo from "../assets/logo3.png";
 // import Avatar from "https://picsum.photos/200/300";
 import axios from 'axios';
 import Role from '../functions/role';
+import '../styles/global.css'
 // import axios from '../confix/axios';
 
 // import role from '../functions/role';
@@ -63,47 +65,88 @@ const Navbar = () => {
     const token = localStorage.getItem('authToken');
 
     const role = Role.getRole(token);
-    
+
     const url = role === 'admin' ? '/admin/dashboard' : '/profile';
     console.log(url);
 
 
 
     return (
-        <nav className="navbar">
-            <div className="navbar-container">
-                <Link to="/">
-                    <div className="logo">
-                        <img src={Logo} alt="Chocadoof Logo" className="logo-image" />
-                        <span>Chocadoof</span>
-                    </div>
+        
+
+        <nav className="navbar navbar-expand-lg custom-navbar">
+            <div className="container">
+                <Link className="navbar-brand d-flex align-items-center" to="/">
+                    <img src={Logo} alt="Logo" className="logo-image" />
+                    <span className="logo-text">Chocadoof</span>
                 </Link>
-                <ul className="nav-links">
-                    <li><Link to="/">หน้าแรก</Link></li>
-                    <li><Link to="/products">สินค้า</Link></li>
-                    <li><Link to="/articles">บทความ</Link></li>
-                    <li><Link to="/about">เกี่ยวกับเรา</Link></li>
-                    <li><Link to="/contact">ติดต่อ</Link></li>
-                </ul>
-                <div className={'nav-login'} >
-                    {isLoggedIn ? (
-                        <>
-                            <Link to={url} className="nav-button-login">
-                                <img src={avatar.profile_picture ? avatar.profile_picture : Avatar}
-                                    className='nav-avatar'
-                                />
-                            </Link>
-                            <button onClick={handleLogout} className="nav-button">ออกจากระบบ</button>
-                        </>
-                    ) : (
-                        <>
-                            <Link to="/login" className="nav-button" >เข้าสู่ระบบ</Link>
-                            <Link to="/signup" className="nav-button">สมัครสมาชิก</Link>
-                        </>
-                    )}
+
+                {/* ปุ่ม Hamburger */}
+                <button
+                    className="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+
+                {/* เมนูที่ซ่อน */}
+                <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul className="navbar-nav gap-3">
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/">หน้าแรก</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/products">สินค้า</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/articles">บทความ</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/about">เกี่ยวกับเรา</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/contact">ติดต่อเรา</Link>
+                        </li>
+
+                        {/* ปุ่มเข้าสู่ระบบและสมัครสมาชิก (ย้ายมาอยู่ภายใน Hamburger menu) */}
+
+                        {isLoggedIn ? (
+                            <div className="navbar-nav gap-2">
+
+                                <li className="nav-item">
+                                    <Link to={url} className="">
+                                        <img src={avatar.profile_pcture ? avatar.profile_pcture : Avatar}
+                                            className='nav-avatar border border-2 border-white  rounded-circle'
+                                        />
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link onClick={handleLogout} className="btn btn-auth w-100">ออกจากระบบ</Link>
+                                </li>
+                            </div>
+                        ) : (
+                            <div className="navbar-nav gap-2">
+                                <li className="nav-item">
+                                    <Link to="/login" className="btn btn-auth w-100">เข้าสู่ระบบ</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to="/signup" className="btn btn-auth w-100">สมัครสมาชิก</Link>
+                                </li>
+                            </div>
+                        )}
+
+
+                    </ul>
                 </div>
             </div>
         </nav>
+
+
     );
 };
 

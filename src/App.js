@@ -1,4 +1,5 @@
-import "./App.css";
+// import "./App.css";
+import './styles/global.css';
 import React, { useState } from 'react';
 // import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -12,7 +13,7 @@ import Footer from "./components/Footer";
 // import Signup from './pages/Signup';
 // import Login from './pages/Login';
 // import ProductDetail from './pages/ProductDetail'
-// import Testpo from './pages/Testpo';
+import Testpo from './pages/Testpo';
 // import Profile from './pages/Profile';
 // import AdminDashboard from './pages/AdminDashboard';
 // import FormArticle from "./components/FormArticle";
@@ -38,6 +39,7 @@ function App() {
   return (
     <div >
       <Navbar/>
+      {/* <Testpo/> */}
       <PrivateRoutes role={role} setRole={setRole} />
       <Footer/>
     </div>

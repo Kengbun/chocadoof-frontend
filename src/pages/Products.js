@@ -2,16 +2,22 @@ import React, { useEffect, useState } from 'react';
 import Banner from '../components/Banner.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { motion } from 'framer-motion';
+import { fadeInUp } from '../functions/animation.js';
 
-import './Products.css';
+// import './Products.css'
+import Card from '../components/Card.js';
 import axios from 'axios';
 // import axios from '../confix/axios.js';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLoadMore } from '../functions/functions.js';
+import Loading from "../components/Loading";
 
 const Products = () => {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [originalProducts, setOriginalProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         loadData();
@@ -19,38 +25,21 @@ const Products = () => {
 
     const loadData = async () => {
         try {
+            setLoading(true);
             const response = await axios.get("/products/lists")
             setProducts(response.data);
             setOriginalProducts(response.data);
             // console.log(response.data);
         } catch (error) {
             console.error("Error loading data:", error);
+        } finally {
+            setLoading(false);
         }
     }
 
-    // สถานะสำหรับจัดการจำนวนสินค้าที่แสดง
-    const [visibleProducts, setVisibleProducts] = useState(5);
+    const { visible, loadMore } = useLoadMore(4, 10);
 
-    // ฟังก์ชันสำหรับโหลดสินค้าเพิ่มเติม
-    const loadMoreProducts = () => {
-        setVisibleProducts((prev) => prev + 10); // เพิ่ม 10 ชิ้นต่อการกดครั้งหนึ่ง
-    };
 
-    // ฟังก์ชันแปลงคะแนนเป็นจำนวนดาว
-    const getStars = (rating) => {
-        let stars = [];
-        for (let i = 0; i < 5; i++) {
-            stars.push(
-                <FontAwesomeIcon
-                    key={i}
-                    icon={faStar}
-                    className={i < rating ? 'selected' : ''}
-                    style={{ color: i < rating ? '#ffd700' : '#ddd' }}
-                />
-            );
-        }
-        return stars;
-    };
 
     const handleViewProduct = (productId) => {
         navigate(`/productdetail/${productId}`); // นำทางไปยังหน้าแสดงรายละเอียดสินค้า
@@ -77,66 +66,79 @@ const Products = () => {
         setProducts(sorted);
     };
     const location = useLocation();
+    // console.log(location)
     // const isHomePage = location.pathname === '/'; // ตรวจสอบว่าหน้าปัจจุบันคือหน้า Home
 
     return (
         <div>
-
-            {location.pathname === '/' ? (
-                <div>
-                    <div className="section-header">
-                        <h2>สินค้ารีวิว</h2>
-                        <a href="/products" className="see-more">ดูทั้งหมด &gt;</a>
-                    </div>
-                    < div className="product-list">
-                        {products.slice(0, visibleProducts).map((product, index) => (
-                            <div key={index} className="product-card">
-                                <img src={product.main_image} alt={product.product_name} />
-                                <h3>{product.product_name}</h3>
-                                <p className="product-rating">{getStars(product.averageRating)}</p>
-                                <button
-                                    className='product-btn'
-                                    onClick={() => handleViewProduct(product.id)}
-                                >ดูสินค้า</button>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
+            {loading ? (
+                <Loading />
             ) : (
 
-                <div>
-                    <Banner />
-                    <div className="product-page">
-                        <h1 className="page-title">สินค้า</h1>
-                        <div className='product-filter'>
-                            <span>เรียงโดย:</span>
-                            <button className='button-filter' onClick={() => sortProducts('popular')}>ยอดนิยม</button >
-                            <button className='button-filter' onClick={() => sortProducts('latest')}>ล่าสุด</button >
-                            <button className='button-filter' onClick={() => sortProducts('dog')}>สุนัข</button >
-                            <button className='button-filter' onClick={() => sortProducts('cat')}>แมว</button >
-                            <button className='button-filter' onClick={() => sortProducts('reset')}>รีเซ็ต</button >
+                <div className={location.pathname === '/' ? ('container') : ('')}>
 
+                    {location.pathname === '/' ? (
+                        <div className="d-flex justify-content-between my-3">
+                            <h2>สินค้ารีวิว</h2>
+                            <Link to="/products" >ดูทั้งหมด &gt;</Link>
                         </div>
-                        <div className="product-list">
-                            {products.slice(0, visibleProducts).map((product, index) => (
-                                <div key={index} className="product-card">
-                                    <img src={product.main_image} alt={product.product_name} />
-                                    <h3>{product.product_name}</h3>
-                                    <p className="product-rating">{getStars(product.averageRating)}</p>
-                                    <button
-                                        className='product-btn'
-                                        onClick={() => handleViewProduct(product.id)}
-                                    >ดูสินค้า</button>
+
+                    ) : (
+                        <div>
+                            <Banner />
+                            <div className="p-4">
+                                <h1 className="d-flex justify-content-center mt-3">สินค้า</h1>
+                                <div className='mb-3 '
+
+                                >
+                                    <span className='bg-white fw-bold shadow rounded-pill border-0 px-3 py-1 ms-2 '
+                                    >เรียงโดย:</span>
+                                    <button className='bg-white fw-bold shadow rounded-pill border-0 px-3 py-1 ms-2 custom-transform' onClick={() => sortProducts('popular')}>ยอดนิยม</button >
+                                    <button className='bg-white fw-bold shadow rounded-pill border-0 px-3 py-1 ms-2 custom-transform' onClick={() => sortProducts('latest')}>ล่าสุด</button >
+                                    <button className='bg-white fw-bold shadow rounded-pill border-0 px-3 py-1 ms-2 custom-transform' onClick={() => sortProducts('dog')}>สุนัข</button >
+                                    <button className='bg-white fw-bold shadow rounded-pill border-0 px-3 py-1 ms-2 custom-transform' onClick={() => sortProducts('cat')}>แมว</button >
+                                    <button className='bg-white fw-bold shadow rounded-pill border-0 px-3 py-1 ms-2 custom-transform' onClick={() => sortProducts('reset')}>รีเซ็ต</button >
+
                                 </div>
+                            </div>
+                        </div>
+                    )}
+
+
+
+                    <div className='container '>
+                        <div className={`row row-cols-auto row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 ${location.pathname === '/' ? 'justify-content-center' : ''}`}>
+
+
+                            {products.slice(0, visible).map((product, index) => (
+                                <motion.div key={index} className='col m-0 '
+                                    style={{
+                                        width: '220px',
+                                    }}
+                                    {...fadeInUp(index * 0.1)}
+                                >
+
+                                    <Card
+                                        image={product.main_image}
+                                        title={product.product_name}
+                                        rating={product.averageRating}
+                                        productId={product.id}
+                                        onClick={handleViewProduct}
+                                        section='product'
+                                    />
+                                </motion.div>
                             ))}
                         </div>
-                        {visibleProducts < products.length && ( // แสดงปุ่ม "โหลดเพิ่ม" หากมีสินค้าเหลือ
-                            <div className="load-more">
-                                <button onClick={loadMoreProducts}>เพิ่มเติม</button>
-                            </div>
-                        )}
                     </div>
+
+                    {/* // แสดงปุ่ม "โหลดเพิ่ม" หากมีสินค้าเหลือและไม่อยู่หน้าหลัก */}
+                    {(visible < products.length && location.pathname !== '/') && (
+                        <div className='d-flex justify-content-center mb-4'>
+                            <button className='custom-btn rounded' onClick={loadMore}
+                            >เพิ่มเติม</button>
+                        </div>
+                    )}
+
                 </div>
             )}
         </div>

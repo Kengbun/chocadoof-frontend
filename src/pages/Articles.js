@@ -1,28 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import img3 from '../assets/Articledetail.jpg';
-import './Articles.css';
 import axios from 'axios';
 // import axios from '../confix/axios';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Card from '../components/Card';
+import Loading from "../components/Loading";
+import { useLoadMore, formatDate } from '../functions/functions';
 // import st from './Articles.modul.css'
+import { motion } from 'framer-motion';
+import { fadeInUp } from '../functions/animation.js';
 
 const Articles = () => {
     const navigate = useNavigate();
 
     const [articles, setArticles] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         loadData();
     }, []);
 
     const loadData = async () => {
+        setLoading(true);
         try {
-            const response = await axios.get( "/article")
+            const response = await axios.get("/article")
             // setArticles(response.data);
             console.log(response.data);
 
             const update = response.data.map((article) => {
-                return{
+                return {
                     ...article,
                     author: {
                         ...article.author,
@@ -32,27 +38,16 @@ const Articles = () => {
             })
             setArticles(update);
             console.log(articles)
-            
+
         } catch (err) {
             console.log(err)
+        } finally {
+            setLoading(false);
         }
     }
-    // สถานะสำหรับจัดการจำนวนบทความ
-    const [visible, setVisibleArticles] = useState(5);
+    const { visible, loadMore } = useLoadMore(4, 4);
 
-    // ฟังก์ชันสำหรับโหลดบทความเพิ่มเติม
-    const loadMoreArticles = () => {
-        setVisibleArticles((prev) => prev + 10); // เพิ่ม 5 ชิ้นต่อการกดครั้งหนึ่ง
-    };
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('th-TH', {
-            day: '2-digit', // วันที่ 2 หลัก
-            month: 'short', // เดือนแบบย่อ (เช่น ธ.ค.)
-            year: 'numeric' // ปี พ.ศ.
-        });
-    };
 
     const handleViewArticle = (articleId) => {
         navigate(`/articledetail/${articleId}`); // นำทางไปยังหน้าแสดงรายละเอียดสินค้า
@@ -61,84 +56,70 @@ const Articles = () => {
     const location = useLocation();
 
     return (
+
         <div>
+            {loading ? <Loading />
+                :
+                (
 
-            {location.pathname === '/' ? (
-                <div>
-                    <div className="section-header">
-                        <h2>บทความ</h2>
-                        <a href="/articles" className="see-more">ดูทั้งหมด &gt;</a>
-                    </div>
-                    <div className="list-grid">
-                        {articles.slice(0, visible).map((article) => (
-                            <div style={{ cursor: 'pointer' }}
-                                onClick={() => handleViewArticle(article.id)}
-                                className="article-card" key={article.id}>
-                                <img src={article.coverImage || "https://picsum.photos/200/300"} alt={article.title || "https://picsum.photos/200/300"} />
-                                <h3>{article.title}</h3>
-                                <p className='cut-text'>{article.content}</p>
-                                <div className="profile">
-                                    <div className="author-profile">
-                                        <img src={article?.author?.profile_picture} alt={article?.author?.profile_picture} />
-                                    </div>
-                                    <div className="author-profile-name">
-                                        <span>{article?.author?.name}</span>
-                                        <span>{formatDate(article.createdAt)}</span>
+                    <div className={location.pathname === '/' ? ('container') : ('')}>
+
+                        {location.pathname === '/' ? (
+                            <div className='d-flex justify-content-between my-3'>
+                                <h2>บทความ</h2>
+                                <Link to="/products" >ดูทั้งหมด &gt;</Link>
+                            </div>
+                        ) : (
+                            <div>
+                                <div className="position-relative overflow-hidden"
+                                    style={{ width: '100%', height: '300px' }}>
+                                    <img className="img-fluid w-100 h-100 object-fit-cover" src={img3} alt="img" />
+                                    <div className="position-absolute bottom-0 w-100 bg-dark bg-opacity-50 text-white text-center py-2">
+                                        <h5 className="fs-3 fw-bold">ทำไมแมวชอบคาบอะไรแปลก ๆ มาฝากทาส</h5>
                                     </div>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                </div>
+                        )}
 
-            ) : (
+                        <div className={location.pathname === '/' ? ('container') : ('container mt-5')}>
+                            <div className={`row row-cols-auto row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 ${location.pathname === '/' ? 'justify-content-center' : ''}`}>
 
-                <div>
-                    {/* ส่วนแสดงบทความเด่น */}
-                    <div className="article-highlight">
-                        <div className="article-image">
-                            <img src={img3} alt="บทความ" />
-                        </div>
-                        <div className="article-overlay">
-                            <h3>ทำไมแมวชอบคาบอะไรแปลก ๆ มาฝากทาส</h3>
-                        </div>
-                    </div>
-                    {/* <Article className='{st.list}'/> */}
+                                {articles.slice(0, visible).map((article, index) => (
+                                    <motion.div
+                                        {...fadeInUp(index * 0.1)}
 
-                    <div className="list-grid">
-                        {articles.slice(0, visible).map((article) => (
-                            <div style={{ cursor: 'pointer' }}
-                                onClick={() => handleViewArticle(article.id)}
-                                className="article-card" key={article.id}>
-                                <img src={article.coverImage} alt={article.title} />
-                                <h3>{article.title}</h3>
-                                <p className='cut-text'>{article.content}</p>
-                                <div className="profile">
-                                    <div className="author-profile">
-                                        <img src={article.author.profile_picture} alt={article.author.profile_picture} />
-                                    </div>
-                                    <div className="author-profile-name">
-                                        <span>{article.author.name}</span>
-                                        <span>{formatDate(article.createdAt)}</span>
-                                    </div>
-                                </div>
+                                        key={article.id} className='col m-0'
+                                        onClick={() => handleViewArticle(article.id)}
+                                        style={{
+                                            cursor: 'pointer',
+                                            width: '220px',
+                                        }}
+                                    >
+
+                                        <Card
+                                            image={article.coverImage}
+                                            title={article.title}
+                                            section='article'
+                                            content={article.content}
+                                            avatar={article.author.profile_picture}
+                                            name={article.author.name}
+                                            date={formatDate(article.createdAt)}
+                                        />
+                                    </motion.div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-
-                    {/* ปุ่มโหลดเพิ่ม */}
-                    {visible < articles.length && (
-                        <div className="load-more">
-                            <button onClick={loadMoreArticles}>โหลดเพิ่ม</button>
                         </div>
-                    )}
 
-                </div>
+                        {(visible < articles.length && location.pathname !== '/') && (
+                            <div className='d-flex justify-content-center mb-4'>
+                                <button className='custom-btn rounded' onClick={loadMore}>เพิ่มเติม</button>
+                            </div>
+                        )}
 
-            )
-            }
-
+                    </div>
+                )}
         </div>
+
 
 
 

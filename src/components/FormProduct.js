@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const FormProduct = () => {
     const navigate = useNavigate();
-    
+
     const [formData, setFormData] = useState({
         product_name: "",
         short_description: "",
@@ -64,76 +64,90 @@ const FormProduct = () => {
     };
 
     return (
-        <div className="form-container">
+        <div className="container card my-5 p-5 shadow"
+            // style={{ maxWidth: "600px" }}
+        >
             <h2>เพิ่มข้อมูลสินค้า</h2>
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-                <div className="form-group">
-                    <label htmlFor="product_name">ชื่อสินค้า:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="product_name">ชื่อสินค้า:</label>
                     <input
+                        className='form-control'
                         type="text"
                         name="product_name"
+                        maxLength={100}
                         value={formData.product_name}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="short_description">คำอธิบายสั้น:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="short_description">คำอธิบายสั้น:</label>
                     <input
+                        className='form-control'
                         type="text"
                         name="short_description"
+                        maxLength={255}
                         value={formData.short_description}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="detailed_description">คำอธิบายละเอียด:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="detailed_description">คำอธิบายละเอียด:</label>
                     <textarea
+                        className='form-control'
                         name="detailed_description"
+                        maxLength={5000}
                         value={formData.detailed_description}
                         onChange={handleChange}
                         required
+                        roqws={6}
                     ></textarea>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="category">หมวดหมู่สินค้า:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="category">หมวดหมู่สินค้า:</label>
                     <input
+                        className='form-control'
                         type="text"
                         name="category"
+                        maxLength={20}
                         value={formData.category}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="main_image">รูปภาพหลัก:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="main_image">รูปภาพหลัก:</label>
                     <input
+                        className='form-control'
                         type="file"
                         name="main_image"
                         onChange={handleImageChange}
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="additional_image_1">รูปภาพเสริม 1:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="additional_image_1">รูปภาพเสริม 1:</label>
                     <input
+                        className='form-control'
                         type="file"
                         name="additional_image_1"
                         onChange={handleImageChange}
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="additional_image_2">รูปภาพเสริม 2:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="additional_image_2">รูปภาพเสริม 2:</label>
                     <input
+                        className='form-control'
                         type="file"
                         name="additional_image_2"
                         onChange={handleImageChange}
                         required
                     />
                 </div>
-                <button type="submit" className="submit-button">
+                <button type="submit" className="custom-btn rounded">
                     บันทึกสินค้า
                 </button>
             </form>

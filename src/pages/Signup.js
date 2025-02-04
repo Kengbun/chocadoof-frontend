@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Signup.css";
+// import "./Signup.css";
 import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import axios from '../confix/axios';
@@ -37,63 +37,72 @@ const Signup = () => {
     };
 
     return (
-        <div className="signup-container">
-            {
-                loading ? (
-                    <Loading />
-                ) : (
+        <div className=" d-flex justify-content-center align-items-center vh-100 bg-custom-gradient">
+            {loading ? (
+                <Loading />
+            ) : (
+                <div className="card shadow-lg rounded  p-4" style={{ width: "400px" }}>
+                    <div className="card-body text-center">
+                        {/* โลโก้และหัวข้อ */}
+                            <div className="d-flex justify-content-center align-items-center gap-3">
+                            <h2 className="fw-bold">Sign Up</h2>
+                            <img src={logo} alt="ChocaDoof Logo" className="img-fluid mb-3" style={{ maxWidth: "100px" }} />
+                        </div>
 
-                    <div className="signup-container">
-                        <div className="signup-box">
-                            <div className="signup-logo">
-                                <h2>Sign up</h2>
-                                <img src={logo} alt="ChocaDoof Logo" />
-                            </div>
-                            <form className="signup-form" onSubmit={handleSubmit}>
+                        {/* ฟอร์มสมัครสมาชิก */}
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-3">
                                 <input
-                                    className="signup-input"
+                                    className="form-control"
                                     type="text"
                                     placeholder="Name"
                                     required
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                 />
+                            </div>
+                            <div className="mb-3">
                                 <input
-                                    className="signup-input"
+                                    className="form-control"
                                     type="email"
                                     placeholder="Email"
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
+                            </div>
+                            <div className="mb-3">
                                 <input
-                                    className="signup-input"
+                                    className="form-control"
                                     type="password"
                                     placeholder="Password"
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
+                            </div>
+                            <div className="mb-3">
                                 <input
-                                    className="signup-input"
+                                    className="form-control"
                                     type="password"
                                     placeholder="Confirm Password"
                                     required
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
-                                <button type="submit" className="signup-button" disabled={loading}>
-                                    {loading ? "Signing up..." : "Sign up"}
-                                </button>
-                            </form>
-                            {/* แสดงข้อความความ */}
-                            {message && <p style={{ color: 'red' }}>{message}</p>}
+                            </div>
+                            <button type="submit" className="custom-btn rounded-pill w-100" disabled={loading}>
+                                {loading ? "Signing up..." : "Sign up"}
+                            </button>
+                        </form>
 
-                        </div>
+                        {/* แสดงข้อความแจ้งเตือน */}
+                        {message && <p className="text-danger mt-3">{message}</p>}
                     </div>
-                )
-            }
+                </div>
+            )}
         </div>
+
 
     );
 };

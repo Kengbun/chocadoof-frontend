@@ -2,6 +2,7 @@
     width: 100%;
     max-width: 2000px;
     margin: auto;
+    padding: 0px;
 }
 
 .carousel-image {
@@ -9,3 +10,4 @@
     height: 500px;
     /* border-radius: 10px; */
 }
+

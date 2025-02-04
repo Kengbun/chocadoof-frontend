@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './AdminDashboard.css';
+// import './AdminDashboard.css';
 import ManageReviews from '../components/ManageReviews';
 import ManageProducts from '../components/ManageProducts';
 import ManageArticles from '../components/ManageArticles';
@@ -18,7 +18,7 @@ const AdminDashboard = () => {
     const loadData = async () => {
         // console.log(token);
         try {
-            const response = await axios.get( "/users/dashboard", {
+            const response = await axios.get("/users/dashboard", {
                 headers: {
                     'authToken': `Bearer ${token}`
                 }
@@ -38,68 +38,66 @@ const AdminDashboard = () => {
     }
 
     return (
-        <div className="admin-dashboard">
+        <div className="d-flex">
             {/* Sidebar */}
-            <aside className="sidebar">
-                <h2>Chocadoof Admin</h2>
-                <nav>
-                    <ul>
-                        <li onClick={() => scrollToSection("dashboard")}>Dashboard</li>
-                        <li onClick={() => scrollToSection("manage-articles")}>จัดการบทความ</li>
-                        <li onClick={() => scrollToSection("manage-reviews")}>จัดการรีวิว</li>
-                        <li onClick={() => scrollToSection("manage-products")}>จัดการสินค้า</li>
-                        <li onClick={() => scrollToSection("manage-users")}>จัดการผู้ใช้งาน</li>
+            <aside className=" text-white p-3"
+                style={{backgroundColor: "#2d3e50"}}
+            >
+                <h2 className='fw-bold '>Chocadoof Admin</h2>
+                <nav className='navbar'>
+                    <ul className=' navbar-nav gap-2' >
+                        <li className=' nav-item custom-sidebar-item ' role="button" onClick={() => scrollToSection("dashboard")}>Dashboard</li>
+                        <li className=' nav-item custom-sidebar-item' role="button" onClick={() => scrollToSection("manage-articles")}>จัดการบทความ</li>
+                        <li className=' nav-item custom-sidebar-item' role="button" onClick={() => scrollToSection("manage-reviews")}>จัดการรีวิว</li>
+                        <li className=' nav-item custom-sidebar-item' role="button" onClick={() => scrollToSection("manage-products")}>จัดการสินค้า</li>
+                        <li className=' nav-item custom-sidebar-item' role="button" onClick={() => scrollToSection("manage-users")}>จัดการผู้ใช้งาน</li>
                     </ul>
                 </nav>
             </aside>
 
             {/* Main Content */}
-            <main className="content">
-                <header className="dashboard-header">
-                    <div className="dashboard-card">
-                        <h3>บทความทั้งหมด</h3>
-                        <p>{data.allArticles}</p>
-                    </div>
-                    <div className="dashboard-card">
-                        <h3>รีวิวทั้งหมด</h3>
-                        <p>{data.allReviews}</p>
-                    </div>
-                    <div className="dashboard-card">
-                        <h3>ผู้ใช้งาน</h3>
-                        <p>{data.allUsers}</p>
+            <main className="d-flex row w-100 p-4">
+                <header className="container my-4 " id="dashboard">
+                    <div className="row g-4">
+                        <div className="col-md-4">
+                            <div className="card text-center shadow-sm">
+                                <div className="card-body text-white "
+                                    style={{ backgroundColor: "#1abc9c" }}
+                                >
+                                    <h5 className="card-title">บทความทั้งหมด</h5>
+                                    <p className="fs-3 fw-bold ">{data.allArticles}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-4">
+                            <div className="card text-center shadow-sm">
+                                <div className="card-body text-white "
+                                    style={{ backgroundColor: "#1abc9c" }}
+                                >
+                                    <h5 className="card-title">รีวิวทั้งหมด</h5>
+                                    <p className="fs-3 fw-bold ">{data.allReviews}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-4">
+                            <div className="card text-center shadow-sm">
+                                <div className="card-body text-white "
+                                    style={{ backgroundColor: "#1abc9c" }}
+                                >
+                                    <h5 className="card-title">ผู้ใช้งาน</h5>
+                                    <p className="fs-3 fw-bold ">{data.allUsers}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </header>
+
 
                 <ManageUser />
                 <ManageProducts />
                 <ManageReviews />
                 <ManageArticles />
 
-                {/* Tables */}
-                {/* <section className="manage-section">
-                    <h3>จัดการบทความ</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ชื่อบทความ</th>
-                                <th>หมวดหมู่</th>
-                                <th>วันที่</th>
-                                <th>การจัดการ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>การดูแลสุนัขสำหรับผู้เริ่มต้น</td>
-                                <td>กรูมมิ่ง</td>
-                                <td>2024-11-25</td>
-                                <td>
-                                    <button className="btn btn-edit">แก้ไข</button>
-                                    <button className="btn btn-delete">ลบ</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section> */}
 
 
             </main>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from '../confix/axios';
-import "./Login.css";
+// import "./Login.css";
 import logo from "../assets/logo3.png";
 import Loading from "../components/Loading";
 
@@ -40,50 +40,53 @@ const Login = () => {
     };
 
     return (
-        <div className="login-container">
+        <div className=" d-flex justify-content-center align-items-center vh-100 bg-custom-gradient">
             {loading ? (
                 <Loading />
             ) : (
+                    <div className="card shadow-lg rounded p-4" style={{ width: "400px" }}>
+                    <div className="card-body text-center">
+                        {/* โลโก้และหัวข้อ */}
+                        <div className="d-flex justify-content-center align-items-center gap-3">
 
-                <div className="login-box">
-                    <div className="login-content">
-                        <div className="login-logo">
-                            <h2>Login</h2>
-                            <img src={logo} alt="ChocaDoof Logo" />
+                            <h2 className="fw-bold">Login</h2>
+                            <img src={logo} alt="ChocaDoof Logo" className="img-fluid mb-3" style={{ maxWidth: "100px" }} />
                         </div>
-                        <form className="login-form" onSubmit={handleSubmit}>
-                            <input
-                                className="login-input"
-                                type="email"
-                                placeholder="Email"
-                                required
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            <input
-                                className="login-input"
-                                type="password"
-                                placeholder="Password"
-                                required
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <button type="submit" className="login-button">
+
+                        {/* ฟอร์มล็อกอิน */}
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-3">
+                                <input
+                                    className="form-control"
+                                    type="email"
+                                    placeholder="Email"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <input
+                                    className="form-control"
+                                    type="password"
+                                    placeholder="Password"
+                                    required
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                            </div>
+                            <button type="submit" className="custom-btn w-100 rounded-pill">
                                 Login
                             </button>
                         </form>
-                        {/* แสดงข้อความ */}
-                        {message && <p style={{ color: 'red' }}>{message}</p>}
-                        {/* {message && (
-                        <p className={`login-message ${message.includes('Error') ? 'error' : 'success'}`}>
-                            {message}
-                        </p>
-                    )} */}
+
+                        {/* แสดงข้อความแจ้งเตือน */}
+                        {message && <p className="text-danger mt-3">{message}</p>}
                     </div>
                 </div>
-            )
-            }
+            )}
         </div>
+
     );
 };
 

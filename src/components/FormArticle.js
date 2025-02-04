@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../confix/axios';
-import '../pages/ArticleForm.css';
+// import '../pages/ArticleForm.css';
 
 const FormArticle = () => {
     const navigate = useNavigate();
-    
+
 
     const [formData, setFormData] = useState({
         title: '',
@@ -95,38 +95,46 @@ const FormArticle = () => {
     };
 
     return (
-        <div className="form-container">
+        <div className="container card my-5 p-5 shadow"
+            // style={{ maxWidth: '600px' }}
+        >
+            <h2>เพิ่มบทความ</h2>
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="title">หัวข้อบทความ :</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="title">หัวข้อบทความ :</label>
                     <input
+                        className='form-control'
                         type="text"
                         name="title"
+                        maxLength={150}
                         value={formData.title}
                         onChange={handleChange}
                         placeholder="กรอกหัวข้อบทความ"
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="category">หมวดหมู่:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="category">หมวดหมู่:</label>
                     <input
+                        className='form-control'
                         type="text"
                         name="category"
+                        maxLength={20}
                         value={formData.category}
                         onChange={handleChange}
                         placeholder="กรอกหมวดหมู่"
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="coverImage">รูปภาพหน้าปก:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="coverImage">รูปภาพหน้าปก:</label>
                     <input
+                        className='form-control'
                         type="file"
                         name="coverImage"
                         onChange={handleCoverImageChange}
                     />
                     {selectedCoverImage && (
-                        <div>
-                            <h3>ตัวอย่างภาพหน้าปก:</h3>
+                        <div className='mt-3'>
+                            <h5>ตัวอย่างภาพหน้าปก:</h5>
                             <img
                                 src={selectedCoverImage}
                                 alt="Cover Preview"
@@ -135,16 +143,17 @@ const FormArticle = () => {
                         </div>
                     )}
                 </div>
-                <div className="form-group">
-                    <label htmlFor="contentImage">รูปภาพเพิ่มเติม:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="contentImage">รูปภาพเพิ่มเติม:</label>
                     <input
+                        className='form-control'
                         type="file"
                         name="contentImage"
                         onChange={handleContentImageChange}
                     />
                     {selectedContentImage && (
-                        <div>
-                            <h3>ตัวอย่างรูปภาพเพิ่มเติม:</h3>
+                        <div className='mt-3'>
+                            <h5>ตัวอย่างรูปภาพเพิ่มเติม:</h5>
                             <img
                                 src={selectedContentImage}
                                 alt="Additional Image Preview"
@@ -153,17 +162,19 @@ const FormArticle = () => {
                         </div>
                     )}
                 </div>
-                <div className="form-group">
-                    <label htmlFor="content">เนื้อหาบทความ:</label>
+                <div className="mb-3">
+                    <label className='form-label fw-bold text-dark' htmlFor="content">เนื้อหาบทความ:</label>
                     <textarea
+                        className='form-control'
                         name="content"
                         value={formData.content}
+                        maxLength={10000}
                         onChange={handleChange}
                         placeholder="เขียนเนื้อหาบทความที่นี่"
                         rows="5"
                     ></textarea>
                 </div>
-                <button type="submit" className="submit-button">
+                <button type="submit" className="custom-btn rounded">
                     บันทึกบทความ
                 </button>
             </form>

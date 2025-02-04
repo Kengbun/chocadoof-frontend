@@ -2,13 +2,14 @@
 import axios from '../confix/axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { useLoadMore, formatDate } from '../functions/functions';
 
 const ManageProducts = () => {
 
     const token = localStorage.getItem('authToken');
     const [data, setData] = useState([]);
     // สถานะสำหรับจัดการจำนวนสินค้าที่แสดง
-    const [visibleProducts, setVisibleProducts] = useState(10);
+    const { visible, loadMore } = useLoadMore(5, 5);
 
     // โหลดข้อมูล
     useEffect(() => {
@@ -19,7 +20,7 @@ const ManageProducts = () => {
     const loadData = async () => {
         // console.log(token);
         try {
-            const response = await axios.get( "/products/lists", {
+            const response = await axios.get("/products/lists", {
                 headers: {
                     'authToken': `Bearer ${token}`
                 }
@@ -35,7 +36,7 @@ const ManageProducts = () => {
     const handleRemove = async (id) => {
         // console.log(id);
         try {
-            const response = await axios.delete( "/products/" +id, {
+            const response = await axios.delete("/products/" + id, {
                 headers: {
                     'authToken': `Bearer ${token}`
                 }
@@ -48,53 +49,47 @@ const ManageProducts = () => {
     }
 
 
-    // ฟังก์ชันสำหรับโหลดสินค้าเพิ่มเติม
-    const loadMoreProducts = () => {
-        setVisibleProducts((prev) => prev + 10); // เพิ่ม 10 ชิ้นต่อการกดครั้งหนึ่ง
-    };
-
-    // ฟังก์ชันสำหรับแปลงวันที่
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('th-TH'); // แปลงให้เป็นรูปแบบวันที่ที่อ่านง่าย
-    };
-
     return (
-        <div id="manage-products">
-            <h3>จัดการสินค้า</h3>
-            <Link to={"/formproduct"}>
-                <button className="add-article-btn">เพิ่มสินค้าใหม่</button>
-            </Link>
-            <table className="article-table">
-                <thead>
-                    <tr>
-                        <th>ชื่อสินค้า</th>
-                        <th>หมวดหมู่</th>
-                        <th>วันที่</th>
-                        {/* <th>วันที</th> */}
-                        {/* <th>id</th> */}
-                        <th>การจัดการ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    { // ตรวจสอบว่ามีข้อมูลหรือไม่
-                        data.length > 0 ? (
-                            // แสดงข้อมูล
-                            data.slice(0, visibleProducts).map((products, index) => (
-                                <tr key={index}> {/* ใช้ key สำหรับแต่ละแถว */}
-                                    {/* <td>{index + 1}</td> */}
-                                    <td>{products.product_name}</td>
-                                    <td>{products.category}</td>
-                                    <td>{formatDate(products.createdAt)}</td>
-                                    {/* <td>{data(products.createdAt)}</td> */}
+        <div id="manage-products" className="container my-4">
+            <h3 className="mb-4">จัดการสินค้า</h3>
+
+            {/* ปุ่มเพิ่มสินค้าใหม่ */}
+            <div className="mb-3">
+                <Link to="/formproduct">
+                    <button className="btn btn-success rounded px-3 py-2">เพิ่มสินค้าใหม่</button>
+                </Link>
+            </div>
+
+            {/* ตารางสินค้า */}
+            <div className="table-responsive">
+                <table className="table table-bordered table-hover text-center align-middle">
+                    <thead className="table-secondary">
+                        <tr>
+                            <th>ชื่อสินค้า</th>
+                            <th>หมวดหมู่</th>
+                            <th>วันที่</th>
+                            <th>การจัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.length > 0 ? (
+                            data.slice(0, visible).map((product, index) => (
+                                <tr key={index}>
+                                    <td>{product.product_name}</td>
+                                    <td>{product.category}</td>
+                                    <td>{formatDate(product.createdAt)}</td>
                                     <td>
-                                        <Link to={"/product/edit/" + products.id}>
-                                            <button className="edit-btn">แก้ไข</button>
-                                        </Link>
-                                        <button
-                                            className="delete-btn"
-                                            onClick={() => handleRemove(products.id)}
-                                        >ลบ</button>
+                                        <div className="d-flex justify-content-center gap-2">
+                                            <Link to={`/product/edit/${product.id}`}>
+                                                <button className="btn btn-primary btn-sm">แก้ไข</button>
+                                            </Link>
+                                            <button
+                                                className="btn btn-danger btn-sm"
+                                                onClick={() => handleRemove(product.id)}
+                                            >
+                                                ลบ
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))
@@ -102,17 +97,19 @@ const ManageProducts = () => {
                             <tr>
                                 <td colSpan="4">ไม่มีข้อมูลสินค้า</td>
                             </tr>
-                        )
-                    }
-                </tbody>
-            </table>
-            {/* แสดงปุ่มเพิ่มเติม */}
-            {visibleProducts < data.length && (
-                <div className="load-more">
-                    <button onClick={loadMoreProducts}>เพิ่มเติม</button>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+
+            {/* ปุ่มเพิ่มเติม */}
+            {visible < data.length && (
+                <div className="text-center mt-3">
+                    <button className="custom-btn rounded" onClick={loadMore}>เพิ่มเติม</button>
                 </div>
             )}
         </div>
+
     )
 }
 
