@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../confix/axios';
 // import '../pages/ArticleForm.css';
+import { useNotificationCustom } from '../functions/functions'
 
 const FormArticle = () => {
     const navigate = useNavigate();
-
+ const { showNotification } = useNotificationCustom();
 
     const [formData, setFormData] = useState({
         title: '',
@@ -61,13 +62,16 @@ const FormArticle = () => {
         e.preventDefault();
 
         if (!formData.title || !formData.category || !formData.coverImage || !formData.content) {
-            alert('กรุณากรอกข้อมูลให้ครบทุกช่อง');
+            // alert('กรุณากรอกข้อมูลให้ครบทุกช่อง');
+            showNotification("warning", "เกิดข้อผิดพลาด", "กรุณากรอกข้อมูลให้ครบทุกช่อง");
             return;
         }
 
         const token = localStorage.getItem('authToken');
         if (!token) {
             alert('กรุณาเข้าสู่ระบบ');
+            showNotification("error", "เกิดข้อผิดพลาด", "กรุณาเข้าสู่ระบบใหม่อีกครั้ง");
+            navigate('/login');
             return;
         }
 
@@ -85,12 +89,14 @@ const FormArticle = () => {
                     'Content-Type': 'multipart/form-data'
                 },
             });
+            showNotification("success", "บันทึกสำเร็จ", "บทความถูกบันทึกเรียบร้อยแล้ว!");
             navigate('/profile');
-            alert('บทความถูกบันทึกเรียบร้อยแล้ว!');
+            // alert('บทความถูกบันทึกเรียบร้อยแล้ว!');
             console.log('Response:', response.data);
         } catch (error) {
-            console.error('Error:', error.response ? error.response.data : error.message);
-            alert('เกิดข้อผิดพลาดในการบันทึกบทความ');
+            // console.error('Error:', error.response ? error.response.data : error.message);
+            // alert('เกิดข้อผิดพลาดในการบันทึกบทความ');
+            showNotification("error", "เกิดข้อผิดพลาด", error.message ||"เกิดข้อผิดพลาดในการบันทึกบทความ");
         }
     };
 

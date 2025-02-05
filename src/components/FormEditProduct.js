@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from '../confix/axios';
+import { useNotificationCustom } from '../functions/functions'
 
 
 const token = localStorage.getItem('authToken');
@@ -10,6 +11,7 @@ const token = localStorage.getItem('authToken');
 const FormEditProduct = () => {
     const params = useParams();
     const navigate = useNavigate();
+    const { showNotification } = useNotificationCustom();
 
     const [data, setdata] = useState({
         product_name: "",
@@ -58,7 +60,7 @@ const FormEditProduct = () => {
         }
     };
 
-    console.log(data.additional_image_2);
+    // console.log(data.additional_image_2);
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -94,10 +96,12 @@ const FormEditProduct = () => {
             });
 
 
-            console.log("Product updated successfully:", response.data);
+            // console.log("Product updated successfully:", response.data);
+            showNotification("success", "อัปเดตสำเร็จ", "สินค้าถูกอัปเดตเรียบร้อยแล้ว!");
             navigate("/");
         } catch (error) {
             console.error("Error updating product:", error);
+            showNotification("error", "เกิดข้อผิดพลาด", error.response.data.message || "เกิดข้อผิดพลาดในการอัปเดตสินค้า!");
         }
     };
 

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 // import axios from 'axios';
 import axios from '../confix/axios';
+import { useNotificationCustom } from '../functions/functions'
+
 
 
 const FormEditArticle = () => {
@@ -16,6 +18,7 @@ const FormEditArticle = () => {
     const [selectedCoverImage, setSelectedCoverImage] = useState(null); // เก็บภาพหน้าปก
     const [selectedcontentImage, setSelectedcontentImage] = useState(null); // เก็บรูปภาพเพิ่มเติม
     const navigate = useNavigate();
+    const { showNotification } = useNotificationCustom();
 
     useEffect(() => {
         loadData(params.id); // โหลดข้อมูลจาก id
@@ -66,11 +69,13 @@ const FormEditArticle = () => {
                     'Content-Type': 'multipart/form-data',
                 }
             });
-            console.log(response.data);
+            // console.log(response.data);
+            showNotification("success", "อัปเดตสำเร็จ", "บทความถูกอัปเดตเรียบร้อยแล้ว!");
             navigate("/profile"); // ไปที่หน้าอื่นหลังจากอัปเดตเสร็จ
         } catch (error) {
-            console.error("Error updating article:", error);
+            // console.error("Error updating article:", error);
             alert('เกิดข้อผิดพลาดในการอัปเดตบทความ!');
+            showNotification("error", "เกิดข้อผิดพลาด",error.message || "เกิดข้อผิดพลาดในการอัปเดตบทความ!");
         }
     };
 

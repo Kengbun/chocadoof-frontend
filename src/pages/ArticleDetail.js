@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 // import axios from 'axios';
 import axios from '../confix/axios';
 import { useParams } from 'react-router-dom';
+import Loading from "../components/Loading";
+import { formatDate } from '../functions/functions';
 
 
 const ArticleDetail = () => {
@@ -18,30 +20,24 @@ const ArticleDetail = () => {
 
     const loadData = async () => {
         try {
+            setLoading(true);
             const response = await axios.get("/article/" + params.id);
             console.log(response.data);
             setData(response.data);
         } catch (err) {
+            setData(null);
             console.log(err)
-            setLoading(true);
         } finally {
             setLoading(false);
         }
+        // console.log('kkkkkkk' +data);
     }
-    if (loading) return <p>กำลังโหลดข้อมูล...</p>;
+    if (loading) return <Loading />;
+    if (!data) return <Loading />;
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('th-TH', {
-            day: '2-digit', // วันที่ 2 หลัก
-            month: 'short', // เดือนแบบย่อ (เช่น ธ.ค.)
-            year: 'numeric' // ปี พ.ศ.
-        });
-    };
 
     return (
-        // <div>
-        //     </div>
+        
         <div className="container my-5">
             <div className="card shadow p-5 ">
                 

@@ -4,11 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 // import axios from 'axios';
 import axios from '../confix/axios';
 
+
 import Role from '../functions/role';
-import { useLoadMore, formatDate } from '../functions/functions';
+import { useLoadMore, formatDate, useNotificationCustom } from '../functions/functions';
 
 const ManageArticles = () => {
     const token = localStorage.getItem('authToken');
+    const { showNotification } = useNotificationCustom();
 
     const [data, setData] = useState([]);
     // const [form, setForm] = useState({});
@@ -37,11 +39,7 @@ const ManageArticles = () => {
         }
     };
 
-    // ฟังก์ชันสำหรับแปลงวันที่
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('th-TH'); // แปลงให้เป็นรูปแบบวันที่ที่อ่านง่าย
-    };
+    
 
 
 
@@ -53,10 +51,12 @@ const ManageArticles = () => {
                     'authToken': `Bearer ${token}`
                 }
             });
-            console.log(response.data);
+            // console.log(response.data);
+            showNotification("success", "ลบข้อมูลสำเร็จ", "");
             loadData();
         } catch (error) {
             console.error("Error deleting data:", error);
+            showNotification("error", "เกิดข้อผิดพลาด", error.message || "เกิดข้อผิดพลาด");
         }
     }
 

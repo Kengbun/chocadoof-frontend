@@ -1,13 +1,14 @@
 // import axios from 'axios';
 import axios from '../confix/axios';
 import React, { useEffect, useState } from 'react'
-import {useLoadMore, formatDate }from '../functions/functions';
+import {useLoadMore, formatDate, useNotificationCustom }from '../functions/functions';
 
 const ManageUser = () => {
 
     const token = localStorage.getItem('authToken');
     const [data, setData] = useState([]);
     const {visible, loadMore} = useLoadMore(5,5);
+    const { showNotification } = useNotificationCustom();
 
     useEffect(() => {
         loadData();
@@ -41,9 +42,11 @@ const ManageUser = () => {
                 }
             });
             // console.log(response.data);
+            showNotification("success", "ลบข้อมูลสำเร็จ", "");
             loadData();
         } catch (error) {
             console.error("Error deleting data:", error);
+            showNotification("error", "เกิดข้อผิดพลาด", error.message || "เกิดข้อผิดพลาด");
         }
     }
 

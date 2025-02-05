@@ -1,106 +1,53 @@
-// import axios from 'axios';
-import axios from '../confix/axios';
-import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+// import { notification } from 'antd';  // ใช้ notification ของ antd สำหรับแจ้งเตือน
 
-const ManageReviews = () => {
+import {useNotificationCustom }from '../functions/functions'
 
-    const token = localStorage.getItem('authToken');
-    const [data, setData] = useState([]);
-    const [visibleReviwes, setVisibleReviwes] = useState(5);
+const ResetPassword = () => {
+    // const navigate = useNavigate();
+    // const [email, setEmail] = useState(""); // เก็บอีเมลจากผู้ใช้
+    // const [newPass, setNewPass] = useState(""); // เก็บรหัสผ่านใหม่
+    const { showNotification } = useNotificationCustom();
 
+    // ฟังก์ชันสำหรับการแจ้งเตือน
+    // const showNotification = (type, message, description) => {
+    //     notification[type]({
+    //         message: message,
+    //         description: description,
+    //     });
+    // };
 
-    useEffect(() => {
-        loadData();
-    }, []);
+    // ฟังก์ชันการส่งอีเมลสำหรับรีเซ็ตรหัสผ่าน
+    const handleSubmit = async (e) => {
+        e.preventDefault();  // ป้องกันการ reload หน้า
 
-    const loadData = async () => {
-        // console.log(token);
         try {
-            const response = await axios.get("/review/", {
-                headers: {
-                    'authToken': `Bearer ${token}`
-                }
-            });
-            // console.log(response.data);
-            setData(response.data);
-        } catch (error) {
-            console.error("Error loading data:", error);
-        }
-    }
-    // ฟังก์ชันสำหรับลบรีวิว
-    const handleRemove = async (id) => {
-        // console.log(id);
-        try {
-            const response = await axios.delete("/review/" + id, {
-                headers: {
-                    'authToken': `Bearer ${token}`
-                }
-            });
-            // console.log(response.data);
-            loadData();
-        } catch (error) {
-            console.error("Error deleting data:", error);
-        }
-    }
+            // ส่งคำขอไปยัง API สำหรับการรีเซ็ตรหัสผ่าน (สมมุติว่าเป็น POST /reset-password)
+            // const response = await axios.post('/reset-password', { email });
 
-    // ฟังก์ชันสำหรับโหลดสินค้าเพิ่มเติม
-    const loadMoreReviwes = () => {
-        setVisibleReviwes((prev) => prev + 5); // เพิ่ม 5 ชิ้นต่อการกดครั้งหนึ่ง
+            // ถ้าสำเร็จ
+            showNotification("success", "สำเร็จ", "โปรดตรวจสอบอีเมลของคุณเพื่อรีเซ็ตรหัสผ่าน");
+            // if (response.status === 200) {
+            // } else {
+            //     showNotification("error", "เกิดข้อผิดพลาด", "ไม่สามารถส่งคำขอได้ในขณะนี้");
+            // }
+            showNotification("error", "เกิดข้อผิดพลาด", "ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้");
+        } catch (err) {
+            console.error("Error during reset password:", "ff");
+        }
     };
 
     return (
-        <div id="manage-reviews" className="container my-4">
-            <h3 className="text-center mb-4">จัดการรีวิว</h3>
-
-            <div className="table-responsive">
-                <table className="table table-bordered table-striped table-hover text-center">
-                    <thead className="table-dark">
-                        <tr>
-                            <th>ชื่อสินค้า</th>
-                            <th>คะแนน</th>
-                            <th>รีวิว</th>
-                            <th>การจัดการ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.length > 0 ? (
-                            data.slice(0, visibleReviwes).map((reviews, index) => (
-                                <tr key={index}>
-                                    <td>{reviews.Product.product_name}</td>
-                                    <td>{reviews.rating}</td>
-                                    <td>{reviews.review_description}</td>
-                                    <td>
-                                        <button
-                                            className="btn btn-danger btn-sm"
-                                            onClick={() => handleRemove(reviews.id)}
-                                        >
-                                            ลบ
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="4">ไม่มีข้อมูลสินค้า</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
-
-            {/* ปุ่มเพิ่มเติม */}
-            {visibleReviwes < data.length && (
-                <div className="d-flex justify-content-center mt-3">
-                    <button className="btn btn-primary" onClick={loadMoreReviwes}>
-                        เพิ่มเติม
-                    </button>
-                </div>
-            )}
+        <div className="d-flex justify-content-center align-items-center vh-100 bg-custom-gradient">
+            
+                        <button onClick={handleSubmit} type="submit" className="custom-btn w-100 rounded-pill">
+                            ส่ง
+                        </button>
+                    
         </div>
-
-    )
+    );
 }
 
-export default ManageReviews
-
-
+export default ResetPassword;

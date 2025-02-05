@@ -5,6 +5,9 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { motion } from 'framer-motion';
 import { fadeInUp } from '../functions/animation.js';
 
+import { useNotificationCustom } from '../functions/functions'
+
+
 // import './Products.css'
 import Card from '../components/Card.js';
 import axios from 'axios';
@@ -18,6 +21,8 @@ const Products = () => {
     const [products, setProducts] = useState([]);
     const [originalProducts, setOriginalProducts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const { showNotification } = useNotificationCustom();
+    
 
     useEffect(() => {
         loadData();
@@ -31,7 +36,8 @@ const Products = () => {
             setOriginalProducts(response.data);
             // console.log(response.data);
         } catch (error) {
-            console.error("Error loading data:", error);
+            // console.error("เกิดข้อผิดพลาดในการโหลดข้อมูล", error);
+            showNotification("error", "เกิดข้อผิดพลาด", "เกิดข้อผิดพลาดในการโหลดข้อมูล");
         } finally {
             setLoading(false);
         }

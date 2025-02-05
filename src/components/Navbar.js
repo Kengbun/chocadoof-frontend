@@ -8,6 +8,7 @@ import axios from 'axios';
 import Role from '../functions/role';
 import '../styles/global.css'
 // import axios from '../confix/axios';
+import { useNotificationCustom } from '../functions/functions';
 
 // import role from '../functions/role';
 
@@ -17,6 +18,7 @@ const Navbar = () => {
     // สถานะการล็อกอิน 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [avatar, setAvatar] = useState(Avatar); // เก็บข้อมูลผู้ใช้
+    const { showNotification } = useNotificationCustom();
 
     useEffect(() => {
         checkLoginStatus();
@@ -54,6 +56,7 @@ const Navbar = () => {
     const handleLogout = () => {
         // ลบ token เมื่อผู้ใช้ทำการล็อกเอาต์
         localStorage.removeItem('authToken');
+        showNotification("success", "ออกจากระบบสำเร็จ", "ออกจากระบบสำเร็จ");
         setIsLoggedIn(false);
         console.log('Logged out successfully');
         window.location.reload();

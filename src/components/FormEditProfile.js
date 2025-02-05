@@ -3,10 +3,13 @@ import React, { useEffect, useState } from 'react';
 import axios from '../confix/axios';
 import { useNavigate } from 'react-router-dom';
 // import "../pages/Articles.css"
+import { useNotificationCustom } from '../functions/functions'
+
 
 
 const FormEditProfile = () => {
     const navigate = useNavigate();
+    const { showNotification } = useNotificationCustom();
 
     const [data, setData] = useState({
         name: '',
@@ -24,7 +27,8 @@ const FormEditProfile = () => {
     const loadProfile = async () => {
         const token = localStorage.getItem('authToken');
         if (!token) {
-            alert('กรุณาเข้าสู่ระบบ');
+            // alert('กรุณาเข้าสู่ระบบ');
+            showNotification('error', 'เกิดข้อผิดพลาด', 'กรุณาเข้าสู่ระบบ');
             return;
         }
 
@@ -76,14 +80,16 @@ const FormEditProfile = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log(formData)
+            showNotification('success', 'อัปเดตสำเร็จ', 'อัปเดตข้อมูลโปรไฟล์สำเร็จ');
+            // console.log(formData)
             navigate('/profile');
-            alert('อัปเดตข้อมูลโปรไฟล์สำเร็จ');
+            // alert('อัปเดตข้อมูลโปรไฟล์สำเร็จ');
 
             loadProfile();
         } catch (error) {
             console.error("Error updating profile:", error);
-            alert('เกิดข้อผิดพลาดในการอัปเดตข้อมูลโปรไฟล์');
+            // alert('เกิดข้อผิดพลาดในการอัปเดตข้อมูลโปรไฟล์');
+            showNotification('error', 'เกิดข้อผิดพลาด', error.message || 'เกิดข้อผิดพลาดในการอัปเดตข้อมูลโปรไฟล์');
         }
     };
 

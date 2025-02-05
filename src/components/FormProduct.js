@@ -2,9 +2,12 @@ import React, { useState } from "react";
 // import axios from "axios";
 import axios from '../confix/axios';
 import { useNavigate } from 'react-router-dom';
+import { useNotificationCustom } from '../functions/functions'
+
 
 const FormProduct = () => {
     const navigate = useNavigate();
+    const { showNotification } = useNotificationCustom();
 
     const [formData, setFormData] = useState({
         product_name: "",
@@ -44,7 +47,8 @@ const FormProduct = () => {
         try {
             const token = localStorage.getItem('authToken');
             if (!token) {
-                console.error('Token not found. Please log in again.');
+                // console.error('Token not found. Please log in again.');
+                showNotification("error", "เกิดข้อผิดพลาด", "กรุณาเข้าสู่ระบบอีกครั้ง");
                 return;
             }
 
@@ -54,12 +58,14 @@ const FormProduct = () => {
                     'Content-Type': 'multipart/form-data'
                 },
             });
-            console.log(data);
-            alert("บันทึกข้อมูลสินค้าสำเร็จ");
+            // console.log(data);
+            // alert("บันทึกข้อมูลสินค้าสำเร็จ");
+            showNotification("success", "บันทึกสำเร็จ", "บันทึกข้อมูลสินค้าสำเร็จ");
             navigate('admin/dashboard');
         } catch (error) {
             console.error("Error creating product:", error);
-            alert("เกิดข้อผิดพลาดในการบันทึกข้อมูลสินค้า");
+            // alert("เกิดข้อผิดพลาดในการบันทึกข้อมูลสินค้า");
+            showNotification("error", "เกิดข้อผิดพลาด", "เกิดข้อผิดพลาดในการบันทึกข้อมูลสินค้า");
         }
     };
 

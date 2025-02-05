@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { notification } from 'antd';
+
 
 // ฟังก์ชันสำหรับโหลดเพิ่มเติม
 export const useLoadMore = (initialCount, increment) => {
@@ -31,4 +33,24 @@ export const formatDate = (dateString) => {
 
     return `${formattedDate} ${shortYear}`;
 };
+
+
+
+
+
+// ฟังก์ชันสำหรับแสดงการแจ้งเตือน
+export const useNotificationCustom = () => {
+    const showNotification = (type, message, description) => {
+        notification[type]({
+            message: message,
+            description: description,
+        });
+    };
+
+    return { showNotification };
+};
+
+
+
+
 

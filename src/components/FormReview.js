@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import axios from '../confix/axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { useNotificationCustom } from '../functions/functions'
+
 
 const FormReview = ({ params, reviewSubmitted }) => {
     // const params = props.params
     const token = localStorage.getItem('authToken');
+    const { showNotification } = useNotificationCustom();
     // const params = useParams();
 
     const [formData, setFormData] = useState({
@@ -47,7 +50,8 @@ const FormReview = ({ params, reviewSubmitted }) => {
     const submitReview = async () => {
         // console.log(formData.product_id);
         if (!formData.rating || !formData.review_description) {
-            alert('กรุณาให้คะแนนและเขียนรีวิวก่อนส่ง');
+            // alert('กรุณาให้คะแนนและเขียนรีวิวก่อนส่ง');
+            showNotification("warning", "เกิดข้อผิดพลาด", "กรุณาให้คะแนนและเขียนรีวิวก่อนส่ง");
             return;
         }
 
@@ -64,7 +68,8 @@ const FormReview = ({ params, reviewSubmitted }) => {
             });
 
             if (response.request.status === 201) {
-                alert('รีวิวของคุณถูกส่งเรียบร้อยแล้ว');
+                // alert('รีวิวของคุณถูกส่งเรียบร้อยแล้ว');
+                showNotification("success", "สำเร็จ", "รีวิวของคุณถูกส่งเรียบร้อยแล้ว");
                 setFormData({
                     review_description: '',
                     rating: 0,
@@ -73,13 +78,15 @@ const FormReview = ({ params, reviewSubmitted }) => {
                 });
                 reviewSubmitted();
             } else {
-                alert('เกิดข้อผิดพลาดในการส่งรีวิว');
+                // alert('เกิดข้อผิดพลาดในการส่งรีวิว');
+                showNotification("error", "เกิดข้อผิดพลาด", "เกิดข้อผิดพลาดในการส่งรีวิว");
             }
             console.log(response);
         } catch (err) {
-            console.err('err submitting review:', err);
-            alert('ไม่สามารถส่งรีวิวได้');
-            console.log("err= " + err)
+            // console.err('err submitting review:', err);
+            showNotification("error", "เกิดข้อผิดพลาด", "ไม่สามารถส่งรีวิวได้");
+            // alert('ไม่สามารถส่งรีวิวได้');
+            // console.log("err= " + err)
         } finally {
             setLoading(false);
         }
