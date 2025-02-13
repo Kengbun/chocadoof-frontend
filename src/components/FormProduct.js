@@ -21,7 +21,7 @@ const FormProduct = () => {
         additional_image_1: null,
         additional_image_2: null,
     });
-
+// จัดการ การเปลี่ยนแปลงของไฟล์รูปภาพ 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -36,6 +36,7 @@ const FormProduct = () => {
         e.preventDefault();
 
         const data = new FormData();
+        // data.append("key", value)
         data.append("product_name", formData.product_name);
         data.append("short_description", formData.short_description);
         data.append("detailed_description", formData.detailed_description);

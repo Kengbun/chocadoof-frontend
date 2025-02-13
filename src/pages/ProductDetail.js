@@ -7,6 +7,9 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import FormReview from '../components/FormReview';
 // import './ProductDetail.css';
 import Loading from "../components/Loading";
+import { motion } from 'framer-motion';
+import { pageTransition, pageVariants } from '../functions/animation';
+
 
 
 
@@ -150,56 +153,67 @@ const ProductDetail = () => {
                     {/* เส้นแบ่ง */}
                     <hr className="w-75 mx-auto border-dark my-4" />
 
-                    {/* Section รายละเอียดสินค้า */}
-                    {section === 'description' ? (
-                        <div>
-                            <h3>รายละเอียด</h3>
-                            <p>{product.detailed_description}</p>
-                        </div>
-                    ) : (
-                        <div>
-                            <h3>รีวิวจากลูกค้า</h3>
-                            <div className="row g-3">
-                                {review.map((rev, index) => {
-                                    const reviewer = users.find(user => user.id === rev.user_id);
-                                    return (
-                                        <div key={index} >
-                                            <div className="card p-3 shadow-sm d-flex gap-3">
+                    <motion.div
+                        key={section}  // เพิ่ม key ตามค่า section เพื่อให้ component ถูก unmount และ mount ใหม่
+                        variants={pageVariants}  // ใช้ pageVariants ที่กำหนด
+                        initial="hidden"         // เริ่มต้นด้วย "hidden"
+                        animate="visible"       // ใช้ "visible" เมื่อแอนิเมชันเริ่มต้น
+                        exit="exit"              // ใช้ "exit" เมื่อหน้านี้จะหายไป
+                        transition={pageTransition} // ใช้การ transition ตามที่กำหนด
+                    >
 
-                                                <div className="d-flex align-items-center gap-3">
-                                                    <img
-                                                        src={reviewer.profile_picture || "https://picsum.photos/200/300"}
-                                                        alt="ผู้รีวิว"
-                                                        className="img-fluid rounded-circle shadow"
-                                                        style={{ width: "50px", height: "50px", objectFit: "cover" }}
-                                                    />
-                                                    <div>
 
-                                                        <p className="fw-bold mb-0">{reviewer.name}</p>
-                                                        <p className="product-rating mb-1">{getStars(rev.rating)}</p>
+                        {/* Section รายละเอียดสินค้า */}
+                        {section === 'description' ? (
+                            <div>
+                                <h3>รายละเอียด</h3>
+                                <p>{product.detailed_description}</p>
+                            </div>
+                        ) : (
+                            <div>
+                                <h3>รีวิวจากลูกค้า</h3>
+                                <div className="row g-3">
+                                    {review.map((rev, index) => {
+                                        const reviewer = users.find(user => user.id === rev.user_id);
+                                        return (
+                                            <div key={index} >
+                                                <div className="card p-3 shadow-sm d-flex gap-3">
+
+                                                    <div className="d-flex align-items-center gap-3">
+                                                        <img
+                                                            src={reviewer?.profile_picture || "https://picsum.photos/200/300"}
+                                                            alt="ผู้รีวิว"
+                                                            className="img-fluid rounded-circle shadow"
+                                                            style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                                                        />
+                                                        <div>
+
+                                                            <p className="fw-bold mb-0">{reviewer?.name || "Unknown"}</p>
+                                                            <p className="product-rating mb-1">{getStars(rev.rating)}</p>
+                                                        </div>
+
                                                     </div>
-
-                                                </div>
-                                                <div className=''>
-                                                    <p className="text-muted">{rev.review_description}</p>
+                                                    <div className=''>
+                                                        <p className="text-muted">{rev.review_description}</p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    );
-                                })}
+                                        );
+                                    })}
+                                </div>
+
+                                {/* เส้นแบ่ง */}
+                                <hr className="w-75 mx-auto border-dark my-4" />
+
+                                {/* ฟอร์มรีวิว */}
+                                {isLoggedIn ? (
+                                    <FormReview params={params} reviewSubmitted={loadData} />
+                                ) : (
+                                    <p className="text-center">กรุณา <a href="/login" className="text-primary">ล็อกอิน</a> เพื่อเขียนรีวิว</p>
+                                )}
                             </div>
-
-                            {/* เส้นแบ่ง */}
-                            <hr className="w-75 mx-auto border-dark my-4" />
-
-                            {/* ฟอร์มรีวิว */}
-                            {isLoggedIn ? (
-                                <FormReview params={params} reviewSubmitted={loadData} />
-                            ) : (
-                                <p className="text-center">กรุณา <a href="/login" className="text-primary">ล็อกอิน</a> เพื่อเขียนรีวิว</p>
-                            )}
-                        </div>
-                    )}
+                        )}
+                    </motion.div>
                 </div>
             )}
         </div>

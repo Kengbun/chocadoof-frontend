@@ -74,7 +74,7 @@ const FormEditArticle = () => {
             navigate("/profile"); // ไปที่หน้าอื่นหลังจากอัปเดตเสร็จ
         } catch (error) {
             // console.error("Error updating article:", error);
-            alert('เกิดข้อผิดพลาดในการอัปเดตบทความ!');
+            // alert('เกิดข้อผิดพลาดในการอัปเดตบทความ!');
             showNotification("error", "เกิดข้อผิดพลาด",error.message || "เกิดข้อผิดพลาดในการอัปเดตบทความ!");
         }
     };

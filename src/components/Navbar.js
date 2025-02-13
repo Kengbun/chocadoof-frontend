@@ -14,17 +14,17 @@ import { useNotificationCustom } from '../functions/functions';
 
 const Avatar = "https://picsum.photos/200/300"
 const Navbar = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     // สถานะการล็อกอิน 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [avatar, setAvatar] = useState(Avatar); // เก็บข้อมูลผู้ใช้
     const { showNotification } = useNotificationCustom();
 
-    useEffect(() => {
-        checkLoginStatus();
-    }, []);
+
 
     useEffect(() => {
+        checkLoginStatus();
+
         if (isLoggedIn) {
             getAvatar();
         } else {
@@ -56,9 +56,9 @@ const Navbar = () => {
     const handleLogout = () => {
         // ลบ token เมื่อผู้ใช้ทำการล็อกเอาต์
         localStorage.removeItem('authToken');
-        showNotification("success", "ออกจากระบบสำเร็จ", "ออกจากระบบสำเร็จ");
+        showNotification("success", "ออกจากระบบสำเร็จ", "");
         setIsLoggedIn(false);
-        console.log('Logged out successfully');
+        // console.log('Logged out successfully');
         window.location.reload();
         // navigate("/"); 
     };
@@ -70,12 +70,12 @@ const Navbar = () => {
     const role = Role.getRole(token);
 
     const url = role === 'admin' ? '/admin/dashboard' : '/profile';
-    console.log(url);
-
+    // console.log(url);
+    // console.log(avatar.profile_picture)
 
 
     return (
-        
+
 
         <nav className="navbar navbar-expand-lg custom-navbar">
             <div className="container">
@@ -86,18 +86,25 @@ const Navbar = () => {
 
                 {/* ปุ่ม Hamburger */}
                 <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
+                    className="navbar-toggler" // กำหนดคลาส Bootstrap สำหรับปุ่ม toggle ของแถบเมนู
+                    type="button" // กำหนดให้ปุ่มนี้เป็นประเภท "button"
+                    data-bs-toggle="collapse" // ใช้เพื่อทำให้เมนูแสดงหรือซ่อน โดยใช้ Bootstrap JavaScript
+                    data-bs-target="#navbarNav" // ชี้ไปที่ ID ของเมนูที่ต้องการให้ toggle (ในที่นี้คือ #navbarNav)
+                    aria-controls="navbarNav" // ช่วยให้ผู้ใช้ที่ใช้เทคโนโลยีช่วยเหลือ (เช่น screen reader) เข้าใจว่าอะไรจะถูกควบคุมเมื่อคลิกปุ่มนี้
+                    aria-expanded="false" // กำหนดสถานะเริ่มต้นของเมนูว่า "ซ่อน" (false หมายถึงเมนูจะถูกซ่อน)
+                    aria-label="Toggle navigation" // คำบรรยายสำหรับปุ่ม
                 >
                     <span className="navbar-toggler-icon"></span>
+                    {/* ไอคอนที่แสดงในปุ่ม hamburger (ปกติจะเป็น 3 เส้นแนวนอน) */}
                 </button>
 
+
                 {/* เมนูที่ซ่อน */}
+                {/* 
+                collapse ทำให้เมนูสามารถยุบและขยายได้
+                navbar-collapse ใช้ในการควบคุมการขยายและยุบเมนูใน Navbar
+                id="navbarNav" ใช้สำหรับการเชื่อมโยงกับปุ่ม Hamburger เพื่อควบคุมการเปิด/ปิดเมนู */}
+
                 <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
                     <ul className="navbar-nav gap-3">
                         <li className="nav-item">
@@ -123,7 +130,7 @@ const Navbar = () => {
 
                                 <li className="nav-item">
                                     <Link to={url} className="">
-                                        <img src={avatar.profile_pcture ? avatar.profile_pcture : Avatar}
+                                        <img src={avatar.profile_picture ? avatar.profile_picture : Avatar}
                                             className='nav-avatar border border-2 border-white  rounded-circle'
                                         />
                                     </Link>

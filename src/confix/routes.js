@@ -21,9 +21,9 @@ import AdminDashboard from "../pages/AdminDashboard";
 //test
 import Loading from "../components/Loading";
 // import TT from "../pages/Testpo"
-import ResetPassword from "../pages/auth/ResetPassword";
+import ResetPassword from "../pages/ResetPassword";
 
-
+// components ซึ่งบรรจุคู่ key: value ว่าเส้นทางมี path อะไร และผูกกับคอมโพเนนต์ใด
 const components = {
     home: { path: "/", component: HomePage, },
     products: { path: "/products", component: ProductsPage, },
@@ -55,6 +55,7 @@ const components = {
 };
 
 export default {
+    // การกำหนดว่าแต่ละ Role สามารถเข้าถึงเส้นทางใดได้บ้าง และถ้าไม่มีสิทธิ์เข้าถึง จะให้ Redirect ไปยัง path ใด
     guest: {
         allowedRoutes: [
             components.home,

@@ -13,6 +13,7 @@ export const useLoadMore = (initialCount, increment) => {
     return { visible, loadMore };
 };
 
+// ฟังก์ชันสำหรับแปลงเป็นวันที่
 export const formatDate = (dateString) => {
     if (!dateString) return "-"; // ถ้าไม่มีค่าจะคืน "-"
 

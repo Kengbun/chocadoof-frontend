@@ -17,6 +17,8 @@ import { useLoadMore } from '../functions/functions.js';
 import Loading from "../components/Loading";
 
 const Products = () => {
+    const location = useLocation();
+
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [originalProducts, setOriginalProducts] = useState([]);
@@ -42,7 +44,7 @@ const Products = () => {
             setLoading(false);
         }
     }
-
+    
     const { visible, loadMore } = useLoadMore(4, 10);
 
 
@@ -54,6 +56,8 @@ const Products = () => {
     const sortProducts = (criteria) => {
         let sorted = [...products];
         if (criteria === 'popular') {
+            // 1) ดึงสินค้าทั้งหมดจาก originalProducts (สำเนาดั้งเดิม)
+            //    แล้วจัดเรียงตาม averageRating จากมากไปน้อย
             sorted = [...originalProducts];
             sorted.sort((a, b) => b.averageRating - a.averageRating);
             // console.log(sorted);
@@ -71,7 +75,6 @@ const Products = () => {
         }
         setProducts(sorted);
     };
-    const location = useLocation();
     // console.log(location)
     // const isHomePage = location.pathname === '/'; // ตรวจสอบว่าหน้าปัจจุบันคือหน้า Home
 

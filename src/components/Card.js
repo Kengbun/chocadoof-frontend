@@ -5,17 +5,17 @@ import { useLocation } from 'react-router-dom';
 
 /**
  * Card Component
- * @param {string} image - URL ของรูปภาพสินค้า
- * @param {string} title - ชื่อสินค้า
- * @param {number} rating - คะแนนเฉลี่ยสินค้า (0-5 สมมติเป็นตัวเลขเต็มๆ หรือทศนิยมได้)
- * @param {number | string} productId - ไอดีหรือรหัสสินค้าที่ต้องการส่งต่อ
- * @param {function} onClick - ฟังก์ชันที่จะเรียกเมื่อกดปุ่ม 'ดูสินค้า'
- * @param {object} style - Inline style เพิ่มเติม (ถ้าต้องการ)
- * @param {string} section - ส่วนของเว็บไซต์ที่ใช้ Card (product, article, ...)
- * @param {string} content - เนื้อหาของบทความ
- * @param {string} avatar - URL รูปภาพโปรไฟล์
- * @param {string} name - ชื่อผู้เขียนบทความ
- * @param {string} date - วันที่เขียนบทความ
+ *  image - URL ของรูปภาพสินค้า
+ *  title - ชื่อสินค้า
+ *  rating - คะแนนเฉลี่ยสินค้า (0-5 สมมติเป็นตัวเลขเต็มๆ หรือทศนิยมได้)
+ * productId - ไอดีหรือรหัสสินค้าที่ต้องการส่งต่อ
+ *  onClick - ฟังก์ชันที่จะเรียกเมื่อกดปุ่ม 'ดูสินค้า'
+ * style - Inline style เพิ่มเติม (ถ้าต้องการ)
+ * section - ส่วนของเว็บไซต์ที่ใช้ Card (product, article, ...)
+ *  content - เนื้อหาของบทความ
+ *  avatar - URL รูปภาพโปรไฟล์
+ * name - ชื่อผู้เขียนบทความ
+ *  date - วันที่เขียนบทความ
  */
 function Card({ image, title, rating, productId, onClick, style, section, content, avatar, name, date }) {
     // if (isNaN(rating)) {

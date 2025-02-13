@@ -34,7 +34,7 @@ import Role from "./functions/role";
 function App() {
 
   const [role, setRole] = useState(Role.getRole());
-  console.log(role);
+  // console.log(role);
 
   return (
     <div >

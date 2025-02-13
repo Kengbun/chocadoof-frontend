@@ -29,19 +29,25 @@ const FormArticle = () => {
     };
 
     const handleCoverImageChange = (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files[0];    // ดึงไฟล์แรก (File object) ที่ผู้ใช้เลือกจาก <input type="file">
         if (file) {
+            // FileReader(); เป็น API บนเว็บที่ใช้สำหรับอ่านไฟล์(File object) แบบ client - side
             const reader = new FileReader();
             reader.onloadend = () => {
+                // เมื่ออ่านไฟล์เสร็จแล้ว (loadend) จะได้ result เป็น Base64 หรือ DataURL
                 setSelectedCoverImage(reader.result);
             };
             reader.readAsDataURL(file);
+            // บอก FileReader ให้อ่านไฟล์ (file) ในรูปแบบ Data URL 
+            // ทำให้ตัวแปร reader.result มีค่าเป็น Base64 ซึ่งนิยมใช้แสดงรูปตัวอย่าง (Preview)
+
             setFormData({
                 ...formData,
-                coverImage: file, // เก็บไฟล์ใน state
+                coverImage: file,  // เก็บไฟล์จริง (File object) ไว้ใน formData เพื่อส่งไป Back-End
             });
         }
     };
+
 
     const handleContentImageChange = (e) => {
         const file = e.target.files[0];
@@ -69,7 +75,7 @@ const FormArticle = () => {
 
         const token = localStorage.getItem('authToken');
         if (!token) {
-            alert('กรุณาเข้าสู่ระบบ');
+            // alert('กรุณาเข้าสู่ระบบ');
             showNotification("error", "เกิดข้อผิดพลาด", "กรุณาเข้าสู่ระบบใหม่อีกครั้ง");
             navigate('/login');
             return;
@@ -92,7 +98,7 @@ const FormArticle = () => {
             showNotification("success", "บันทึกสำเร็จ", "บทความถูกบันทึกเรียบร้อยแล้ว!");
             navigate('/profile');
             // alert('บทความถูกบันทึกเรียบร้อยแล้ว!');
-            console.log('Response:', response.data);
+            // console.log('Response:', response.data);
         } catch (error) {
             // console.error('Error:', error.response ? error.response.data : error.message);
             // alert('เกิดข้อผิดพลาดในการบันทึกบทความ');
