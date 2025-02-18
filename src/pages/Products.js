@@ -45,7 +45,7 @@ const Products = () => {
         }
     }
     
-    const { visible, loadMore } = useLoadMore(4, 10);
+    const { visible, loadMore } = useLoadMore(5, 10);
 
 
 
@@ -116,7 +116,7 @@ const Products = () => {
 
 
                     <div className='container '>
-                        <div className={`row row-cols-auto row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 ${location.pathname === '/' ? 'justify-content-center' : ''}`}>
+                            <div className={`row row-cols-auto row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 justify-content-center justify-content-sm-start ${location.pathname === '/' ? 'justify-content-center' : ''}`}>
 
 
                             {products.slice(0, visible).map((product, index) => (

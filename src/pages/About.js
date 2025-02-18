@@ -56,7 +56,7 @@ const About = () => {
                             <p>ประสบการณ์ทำงาน</p>
                         </div>
                     </div>
-                    <div className="col">
+                    <div className="col p-0">
                         <div className=" bg-white border border-dark rounded p-3 shadow-sm">
                             <h2>25</h2>
                             <p>สาขาให้บริการ</p>

@@ -45,7 +45,7 @@ const Articles = () => {
             setLoading(false);
         }
     }
-    const { visible, loadMore } = useLoadMore(4, 4);
+    const { visible, loadMore } = useLoadMore(5, 5);
 
 
 

@@ -39,8 +39,8 @@ const Contact = () => {
 
             {/* Section รายชื่อสาขา */}
             <div className="container text-center">
-                <h1 className="my-4">สาขา</h1>
-                <div className="row g-4">
+                {/* <h1 className="my-4">สาขา</h1> */}
+                <div className="mt-4 row g-4">
                     {branches.slice(0, visible).map((branch) => (
                         <div key={branch.id} className="col-md-4">
                             <div className="card shadow  custom-transform">
